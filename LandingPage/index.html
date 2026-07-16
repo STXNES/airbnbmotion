@@ -4,13 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AirbnbMotion — Cinematic Video Tours for Premium Listings</title>
-  <meta name="description" content="Boost your Airbnb and Vrbo booking rates by 40% with premium cinematic video tours generated in 24-48 hours. Claim your 100% free sample video draft.">
+  <meta name="description" content="Turn your Airbnb or Vrbo listing photos into a premium cinematic video tour in 24-48 hours. No drone, no film crew. Claim your 100% free sample video draft.">
+  <link rel="canonical" href="https://www.airbnbmotion.studio/">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Cinematic Airbnb Listing Videos — Boost Bookings | AirbnbMotion">
-  <meta property="og:description" content="Convert more bookings with custom motion videos generated in 24-48 hours. No expensive drone shoots or guest disruption. Get your free sample today.">
+  <meta property="og:description" content="Turn your Airbnb or Vrbo listing photos into a premium cinematic video tour in 24-48 hours. Claim your 100% free sample video draft.">
   <meta property="og:image" content="/before.jpg">
   <meta property="og:video" content="/videos/demo1.mp4">
 
@@ -27,7 +28,7 @@
     "@graph": [
       {
         "@type": "Service",
-        "@id": "https://airbnbmotion.com/#service",
+        "@id": "https://www.airbnbmotion.studio/#service",
         "name": "Cinematic Airbnb Video Generation",
         "description": "Premium AI-assisted cinematic video tours for vacation rentals and Airbnb listings.",
         "provider": {
@@ -81,9 +82,9 @@
         "@context": "https://schema.org",
         "name": "Airbnb Cinematic Tour Example",
         "description": "An example of a static property photo converted into a cinematic 16:9 drone-style video tour.",
-        "thumbnailUrl": "https://airbnbmotion.com/before.jpg",
+        "thumbnailUrl": "https://www.airbnbmotion.studio/before.jpg",
         "uploadDate": "2026-07-15T12:00:00Z",
-        "contentUrl": "https://airbnbmotion.com/videos/demo1.mp4"
+        "contentUrl": "https://www.airbnbmotion.studio/videos/demo1.mp4"
       }
     ]
   }
@@ -240,7 +241,7 @@
       </div>
     </div>
     <div class="hero-video">
-      <video src="/videos/demo1.mp4" autoplay muted loop playsinline></video>
+      <video src="/videos/demo1.mp4" autoplay muted loop playsinline poster="/before.jpg"></video>
       <span class="tag">Live example</span>
     </div>
   </div>
@@ -257,7 +258,7 @@
     <div class="vids">
       <!-- Horizontal Video Card -->
       <div class="vidcard">
-        <video src="/videos/demo1.mp4" controls playsinline></video>
+        <video src="/videos/demo1.mp4" controls playsinline preload="metadata"></video>
         <div class="cap">
           <span class="name">For your listing</span>
           <span class="fmt">16:9 Landscape</span>
@@ -267,7 +268,7 @@
       <div class="vertical-wrapper">
         <div class="phone-frame">
           <div class="phone-screen">
-            <video src="/videos/demo1vertical.mp4" autoplay muted loop playsinline></video>
+            <video src="/videos/demo1vertical.mp4" autoplay muted loop playsinline poster="/before.jpg"></video>
           </div>
         </div>
       </div>
@@ -298,6 +299,7 @@
   </div>
 
   <!-- Social Proof Section -->
+  <!--
   <div class="proof">
     <div class="section-head">What hosts say</div>
     <div class="quotes">
@@ -311,6 +313,7 @@
       </div>
     </div>
   </div>
+  -->
 
   <!-- Pricing Section -->
   <div class="pricing" id="pricing">
@@ -367,10 +370,10 @@
     <p>No obligation. If you like the result, we'll talk about your full property.</p>
     
     <!-- Functional FormSubmit implementation -->
-    <form action="https://formsubmit.co/axel.rojas2502@gmail.com" method="POST" class="form">
+    <form action="https://formsubmit.co/axell@airbnbmotion.studio" method="POST" class="form">
       <input type="hidden" name="_subject" value="New Lead: Free Airbnb Video Request">
       <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_next" value="http://localhost:5173/">
+      <input type="hidden" name="_next" value="https://www.airbnbmotion.studio/">
 
       <input type="text" name="name" required placeholder="Name / property">
       <input type="email" name="email" required placeholder="Email">
