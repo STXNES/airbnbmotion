@@ -4,23 +4,37 @@ import os
 from pathlib import Path
 
 # --- Configuración de página ---
-st.set_page_config(page_title="AirbnbMotion — Outreach Dashboard", page_icon="📊", layout="wide")
+st.set_page_config(page_title="AirbnbMotion HQ — Outreach Command Center", page_icon="⚡", layout="wide")
 
 # --- Rutas de datos ---
 ROOT = Path(__file__).resolve().parents[2]
 MASTER_DB_PATH = ROOT / "03-MASTER_DATABASE" / "master_database.csv"
 
 # --- Estilos CSS Personalizados (Inyección de Diseño del Mockup) ---
-# Hemos restringido las reglas CSS para no afectar a los menús internos de Streamlit
+# Hemos ocultado por completo el Header y Footer por defecto de Streamlit
+# Esto elimina el menú flotante en inglés (Rerun, Auto rerun) y la barra superior
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
     
-    /* Aplicar solo a los contenedores principales y no a popups de configuración */
+    /* Permitimos que el Header se vea para poder cambiar de tema (Modo Claro/Oscuro) */
+    [data-testid="stHeader"] {
+        background-color: transparent !important;
+    }
+    footer {
+        visibility: hidden !important;
+    }
+    
+    /* Aplicar fondo oscuro de forma segura */
     [data-testid="stAppViewContainer"] {
         background-color: #0E1116 !important;
         font-family: 'Sora', sans-serif !important;
-        color: #EDEFF3 !important;
+    }
+    
+    /* Regla de seguridad: Evitar que el color de texto custom altere los menús de Streamlit */
+    div[data-role="dialog"], [class*="stPopover"], [data-testid="stMainMenu"] {
+        color: initial !important;
+        font-family: system-ui, sans-serif !important;
     }
     
     [data-testid="stSidebar"] {
@@ -33,7 +47,7 @@ st.markdown("""
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         gap: 14px;
-        margin-bottom: 30px;
+        margin-bottom: 20px;
     }
     @media (max-width: 900px) {
         .metric-grid {
@@ -173,13 +187,13 @@ st.markdown("""
         margin-left: 8px;
     }
     .empty-banner {
-        background: rgba(91,159,227,0.1);
-        border: 1px solid rgba(91,159,227,0.25);
+        background: rgba(91,159,227,0.08);
+        border: 1px solid rgba(91,159,227,0.2);
         color: #5B9FE3;
         font-size: 13px;
         padding: 14px 18px;
         border-radius: 8px;
-        margin-bottom: 20px;
+        margin-top: 10px;
     }
     .state-chip {
         font-family: 'JetBrains Mono', monospace;
@@ -314,8 +328,6 @@ if nav_selection == "Overview":
     col_funnel, col_breakdown = st.columns([1.4, 1])
 
     with col_funnel:
-        st.markdown("<div class='dashboard-panel'><h2>Pipeline Funnel</h2>", unsafe_allow_html=True)
-        
         funnel_stages = [
             {"name": "Prospects", "count": total_prospects, "pct": 100},
             {"name": "Sent", "count": emails_sent, "pct": int((emails_sent/total_prospects*100) if total_prospects > 0 else 0)},
@@ -323,29 +335,17 @@ if nav_selection == "Overview":
             {"name": "Clients", "count": clients, "pct": int((clients/total_prospects*100) if total_prospects > 0 else 0)}
         ]
         
-        funnel_html = ""
+        funnel_html = "<div class='dashboard-panel'><h2>Pipeline Funnel</h2>"
         for stage in funnel_stages:
             width_pct = max(stage["pct"], 2)
             bg_color = '#5B9FE3' if stage['pct'] > 0 else '#1D222B'
             text_color = '#0E1116' if stage['pct'] > 0 else '#8A909C'
             label_val = str(stage['count']) if stage['count'] > 0 else '0'
             
-            funnel_html += f"""
-            <div class="funnel-row">
-                <span class="funnel-stage">{stage['name']}</span>
-                <div class="funnel-bar-track">
-                    <div class="funnel-bar" style="width: {width_pct}%; background-color: {bg_color}; color: {text_color};">
-                        &nbsp;{label_val}
-                    </div>
-                </div>
-                <span class="funnel-count">{stage['pct']}%</span>
-            </div>
-            """
+            funnel_html += f"<div class='funnel-row'><span class='funnel-stage'>{stage['name']}</span><div class='funnel-bar-track'><div class='funnel-bar' style='width: {width_pct}%; background-color: {bg_color}; color: {text_color};'>&nbsp;{label_val}</div></div><span class='funnel-count'>{stage['pct']}%</span></div>"
         st.markdown(funnel_html + "</div>", unsafe_allow_html=True)
 
     with col_breakdown:
-        st.markdown("<div class='dashboard-panel'><h2>Status Breakdown</h2>", unsafe_allow_html=True)
-        
         status_counts = df["Last_Status"].replace("", "PENDING").fillna("PENDING").value_counts()
         
         pending_count = status_counts.get("PENDING", 0)
@@ -356,47 +356,48 @@ if nav_selection == "Overview":
         s_pct = int(sent_count / total_prospects * 100) if total_prospects > 0 else 0
         r_pct = int(replied_count / total_prospects * 100) if total_prospects > 0 else 0
         
-        st.markdown(f"""
-        <div class="status-list">
-            <div>
-                <div class="status-item">
-                    <span class="status-tag"><span class="status-sw" style="background:#5B9FE3"></span>Pending / Unsent</span>
-                    <span class="status-pct">{p_pct}%</span>
+        breakdown_html = f"""
+        <div class='dashboard-panel'>
+            <h2>Status Breakdown</h2>
+            <div class="status-list">
+                <div>
+                    <div class="status-item">
+                        <span class="status-tag"><span class="status-sw" style="background:#5B9FE3"></span>Pending / Unsent</span>
+                        <span class="status-pct">{p_pct}%</span>
+                    </div>
+                    <div class="status-bar"><div class="status-bar-fill" style="width:{p_pct}%; background:#5B9FE3"></div></div>
                 </div>
-                <div class="status-bar"><div class="status-bar-fill" style="width:{p_pct}%; background:#5B9FE3"></div></div>
-            </div>
-            <div>
-                <div class="status-item">
-                    <span class="status-tag"><span class="status-sw" style="background:#C9903C"></span>Contacted (Sent)</span>
-                    <span class="status-pct">{s_pct}%</span>
+                <div>
+                    <div class="status-item">
+                        <span class="status-tag"><span class="status-sw" style="background:#C9903C"></span>Contacted (Sent)</span>
+                        <span class="status-pct">{s_pct}%</span>
+                    </div>
+                    <div class="status-bar"><div class="status-bar-fill" style="width:{s_pct}%; background:#C9903C"></div></div>
                 </div>
-                <div class="status-bar"><div class="status-bar-fill" style="width:{s_pct}%; background:#C9903C"></div></div>
-            </div>
-            <div>
-                <div class="status-item">
-                    <span class="status-tag"><span class="status-sw" style="background:#4CA779"></span>Hot Lead (Replied)</span>
-                    <span class="status-pct">{r_pct}%</span>
+                <div>
+                    <div class="status-item">
+                        <span class="status-tag"><span class="status-sw" style="background:#4CA779"></span>Hot Lead (Replied)</span>
+                        <span class="status-pct">{r_pct}%</span>
+                    </div>
+                    <div class="status-bar"><div class="status-bar-fill" style="width:{r_pct}%; background:#4CA779"></div></div>
                 </div>
-                <div class="status-bar"><div class="status-bar-fill" style="width:{r_pct}%; background:#4CA779"></div></div>
             </div>
         </div>
-        """, unsafe_allow_html=True)
-        st.markdown("</div>", unsafe_allow_html=True)
+        """
+        st.markdown(breakdown_html, unsafe_allow_html=True)
 
-    # Hot Leads Section
-    st.markdown("<div class='dashboard-panel'>", unsafe_allow_html=True)
-    col_h2, col_search = st.columns([3, 1])
-    
+    # Hot Leads Section (Unificada en un solo st.markdown)
     replied_df = df[df["Reply_Status"] == "REPLIED"].copy()
     
+    # Renderizamos la cabecera del panel usando Streamlit nativo para el buscador
+    col_h2, col_search = st.columns([3, 1])
     with col_h2:
-        st.markdown(f"<h2>🔥 Hot Leads <span class='badge'>{len(replied_df)} replied</span></h2>", unsafe_allow_html=True)
-    
+        st.markdown(f"<div style='margin-top: 15px;'><h2 style='font-size: 14px; font-weight: 600; color: #EDEFF3;'>🔥 Hot Leads <span class='badge'>{len(replied_df)} replied</span></h2></div>", unsafe_allow_html=True)
     with col_search:
         search_query = st.text_input("", placeholder="Search company or email...", label_visibility="collapsed", key="search_hot")
 
     if replied_df.empty:
-        st.markdown("<div class='empty-banner'>No replies detected yet. Keep outreach active!</div>", unsafe_allow_html=True)
+        st.markdown("<div class='dashboard-panel'><div class='empty-banner'>No replies detected yet. Keep outreach active!</div></div>", unsafe_allow_html=True)
     else:
         if search_query:
             replied_df = replied_df[
@@ -404,31 +405,17 @@ if nav_selection == "Overview":
                 replied_df["Email"].str.contains(search_query, case=False, na=False)
             ]
         
-        table_html = "<table><thead><tr><th>Company</th><th>Website</th><th>Email</th><th>City</th><th>State</th><th>Last Sent</th><th>Batch</th></tr></thead><tbody>"
+        table_html = "<div class='dashboard-panel'><table><thead><tr><th>Company</th><th>Website</th><th>Email</th><th>City</th><th>State</th><th>Last Sent</th><th>Batch</th></tr></thead><tbody>"
         for _, row in replied_df.iterrows():
-            table_html += f"""
-            <tr>
-                <td><strong>{row['Company']}</strong></td>
-                <td class="mono">{row['Website']}</td>
-                <td class="mono">{row['Email']}</td>
-                <td>{row['City']}</td>
-                <td><span class="state-chip">{row['State']}</span></td>
-                <td class="mono">{row['Last_Sent']}</td>
-                <td class="mono">{row['Batch']}</td>
-            </tr>
-            """
-        table_html += "</tbody></table>"
+            table_html += f"<tr><td><strong>{row['Company']}</strong></td><td class='mono'>{row['Website']}</td><td class='mono'>{row['Email']}</td><td>{row['City']}</td><td><span class='state-chip'>{row['State']}</span></td><td class='mono'>{row['Last_Sent']}</td><td class='mono'>{row['Batch']}</td></tr>"
+        table_html += "</tbody></table></div>"
         st.markdown(table_html, unsafe_allow_html=True)
-    st.markdown("</div>", unsafe_allow_html=True)
 
 # --- SECCIÓN: FULL DATABASE ---
 elif nav_selection == "Full Database":
-    st.markdown("<div class='dashboard-panel'>", unsafe_allow_html=True)
     col_db_h2, col_db_search = st.columns([3, 1])
-    
     with col_db_h2:
-        st.markdown(f"<h2>📋 Full Database <span class='badge'>{total_prospects} total</span></h2>", unsafe_allow_html=True)
-        
+        st.markdown(f"<div style='margin-top: 15px;'><h2 style='font-size: 14px; font-weight: 600; color: #EDEFF3;'>📋 Full Database <span class='badge'>{total_prospects} total</span></h2></div>", unsafe_allow_html=True)
     with col_db_search:
         db_search_query = st.text_input("", placeholder="Search database...", label_visibility="collapsed", key="search_db")
         
@@ -440,7 +427,7 @@ elif nav_selection == "Full Database":
             display_df["City"].str.contains(db_search_query, case=False, na=False)
         ]
         
-    table_html = "<table><thead><tr><th>Company</th><th>Email</th><th>City</th><th>State</th><th>Status</th><th>Batch</th></tr></thead><tbody>"
+    table_html = "<div class='dashboard-panel'><table><thead><tr><th>Company</th><th>Email</th><th>City</th><th>State</th><th>Status</th><th>Batch</th></tr></thead><tbody>"
     for _, row in display_df.iterrows():
         status_color = "#5B9FE3"
         status_label = row["Last_Status"] if row["Last_Status"] else "PENDING"
@@ -449,16 +436,6 @@ elif nav_selection == "Full Database":
         elif status_label == "REPLIED":
             status_color = "#4CA779"
             
-        table_html += f"""
-        <tr>
-            <td><strong>{row['Company']}</strong></td>
-            <td class="mono">{row['Email']}</td>
-            <td>{row['City']}</td>
-            <td><span class="state-chip">{row['State']}</span></td>
-            <td><span class="state-chip" style="color: {status_color}; border-color: {status_color};">{status_label}</span></td>
-            <td class="mono">{row['Batch']}</td>
-        </tr>
-        """
-    table_html += "</tbody></table>"
+        table_html += f"<tr><td><strong>{row['Company']}</strong></td><td class='mono'>{row['Email']}</td><td>{row['City']}</td><td><span class='state-chip'>{row['State']}</span></td><td><span class='state-chip' style='color: {status_color}; border-color: {status_color};'>{status_label}</span></td><td class='mono'>{row['Batch']}</td></tr>"
+    table_html += "</tbody></table></div>"
     st.markdown(table_html, unsafe_allow_html=True)
-    st.markdown("</div>", unsafe_allow_html=True)
