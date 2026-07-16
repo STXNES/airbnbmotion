@@ -1,0 +1,58 @@
+name: Daily Outreach Autopilot
+
+on:
+  schedule:
+    # Corre automáticamente de lunes a domingo a las 14:00 UTC
+    # Equivale a las 8:00 AM hora de Costa Rica / 10:00 AM EST en EE.UU.
+    - cron: '0 14 * * *'
+  workflow_dispatch: # Permite iniciar el proceso de forma manual desde la web de GitHub
+
+jobs:
+  run-autopilot:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        persist-credentials: true
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    - name: Inject Zoho Credentials
+      run: |
+        mkdir -p 09-CONFIG
+        echo '{
+          "EMAIL": "${{ secrets.ZOHO_EMAIL }}",
+          "APP_PASSWORD": "${{ secrets.ZOHO_APP_PASSWORD }}"
+        }' > 09-CONFIG/email_credentials.json
+
+    - name: Run Autopilot Pipeline
+      run: |
+        echo "=== PASO 1: Leyendo Respuestas desde Zoho IMAP ==="
+        python 05-SCRIPTS/Gmail_API/read_replies.py
+        
+        echo "=== PASO 2: Procesando Seguimientos (Follow-ups) ==="
+        python 05-SCRIPTS/Email/auto_followup.py
+        
+        echo "=== PASO 3: Enviando nuevos correos en frío (Max 20) ==="
+        python 05-SCRIPTS/Email/send_pipeline.py
+
+    - name: Cleanup Credentials
+      run: rm -f 09-CONFIG/email_credentials.json
+
+    - name: Commit and Push Database Updates
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git add 03-MASTER_DATABASE/master_database.csv 02-PIPELINE/
+        
+        if ! git diff --cached --quiet; then
+          git commit -m "auto: update database and outreach pipeline statuses [skip ci]"
+          git push
+        else
+          echo "No database changes detected. Nothing to commit."
+        fi
