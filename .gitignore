@@ -1,0 +1,31 @@
+# Credenciales y archivos secretos de configuración
+09-CONFIG/email_credentials.json
+token.json
+credentials.json
+.env
+.env.*
+
+# Logs e historial de ejecución del sistema
+08-LOGS/
+*.log
+
+# Archivos de dependencias y temporales de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.venv/
+venv/
+ENV/
+
+# Archivos de dependencias de NodeJS (Web)
+node_modules/
+dist/
+.svelte-kit/
+.next/
+.nuxt/
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db

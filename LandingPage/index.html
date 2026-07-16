@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cinematic Airbnb Listing Videos — Boost Bookings | AirbnbMotion</title>
+  <meta name="description" content="Boost your Airbnb and Vrbo booking rates by 40% with premium cinematic video tours generated in 24-48 hours. Claim your 100% free sample video draft.">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Cinematic Airbnb Listing Videos — Boost Bookings | AirbnbMotion">
+  <meta property="og:description" content="Convert more bookings with custom motion videos generated in 24-48 hours. No expensive drone shoots or guest disruption. Get your free sample today.">
+  <meta property="og:image" content="/before.jpg">
+  <meta property="og:video" content="/videos/demo1.mp4">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:title" content="Cinematic Airbnb Videos">
+  <meta property="twitter:description" content="Convert more bookings with custom motion videos generated in 24-48 hours. Get your free sample today.">
+  <meta property="twitter:image" content="/before.jpg">
+
+  <!-- Structured Data: JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Service",
+        "@id": "https://airbnbmotion.com/#service",
+        "name": "Cinematic Airbnb Video Generation",
+        "description": "Premium AI-assisted cinematic video tours for vacation rentals and Airbnb listings.",
+        "provider": {
+          "@type": "LocalBusiness",
+          "name": "AirbnbMotion",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "CR"
+          }
+        },
+        "offers": {
+          "@type": "AggregateOffer",
+          "priceCurrency": "USD",
+          "lowPrice": "0",
+          "highPrice": "200",
+          "offerCount": "2"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "@context": "https://schema.org",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Why is the first video free?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "We believe in the power of our cinematic tours. We show you the value on your own listing first so you can decide with 100% confidence."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you make the videos?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "We use your existing listing photos and apply advanced AI video generation to simulate smooth, cinematic drone and camera movements."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What do I get in the $200 package?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "You get 2 high-resolution, watermark-free videos of your property: one landscape (16:9) optimized for your website/listing, and one vertical (9:16) optimized for Instagram Reels and TikTok."
+            }
+          }
+        ]
+      },
+      {
+        "@type": "VideoObject",
+        "@context": "https://schema.org",
+        "name": "Airbnb Cinematic Tour Example",
+        "description": "An example of a static property photo converted into a cinematic 16:9 drone-style video tour.",
+        "thumbnailUrl": "https://airbnbmotion.com/before.jpg",
+        "uploadDate": "2026-07-15T12:00:00Z",
+        "contentUrl": "https://airbnbmotion.com/videos/demo1.mp4"
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600&family=Sora:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #16130F;
+      --ink-2: #1B2A2E;
+      --cream: #F2EDE4;
+      --cream-dim: #C9C2B2;
+      --gold: #C9903C;
+      --terracotta: #A34E36;
+      --sage: #6B7355;
+      --serif: 'Fraunces', serif;
+      --sans: 'Sora', sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--ink); font-family: var(--sans); color: var(--cream); overflow-x: hidden; }
+    img, video { max-width: 100%; display: block; }
+
+    .frame { border-top: 8px solid #000; border-bottom: 8px solid #000; }
+
+    .nav { display: flex; justify-content: space-between; align-items: center; padding: 24px 64px; }
+    .nav .mark { font-family: var(--serif); font-weight: 500; font-size: 21px; letter-spacing: 0.5px;}
+    .nav .mark span { color: var(--gold); font-style: italic;}
+    .nav .cta { font-family: var(--sans); font-weight: 600; font-size: 13px; background: var(--gold); color: var(--ink); padding: 11px 22px; border: none; cursor: pointer; white-space: nowrap; transition: all 0.3s ease; }
+    .nav .cta:hover { transform: translateY(-2px); opacity: 0.9; }
+
+    .hero { padding: 50px 64px 90px; display: grid; grid-template-columns: 1.1fr 1fr; gap: 56px; align-items: center; }
+    .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; margin-bottom: 20px; }
+    h1 { font-family: var(--serif); font-weight: 500; font-size: 60px; line-height: 1.05; letter-spacing: -1px; }
+    h1 em { font-style: italic; font-weight: 300; color: var(--terracotta); }
+    .sub { margin-top: 24px; max-width: 440px; font-size: 16px; line-height: 1.6; color: var(--cream-dim); }
+
+    .ctas { margin-top: 36px; display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
+    .btn-primary { font-family: var(--sans); font-weight: 600; font-size: 14px; background: var(--gold); color: var(--ink); padding: 16px 30px; border: none; cursor: pointer; transition: all 0.3s ease; }
+    .btn-primary:hover { transform: translateY(-2px); opacity: 0.9; }
+    .btn-ghost { font-family: var(--mono); font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--cream-dim); border: none; border-bottom: 1px solid var(--cream-dim); padding-bottom: 4px; background: none; cursor: pointer; }
+
+    .hero-video { border: 1px solid #2c261d; aspect-ratio: 16/10; overflow: hidden; position: relative; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5); }
+    .hero-video video { width: 100%; height: 100%; object-fit: cover; }
+    .hero-video .tag { position: absolute; bottom: 14px; left: 14px; font-family: var(--mono); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; padding: 6px 12px; background: rgba(22,19,15,0.75); border: 1px solid var(--gold); color: var(--gold); }
+
+    .trustbar { padding: 22px 64px; border-top: 1px solid #241f18; border-bottom: 1px solid #241f18; display: flex; gap: 40px; align-items: center; justify-content: center; flex-wrap: wrap; }
+    .trustbar span { font-family: var(--mono); font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--cream-dim); }
+
+    .section-head { font-family: var(--mono); font-size: 12px; letter-spacing: 2px; color: var(--sage); text-transform: uppercase; margin-bottom: 14px; }
+    .section-head.gold { color: var(--gold); }
+
+    .compare { background: var(--ink-2); padding: 80px 64px; }
+    .compare h2 { font-family: var(--serif); font-weight: 500; font-size: 36px; max-width: 560px; margin-bottom: 50px; }
+    
+    /* RESTUCTURING: Enhanced side-by-side video columns */
+    .vids { display: grid; grid-template-columns: 1.3fr 1fr; gap: 48px; align-items: center; }
+    .vidcard { border: 1px solid #2c342f; background: var(--ink); border-radius: 12px; overflow: hidden; box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4); }
+    .vidcard video { width: 100%; aspect-ratio: 16/9; object-fit: cover; }
+    .vidcard .cap { padding: 18px 20px; display: flex; justify-content: space-between; align-items: center; background: rgba(0, 0, 0, 0.2); }
+    .vidcard .cap .name { font-size: 14px; font-weight: 500; }
+    .vidcard .cap .fmt { font-family: var(--mono); font-size: 11px; color: var(--sage); text-transform: uppercase; letter-spacing: 1px; }
+    
+    /* Phone Mockup Restructure for Vertical Video */
+    .vids .vertical-wrapper { display: flex; justify-content: center; width: 100%; }
+    .vids .phone-frame { width: 280px; height: 560px; border-radius: 40px; border: 4px solid rgba(255, 255, 255, 0.15); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6); padding: 8px; position: relative; overflow: hidden; background: #000; }
+    .vids .phone-frame::before { content: ''; position: absolute; top: 12px; left: 50%; transform: translateX(-50%); width: 80px; height: 18px; background: #000; border-radius: 10px; z-index: 20; }
+    .vids .phone-screen { width: 100%; height: 100%; border-radius: 30px; overflow: hidden; position: relative; background: #111; }
+    .vids .phone-screen video { width: 100%; height: 100%; object-fit: cover; }
+
+    .how { padding: 80px 64px; }
+    .how h2 { font-family: var(--serif); font-weight: 500; font-size: 36px; max-width: 520px; margin-bottom: 50px; }
+    .steps { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; background:#241f18; }
+    .step { background: var(--ink); padding: 32px 28px; }
+    .step .n { font-family: var(--mono); font-size: 12px; color: var(--gold); margin-bottom: 14px; }
+    .step h3 { font-family: var(--serif); font-weight: 500; font-size: 20px; margin-bottom: 10px; }
+    .step p { font-size: 14px; color: var(--cream-dim); line-height: 1.5; }
+
+    .proof { padding: 80px 64px; border-top: 1px solid #241f18; }
+    .quotes { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+    .quote p { font-family: var(--serif); font-weight: 300; font-style: italic; font-size: 21px; line-height: 1.4; }
+    .quote .who { margin-top: 16px; font-family: var(--mono); font-size: 12px; color: var(--cream-dim); text-transform: uppercase; letter-spacing: 1px; }
+
+    .pricing { background: var(--ink-2); padding: 80px 64px; }
+    .pricing h2 { font-family: var(--serif); font-weight: 500; font-size: 36px; max-width: 520px; margin-bottom: 50px; }
+    .plans { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--ink); }
+    .plan { background: var(--ink-2); padding: 34px 32px; }
+    .plan.featured { background:#241d15; border-top: 2px solid var(--gold); }
+    .plan .name { font-family: var(--mono); font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--cream-dim); }
+    .plan .price { font-family: var(--serif); font-weight: 500; font-size: 42px; margin: 14px 0 4px; }
+    .plan .price span { font-family: var(--sans); font-size: 14px; color: var(--cream-dim); font-weight: 400; }
+    .plan ul { list-style: none; margin-top: 20px; }
+    .plan li { font-size: 14px; color: var(--cream-dim); padding: 8px 0; border-top: 1px solid #2c261d; }
+    .plan li:first-child { border-top: none; }
+
+    .faq { padding: 80px 64px; max-width: 760px; }
+    .faq h2 { font-family: var(--serif); font-weight: 500; font-size: 36px; margin-bottom: 40px; }
+    .faq details { border-top: 1px solid #2c261d; padding: 18px 0; }
+    .faq details:last-child { border-bottom: 1px solid #2c261d; }
+    .faq summary { cursor: pointer; font-size: 15px; font-weight: 500; list-style: none; }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq summary::before { content: '+'; color: var(--gold); margin-right: 12px; font-family: var(--mono); }
+    .faq details[open] summary::before { content: '–'; }
+    .faq p { margin-top: 12px; font-size: 14px; color: var(--cream-dim); line-height: 1.6; padding-left: 24px; }
+
+    .final { padding: 100px 64px; text-align: center; }
+    .final h2 { font-family: var(--serif); font-weight: 500; font-size: 44px; max-width: 600px; margin: 0 auto 16px; }
+    .final p { color: var(--cream-dim); max-width: 420px; margin: 0 auto 40px; }
+    
+    /* Form Styles */
+    .form { max-width: 420px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; text-align: left; }
+    .form input { background: transparent; border: 1px solid var(--cream-dim); color: var(--cream); font-family: var(--sans); font-size: 14px; padding: 14px 16px; width: 100%; transition: border-color 0.3s ease; }
+    .form input:focus { outline: none; border-color: var(--gold); }
+    .form input::placeholder { color: #6a655a; }
+    .form .btn-primary { text-align: center; margin-top: 6px; }
+
+    .footer { border-top: 1px solid #241f18; padding: 30px 64px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-family: var(--mono); font-size: 11px; color: var(--cream-dim); letter-spacing: 1px; text-transform: uppercase; }
+
+    @media (max-width: 860px) {
+      .nav { padding: 20px 24px; }
+      .hero { grid-template-columns: 1fr; padding: 40px 24px 60px; gap: 36px; }
+      h1 { font-size: 40px; }
+      .compare, .how, .proof, .pricing, .faq, .final { padding-left: 24px; padding-right: 24px; }
+      .vids { grid-template-columns: 1fr; gap: 32px; }
+      .vids .vertical-wrapper { justify-content: center; }
+      .steps { grid-template-columns: 1fr; }
+      .quotes { grid-template-columns: 1fr; gap: 28px; }
+      .plans { grid-template-columns: 1fr; }
+      .trustbar { padding: 18px 24px; gap: 22px; }
+      .footer { padding: 26px 24px; flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+<div class="frame">
+
+  <!-- Navigation -->
+  <div class="nav">
+    <div class="mark">Airbnb<span>Motion</span></div>
+    <button class="cta" onclick="document.getElementById('claim').scrollIntoView({behavior:'smooth'})">Get your free video</button>
+  </div>
+
+  <!-- Hero Section -->
+  <div class="hero">
+    <div>
+      <div class="eyebrow">Cinematic video for short-term rentals</div>
+      <h1>Your listing<br>deserves to <em>move.</em></h1>
+      <p class="sub">We turn your existing listing photos into a cinematic video — ready for Airbnb, Instagram, and your own site. No drone, no film crew, no weeks of waiting.</p>
+      <div class="ctas">
+        <button class="btn-primary" onclick="document.getElementById('claim').scrollIntoView({behavior:'smooth'})">Get your free video</button>
+        <button class="btn-ghost" onclick="document.getElementById('difference').scrollIntoView({behavior:'smooth'})">Watch example ↓</button>
+      </div>
+    </div>
+    <div class="hero-video">
+      <video src="/videos/demo1.mp4" autoplay muted loop playsinline></video>
+      <span class="tag">Live example</span>
+    </div>
+  </div>
+
+  <!-- Trustbar -->
+  <div class="trustbar">
+    <span>Airbnb</span><span>Vrbo</span><span>Instagram Reels</span><span>TikTok</span><span>YouTube Shorts</span>
+  </div>
+
+  <!-- Comparison Section (Horizontal vs Vertical Videos) -->
+  <div class="compare" id="difference">
+    <div class="section-head">One shoot, two formats</div>
+    <h2>Built for the listing and built for the feed.</h2>
+    <div class="vids">
+      <!-- Horizontal Video Card -->
+      <div class="vidcard">
+        <video src="/videos/demo1.mp4" controls playsinline></video>
+        <div class="cap">
+          <span class="name">For your listing</span>
+          <span class="fmt">16:9 Landscape</span>
+        </div>
+      </div>
+      <!-- Vertical Video inside a Premium Phone Mockup -->
+      <div class="vertical-wrapper">
+        <div class="phone-frame">
+          <div class="phone-screen">
+            <video src="/videos/demo1vertical.mp4" autoplay muted loop playsinline></video>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- How It Works Section -->
+  <div class="how">
+    <div class="section-head gold">How it works</div>
+    <h2>Three steps. No production crew.</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="n">01</div>
+        <h3>Share your listing</h3>
+        <p>Send us the link to your current Airbnb or Vrbo listing — that's all we need to start.</p>
+      </div>
+      <div class="step">
+        <div class="n">02</div>
+        <h3>We create the video</h3>
+        <p>We turn your existing photos into a cinematic video, horizontal and vertical, within 48 hours.</p>
+      </div>
+      <div class="step">
+        <div class="n">03</div>
+        <h3>Upload and earn more</h3>
+        <p>Add it to your listing and social channels, and watch your booking rate move.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Social Proof Section -->
+  <div class="proof">
+    <div class="section-head">What hosts say</div>
+    <div class="quotes">
+      <div class="quote">
+        <p>"We posted the video on Friday and had two new bookings by Sunday."</p>
+        <div class="who">— Florida Beachfront Host</div>
+      </div>
+      <div class="quote">
+        <p>"It looks like we hired a full production crew for the weekend."</p>
+        <div class="who">— Luxury Cabin Owner</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pricing Section -->
+  <div class="pricing" id="pricing">
+    <div class="section-head gold">Pricing</div>
+    <h2>No fine print.</h2>
+    <div class="plans">
+      <div class="plan">
+        <div class="name">Single video</div>
+        <div class="price">$120<span> / property</span></div>
+        <ul>
+          <li>1 horizontal video (web / Airbnb)</li>
+          <li>Delivered in 48h</li>
+          <li>1 round of edits</li>
+        </ul>
+      </div>
+      <div class="plan featured">
+        <div class="name">Full package</div>
+        <div class="price">$200<span> / property</span></div>
+        <ul>
+          <li>Horizontal + vertical video (Reels/TikTok)</li>
+          <li>Delivered in 48h</li>
+          <li>2 rounds of edits</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ Section -->
+  <div class="faq">
+    <div class="section-head">FAQ</div>
+    <h2>Before you ask</h2>
+    <details>
+      <summary>How long does delivery take?</summary>
+      <p>48 hours from the moment we receive your listing link, for both the horizontal and vertical version.</p>
+    </details>
+    <details>
+      <summary>Do I need professional photos?</summary>
+      <p>No. We work with the photos already on your listing — no reshoot needed.</p>
+    </details>
+    <details>
+      <summary>What if I don't like the result?</summary>
+      <p>Your first video is free with no obligation. If it's not a fit, you owe nothing and keep nothing.</p>
+    </details>
+    <details>
+      <summary>Can I pay from outside the US?</summary>
+      <p>Yes, international cards and standard payment methods are accepted.</p>
+    </details>
+  </div>
+
+  <!-- Contact Form Section -->
+  <div class="final" id="claim">
+    <div class="section-head">Get started</div>
+    <h2>Claim your free video.</h2>
+    <p>No obligation. If you like the result, we'll talk about your full property.</p>
+    
+    <!-- Functional FormSubmit implementation -->
+    <form action="https://formsubmit.co/axel.rojas2502@gmail.com" method="POST" class="form">
+      <input type="hidden" name="_subject" value="New Lead: Free Airbnb Video Request">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_next" value="http://localhost:5173/">
+
+      <input type="text" name="name" required placeholder="Name / property">
+      <input type="email" name="email" required placeholder="Email">
+      <input type="url" name="listing" required placeholder="Your Airbnb listing URL">
+      <button type="submit" class="btn-primary">Request my free video</button>
+    </form>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <span>AirbnbMotion</span>
+    <span>Based in Costa Rica — working with hosts worldwide</span>
+  </div>
+
+</div>
+
+<script>
+  // Smooth scroll logic
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
+</script>
+</body>
+</html>
