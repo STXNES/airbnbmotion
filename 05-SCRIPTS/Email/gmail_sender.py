@@ -17,7 +17,7 @@ EMAIL_PASSWORD = config["APP_PASSWORD"]
 def send_email(to_email, subject, html, thread_id=None, in_reply_to=None):
     message = MIMEText(html, "html")
     message["To"] = to_email
-    message["From"] = f"Axel <{EMAIL_USER}>"
+    message["From"] = f"Axell Rojas <{EMAIL_USER}>"
     message["Subject"] = subject
     
     # Generar un Message-ID único

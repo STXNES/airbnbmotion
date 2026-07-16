@@ -86,10 +86,15 @@ if MASTER_DB_PATH.exists():
 
 sent = 0
 errors = 0
+DAILY_LIMIT = 20
 
 html_template = load_template()
 
 for row in rows:
+
+    if sent >= DAILY_LIMIT:
+        print(f"\n[INFO] Se alcanzó el límite diario de {DAILY_LIMIT} correos en frío. Pausando hasta mañana.")
+        break
 
     if row["Status"] != "PENDING":
         continue
