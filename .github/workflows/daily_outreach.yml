@@ -32,8 +32,8 @@ jobs:
 
     - name: Run Autopilot Pipeline
       run: |
-        echo "=== PASO 1: Leyendo Respuestas desde Zoho IMAP ==="
-        python 05-SCRIPTS/Gmail_API/read_replies.py
+        echo "=== [OMITIDO] PASO 1: Leyendo Respuestas (Omitido por plan Zoho Free sin IMAP) ==="
+        # python 05-SCRIPTS/Gmail_API/read_replies.py
         
         echo "=== PASO 2: Procesando Seguimientos (Follow-ups) ==="
         python 05-SCRIPTS/Email/auto_followup.py

@@ -32,8 +32,9 @@ def main():
         mail = imaplib.IMAP4_SSL("imap.zoho.com", 993)
         mail.login(EMAIL_USER, EMAIL_PASSWORD)
     except Exception as e:
-        print(f"❌ Connection failed: {e}")
-        sys.exit(1)
+        print(f"⚠️ IMAP Connection skipped/disabled: {e}")
+        print("[INFO] Automatic reply checking is not available on Zoho Free plans. Please log replies manually via your Dashboard.")
+        sys.exit(0)
 
     # Seleccionar la bandeja de entrada
     mail.select("INBOX")
