@@ -140,11 +140,10 @@ for row in rows:
         print("✓ Sent")
 
         log(
-            batch=batch,
             company=row["Company"],
             email=row["Email"],
             status="SENT",
-            error=""
+            message=f"Batch: {batch}"
         )
 
     except Exception as e:
@@ -154,11 +153,10 @@ for row in rows:
         print(e)
 
         log(
-            batch=batch,
             company=row["Company"],
             email=row["Email"],
             status="ERROR",
-            error=str(e)
+            message=f"Batch: {batch} | Error: {str(e)}"
         )
 
     time.sleep(SEND_DELAY)
