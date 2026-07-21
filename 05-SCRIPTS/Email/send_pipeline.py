@@ -33,16 +33,23 @@ ROOT = Path(__file__).resolve().parents[2]
 PIPELINE_FOLDER = ROOT / "02-PIPELINE"
 
 pipelines = sorted(
-    PIPELINE_FOLDER.glob("airbnb_pipeline*.csv"),
-    reverse=True
+    PIPELINE_FOLDER.glob("airbnb_pipeline*.csv")
 )
 
-if not pipelines:
+PIPELINE = None
+for p in pipelines:
+    with open(p, newline="", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            if row.get("Status") == "PENDING":
+                PIPELINE = p
+                break
+    if PIPELINE:
+        break
 
-    print("No pipeline found.")
-    exit()
-
-PIPELINE = pipelines[0]
+if not PIPELINE:
+    print("[INFO] No se encontraron correos PENDING en ningún lote activo.")
+    exit(0)
 
 batch = PIPELINE.stem.replace("airbnb_pipeline_", "")
 
@@ -86,7 +93,7 @@ if MASTER_DB_PATH.exists():
 
 sent = 0
 errors = 0
-DAILY_LIMIT = 20
+DAILY_LIMIT = 30
 
 html_template = load_template()
 

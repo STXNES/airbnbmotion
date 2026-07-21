@@ -35,10 +35,30 @@ jobs:
         echo "=== [OMITIDO] PASO 1: Leyendo Respuestas (Omitido por plan Zoho Free sin IMAP) ==="
         # python 05-SCRIPTS/Gmail_API/read_replies.py
         
+        echo "=== COMPROBACIÓN: Evaluando lote pendiente para Scraping ==="
+        python -c "
+        import glob, csv, subprocess
+        pending = False
+        for f in glob.glob('02-PIPELINE/airbnb_pipeline*.csv'):
+            with open(f, newline='', encoding='utf-8') as file:
+                reader = csv.DictReader(file)
+                if any(row.get('Status') == 'PENDING' for row in reader):
+                    pending = True
+                    break
+        if not pending:
+            print('[INFO] No hay correos PENDING en el lote actual. Iniciando auto_scraper...')
+            subprocess.run(['python', '05-SCRIPTS/Scraper/auto_scraper.py'], check=True)
+            print('[INFO] Ejecutando limpiador y creador de nuevo lote...')
+            # Cambiamos cwd al directorio del script Cleaner para que no falle sus paths relativos
+            subprocess.run(['python', 'clean_csv.py'], cwd='05-SCRIPTS/Cleaner', check=True)
+        else:
+            print('[INFO] El lote actual tiene correos PENDING. Saltando Scraping.')
+        "
+        
         echo "=== PASO 2: Procesando Seguimientos (Follow-ups) ==="
         python 05-SCRIPTS/Email/auto_followup.py
         
-        echo "=== PASO 3: Enviando nuevos correos en frío (Max 20) ==="
+        echo "=== PASO 3: Enviando nuevos correos en frío (Max 30) ==="
         python 05-SCRIPTS/Email/send_pipeline.py
 
     - name: Cleanup Credentials
