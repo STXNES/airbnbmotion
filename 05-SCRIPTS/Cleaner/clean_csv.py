@@ -278,9 +278,8 @@ def main():
             row[email_column]
         )
 
-        company = normalize_text(
-            row["Company name"]
-        )
+        company_raw = row.get("Company name") or row.get("Company") or ""
+        company = normalize_text(company_raw)
 
         website = normalize_website(
             row["Website"]
@@ -332,7 +331,7 @@ def main():
 
         clean_rows.append({
 
-            "Company": row.get("Company name", "").strip(),
+            "Company": (row.get("Company name") or row.get("Company") or "").strip(),
 
             "Website": row.get("Website", "").strip(),
 
