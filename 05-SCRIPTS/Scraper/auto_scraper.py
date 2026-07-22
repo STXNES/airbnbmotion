@@ -33,12 +33,12 @@ HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
 }
 
-# Expresión regular robusta para detectar correos válidos y descartar imágenes comunes o extensiones falsas
+# Expresión regular robusta para detectar correos válidos
 EMAIL_REGEX = re.compile(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b')
 EXCLUDE_EXTENSIONS = ('.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp', 'email.com', 'example.com', 'yourdomain.com')
 
-# Parser simple de HTML para extraer links de DuckDuckGo
-class DDGLinkParser(HTMLParser):
+# Parser de enlaces orgánicos de Yahoo Search
+class YahooLinkParser(HTMLParser):
     def __init__(self):
         super().__init__()
         self.links = []
@@ -47,22 +47,31 @@ class DDGLinkParser(HTMLParser):
         if tag == 'a':
             attrs_dict = dict(attrs)
             href = attrs_dict.get('href', '')
-            # Filtro para obtener solo los enlaces externos de los resultados de DuckDuckGo
-            if href.startswith('http') and 'duckduckgo.com' not in href and 'yandex' not in href:
-                self.links.append(href)
+            # Yahoo encapsula los resultados en URLs de redirección que contienen RU=
+            if 'RU=' in href:
+                try:
+                    parts = href.split('RU=')
+                    if len(parts) > 1:
+                        # Extraer y decodificar la URL de destino real
+                        target = parts[1].split('/')[0]
+                        decoded_url = urllib.parse.unquote(target)
+                        if decoded_url.startswith('http') and 'yahoo.com' not in decoded_url and 'bing.com' not in decoded_url:
+                            self.links.append(decoded_url)
+                except Exception:
+                    pass
 
-def search_duckduckgo(query):
-    """Realiza una búsqueda en DuckDuckGo HTML y extrae las URLs resultantes."""
-    url = f"https://html.duckduckgo.com/html/?q={urllib.parse.quote(query)}"
+def search_yahoo(query):
+    """Realiza una búsqueda en Yahoo Search y extrae las URLs resultantes."""
+    url = f"https://search.yahoo.com/search?q={urllib.parse.quote(query)}"
     req = urllib.request.Request(url, headers=HEADERS)
     try:
-        with urllib.request.urlopen(req, timeout=8, context=ssl_context) as response:
+        with urllib.request.urlopen(req, timeout=10, context=ssl_context) as response:
             html = response.read().decode('utf-8', errors='ignore')
-            parser = DDGLinkParser()
+            parser = YahooLinkParser()
             parser.feed(html)
             return list(set(parser.links))
     except Exception as e:
-        print(f"  [ERROR] Al buscar en DuckDuckGo '{query}': {e}")
+        print(f"  [ERROR] Al buscar en Yahoo '{query}': {e}")
         return []
 
 def extract_emails_from_html(html_content):
@@ -85,8 +94,7 @@ def get_website_emails(url):
         with urllib.request.urlopen(req, timeout=6, context=ssl_context) as response:
             html = response.read().decode('utf-8', errors='ignore')
             emails.update(extract_emails_from_html(html))
-    except Exception as e:
-        # Si la home falla, omitimos para no perder tiempo
+    except Exception:
         return list(emails)
 
     # 2. Si no hay correos, intentar con la ruta de contacto común
@@ -102,15 +110,15 @@ def get_website_emails(url):
 
     return list(emails)
 
-def clean_company_name(domain):
+def clean_company_name(url_str):
     """Limpia el dominio para generar un nombre de compañía legible."""
-    name = domain.replace('https://', '').replace('http://', '').replace('www.', '')
+    name = url_str.replace('https://', '').replace('http://', '').replace('www.', '')
     name = name.split('/')[0].split('.')[0]
     return name.replace('-', ' ').replace('_', ' ').title()
 
 def main():
     print("=" * 60)
-    print("INICIANDO SCRAPING AUTOMÁTICO DE PROSPECTOS PREMIUM")
+    print("INICIANDO SCRAPING AUTOMÁTICO DE PROSPECTOS PREMIUM (YAHOO)")
     print("=" * 60)
     
     scraped_leads = []
@@ -120,11 +128,11 @@ def main():
     for target in TARGETS:
         city = target["city"]
         state = target["state"]
-        print(f"\n🔍 Buscando en: {city}, {state}...")
+        print(f"\n[SEARCH] Buscando en: {city}, {state}...")
         
         for query in target["keywords"]:
             print(f"  [QUERY] {query}")
-            links = search_duckduckgo(query)
+            links = search_yahoo(query)
             
             # Procesar links encontrados
             for link in links[:8]: # Procesamos máximo 8 enlaces por query para ser eficientes
@@ -145,8 +153,8 @@ def main():
                                 "City": city,
                                 "State": state
                             })
-                            print(f"    ✨ Lead Encontrado: {company} | {email}")
-                except Exception as e:
+                            print(f"    [LEAD] Lead Encontrado: {company} | {email}")
+                except Exception:
                     continue
                 
                 # Pequeño retardo entre sitios para no saturar
@@ -167,9 +175,9 @@ def main():
             writer.writeheader()
             for lead in scraped_leads:
                 writer.writerow(lead)
-        print(f"\n✅ Scraping completado con éxito. Se guardaron {len(scraped_leads)} prospectos en {OUTPUT_FILE}")
+        print(f"\n[SUCCESS] Scraping completado con éxito. Se guardaron {len(scraped_leads)} prospectos en {OUTPUT_FILE}")
     else:
-        print("\n⚠️ No se encontraron prospectos nuevos en esta ejecución.")
+        print("\n[WARNING] No se encontraron prospectos nuevos en esta ejecución.")
 
 if __name__ == "__main__":
     main()
