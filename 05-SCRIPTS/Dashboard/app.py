@@ -270,6 +270,29 @@ with st.sidebar:
     )
     
     st.markdown("---")
+    st.markdown("### Enlaces Rápidos (HQ)")
+    
+    st.markdown("""
+    <div style='display: flex; flex-direction: column; gap: 8px; margin-top: 10px;'>
+        <a href='https://www.airbnbmotion.studio' target='_blank' style='text-decoration: none; color: #EDEFF3; background: #1D222B; padding: 10px; border-radius: 6px; display: block; border: 1px solid #252B35; font-size: 13px;'>
+            🌐 Landing Page (Estudio)
+        </a>
+        <a href='https://mail.zoho.com' target='_blank' style='text-decoration: none; color: #EDEFF3; background: #1D222B; padding: 10px; border-radius: 6px; display: block; border: 1px solid #252B35; font-size: 13px;'>
+            📧 Zoho Mail (Bandeja)
+        </a>
+        <a href='https://github.com/STXNES/airbnbmotion/actions' target='_blank' style='text-decoration: none; color: #EDEFF3; background: #1D222B; padding: 10px; border-radius: 6px; display: block; border: 1px solid #252B35; font-size: 13px;'>
+            🚀 GitHub Actions (Bot)
+        </a>
+        <a href='https://higgsfield.ai' target='_blank' style='text-decoration: none; color: #EDEFF3; background: #1D222B; padding: 10px; border-radius: 6px; display: block; border: 1px solid #252B35; font-size: 13px;'>
+            🎬 Higgsfield (IA Video)
+        </a>
+        <a href='https://www.paypal.com/invoice/create' target='_blank' style='text-decoration: none; color: #EDEFF3; background: #1D222B; padding: 10px; border-radius: 6px; display: block; border: 1px solid #252B35; font-size: 13px;'>
+            💳 PayPal (Cobros)
+        </a>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    st.markdown("---")
     st.markdown("### Estado del Sistema")
     st.info("Autopilot configurado vía Zoho SMTP.")
 
