@@ -163,7 +163,15 @@ for row in rows:
 
         errors += 1
 
-        print(e)
+        print(f"Error sending to {row['Email']}: {e}")
+
+        row["Status"] = "FAILED"
+        email_key = row["Email"].lower()
+        if email_key in master_db_map:
+            master_row = master_db_map[email_key]
+            master_row["Last_Status"] = "FAILED"
+            master_row["Follow_Up_Step"] = "CLOSED"
+            master_row["Notes"] = f"SMTP Error: {str(e)}"
 
         log(
             company=row["Company"],

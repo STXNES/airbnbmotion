@@ -32,8 +32,8 @@ jobs:
 
     - name: Run Autopilot Pipeline
       run: |
-        echo "=== [OMITIDO] PASO 1: Leyendo Respuestas (Omitido por plan Zoho Free sin IMAP) ==="
-        # python 05-SCRIPTS/Gmail_API/read_replies.py
+        echo "=== PASO 1: Leyendo Respuestas y Notificaciones de Rebote (IMAP) ==="
+        python 05-SCRIPTS/Gmail_API/read_replies.py
         
         echo "=== COMPROBACIÓN: Evaluando lote pendiente para Scraping ==="
         python -c "
