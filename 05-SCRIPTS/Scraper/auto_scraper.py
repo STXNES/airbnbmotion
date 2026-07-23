@@ -37,6 +37,25 @@ HEADERS = {
 EMAIL_REGEX = re.compile(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b')
 EXCLUDE_EXTENSIONS = ('.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp', 'email.com', 'example.com', 'yourdomain.com')
 
+# Filtros para evitar correos de error (Wix/Sentry), placeholders y servicios externos de listados
+BLOCKLIST_WORDS = [
+    'sentry', 'wixpress', 'wix', 'cloudflare', 'github', 'git', 'reply', 'noreply', 'bounce',
+    'example', 'domain', 'test', 'mysite', 'placeholder', 'yourdomain', 'uservoice', 'thryv',
+    'yellowpages', 'tripadvisor', 'airbnb', 'vrbo', 'booking', 'wix-press'
+]
+
+def is_valid_lead_email(email_str):
+    email_lower = email_str.lower().strip()
+    if any(email_lower.endswith(ext) for ext in EXCLUDE_EXTENSIONS):
+        return False
+    if any(word in email_lower for word in BLOCKLIST_WORDS):
+        return False
+    # Filtro de longitud para descartar hashes largos de sentry (ej. hashes de wixpress de 32+ caracteres)
+    user_part = email_lower.split('@')[0]
+    if len(user_part) > 28:
+        return False
+    return True
+
 # Parser de enlaces orgánicos de Yahoo Search
 class YahooLinkParser(HTMLParser):
     def __init__(self):
@@ -79,7 +98,7 @@ def extract_emails_from_html(html_content):
     found = set()
     for email in EMAIL_REGEX.findall(html_content):
         email_lower = email.lower().strip()
-        if not any(email_lower.endswith(ext) for ext in EXCLUDE_EXTENSIONS):
+        if is_valid_lead_email(email_lower):
             found.add(email_lower)
     return found
 
