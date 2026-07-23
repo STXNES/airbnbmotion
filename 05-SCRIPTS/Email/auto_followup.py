@@ -93,21 +93,19 @@ def main():
                 print("✓ Sent")
 
                 log(
-                    batch="FOLLOW_UP",
                     company=row["Company"],
                     email=row["Email"],
                     status=f"SENT_FOLLOW_UP_{new_step}",
-                    error=""
+                    message="Batch: FOLLOW_UP"
                 )
 
             except Exception as e:
                 print(e)
                 log(
-                    batch="FOLLOW_UP",
                     company=row["Company"],
                     email=row["Email"],
                     status=f"ERROR_FOLLOW_UP_{new_step}",
-                    error=str(e)
+                    message=f"Batch: FOLLOW_UP | Error: {str(e)}"
                 )
 
             time.sleep(SEND_DELAY)
