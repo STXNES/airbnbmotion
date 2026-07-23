@@ -7,6 +7,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 import time
 import ssl
+import random
 
 # Desactivar verificación SSL para evitar errores de certificados vencidos en sitios web pequeños de prospectos
 ssl_context = ssl._create_unverified_context()
@@ -142,6 +143,9 @@ def main():
     
     scraped_leads = []
     seen_emails = set()
+    
+    # Mezclar las ciudades para buscar en orden aleatorio en cada ejecución y obtener leads nuevos
+    random.shuffle(TARGETS)
     
     # Buscar objetivos de forma balanceada
     for target in TARGETS:
