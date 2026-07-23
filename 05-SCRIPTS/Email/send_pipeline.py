@@ -113,11 +113,17 @@ for row in rows:
         subject = SUBJECT.replace(
             "{{company}}",
             row["Company"]
+        ).replace(
+            "{{city}}",
+            row.get("City", "")
         )
 
         html = html_template.replace(
             "{{company}}",
             row["Company"]
+        ).replace(
+            "{{city}}",
+            row.get("City", "")
         )
 
         result = send_email(

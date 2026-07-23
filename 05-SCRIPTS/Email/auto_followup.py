@@ -59,13 +59,13 @@ def main():
 
         # Step 1 -> Step 2 (Wait >= 3 days)
         if step == "1" and days_elapsed >= 3:
-            send_html = template_2.replace("{{company}}", row["Company"])
+            send_html = template_2.replace("{{company}}", row["Company"]).replace("{{city}}", row.get("City", ""))
             new_step = "2"
             subject = "Re: AI videos for " + row["Company"]
         
         # Step 2 -> Step 3 (Wait >= 7 days after Step 2)
         elif step == "2" and days_elapsed >= 7:
-            send_html = template_3.replace("{{company}}", row["Company"])
+            send_html = template_3.replace("{{company}}", row["Company"]).replace("{{city}}", row.get("City", ""))
             new_step = "3"
             subject = "Re: AI videos for " + row["Company"]
 

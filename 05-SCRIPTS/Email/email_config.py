@@ -2,7 +2,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 
-SUBJECT = "Quick idea for {{company}}"
+SUBJECT = "Quick question about your {{city}} properties"
 
 SEND_DELAY = 60
 
