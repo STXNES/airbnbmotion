@@ -9,6 +9,12 @@ SUBJECT_VARIANTS = [
     "Idea to boost bookings for {{company}}"
 ]
 
+SUBJECT_VARIANTS_ES = [
+    "Pregunta rápida sobre tus propiedades en {{city}}",
+    "Muestra de video gratis para {{company}} en {{city}}",
+    "Idea para aumentar reservas de {{company}}"
+]
+
 SUBJECT = SUBJECT_VARIANTS[0]
 
 MIN_DELAY = 90
@@ -17,6 +23,11 @@ MAX_DELAY = 150
 TEMPLATE = (
     Path(__file__).parent
     / "email_template.html"
+)
+
+TEMPLATE_ES = (
+    Path(__file__).parent
+    / "email_template_es.html"
 )
 
 LOG_FILE = (

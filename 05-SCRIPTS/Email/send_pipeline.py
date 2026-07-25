@@ -4,25 +4,26 @@ import random
 from datetime import datetime
 from pathlib import Path
 
-from email_config import SUBJECT_VARIANTS
-from email_config import TEMPLATE
+from email_config import SUBJECT_VARIANTS, SUBJECT_VARIANTS_ES
+from email_config import TEMPLATE, TEMPLATE_ES
 from email_config import MIN_DELAY, MAX_DELAY
 
 from gmail_sender import send_email
 from logger import log
 
 # ==========================================
-# LOAD HTML TEMPLATE
+# LOAD HTML TEMPLATES
 # ==========================================
 
-def load_template():
-
-    with open(
-        TEMPLATE,
-        encoding="utf-8"
-    ) as f:
-
+def load_template(path):
+    with open(path, encoding="utf-8") as f:
         return f.read()
+
+html_template_en = load_template(TEMPLATE)
+try:
+    html_template_es = load_template(TEMPLATE_ES)
+except FileNotFoundError:
+    html_template_es = html_template_en
 
 
 # ==========================================
@@ -111,8 +112,17 @@ for row in rows:
 
     try:
 
-        # A/B Testing de asuntos aleatorios
-        selected_subject = random.choice(SUBJECT_VARIANTS)
+        # Determinar idioma basado en el país
+        country = row.get("Country", "").lower()
+        is_latam = "costa rica" in country or "mexico" in country or "colombia" in country or "españa" in country
+        
+        if is_latam:
+            selected_subject = random.choice(SUBJECT_VARIANTS_ES)
+            html_to_use = html_template_es
+        else:
+            selected_subject = random.choice(SUBJECT_VARIANTS)
+            html_to_use = html_template_en
+
         subject = selected_subject.replace(
             "{{company}}",
             row["Company"]
@@ -121,7 +131,7 @@ for row in rows:
             row.get("City", "") if row.get("City") else "your area"
         )
 
-        html = html_template.replace(
+        html = html_to_use.replace(
             "{{company}}",
             row["Company"]
         ).replace(
