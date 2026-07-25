@@ -32,7 +32,9 @@ jobs:
         mkdir -p 09-CONFIG
         echo '{
           "EMAIL": "${{ secrets.ZOHO_EMAIL }}",
-          "APP_PASSWORD": "${{ secrets.ZOHO_APP_PASSWORD }}"
+          "APP_PASSWORD": "${{ secrets.ZOHO_APP_PASSWORD }}",
+          "GMAIL_USER": "${{ secrets.GMAIL_USER }}",
+          "GMAIL_APP_PASSWORD": "${{ secrets.GMAIL_APP_PASSWORD }}"
         }' > 09-CONFIG/email_credentials.json
 
     - name: Run Autopilot Pipeline
