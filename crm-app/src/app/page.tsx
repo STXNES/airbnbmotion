@@ -48,7 +48,7 @@ export default async function Home() {
       </div>
 
       {/* Main Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: '24px' }}>
+      <div className="grid-layout" style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: '24px' }}>
         
         {/* Hot Leads Table */}
         <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column' }}>

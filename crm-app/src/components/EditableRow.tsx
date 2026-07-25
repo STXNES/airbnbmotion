@@ -8,12 +8,13 @@ interface Lead {
   company: string
   city: string
   state: string
+  country: string
   last_status: string
   notes?: string
   client?: string
 }
 
-export function EditableRow({ lead, showNotes = false }: { lead: Lead, showNotes?: boolean }) {
+export function EditableRow({ lead, showNotes = false, showCountry = false }: { lead: Lead, showNotes?: boolean, showCountry?: boolean }) {
   const [isPending, startTransition] = useTransition()
   const [status, setStatus] = useState(lead.last_status || 'PENDING')
   const [notes, setNotes] = useState(lead.notes || '')
@@ -70,6 +71,10 @@ export function EditableRow({ lead, showNotes = false }: { lead: Lead, showNotes
       <td style={{ fontFamily: 'monospace', color: 'var(--text-muted)', fontSize: '12px' }}>{lead.email}</td>
       <td>{lead.city}, <span style={{ color: 'var(--text-muted)' }}>{lead.state}</span></td>
       
+      {showCountry && (
+        <td style={{ color: 'var(--text-muted)' }}>{lead.country || 'N/A'}</td>
+      )}
+
       {showNotes && (
         <td>
           <input 
