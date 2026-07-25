@@ -428,17 +428,49 @@ if nav_selection == "Overview":
                 replied_df["Email"].str.contains(search_query, case=False, na=False)
             ]
         
-        table_html = "<div class='dashboard-panel'><table><thead><tr><th>Company</th><th>Website</th><th>Email</th><th>City</th><th>State</th><th>Last Sent</th><th>Batch</th></tr></thead><tbody>"
-        for _, row in replied_df.iterrows():
-            table_html += f"<tr><td><strong>{row['Company']}</strong></td><td class='mono'>{row['Website']}</td><td class='mono'>{row['Email']}</td><td>{row['City']}</td><td><span class='state-chip'>{row['State']}</span></td><td class='mono'>{row['Last_Sent']}</td><td class='mono'>{row['Batch']}</td></tr>"
-        table_html += "</tbody></table></div>"
-        st.markdown(table_html, unsafe_allow_html=True)
+        st.markdown("<div class='dashboard-panel'>", unsafe_allow_html=True)
+        # Asegurarnos de que exista la columna Notes
+        if "Notes" not in replied_df.columns:
+            replied_df["Notes"] = ""
+            if "Notes" not in df.columns:
+                df["Notes"] = ""
+                
+        cols_to_show_hot = ["Company", "Email", "City", "Last_Status", "Client", "Notes"]
+        
+        edited_hot_df = st.data_editor(
+            replied_df[cols_to_show_hot],
+            use_container_width=True,
+            hide_index=True,
+            disabled=["Company", "Email", "City"],
+            column_config={
+                "Last_Status": st.column_config.SelectboxColumn("Status", options=["REPLIED", "HOT_LEAD", "CLOSED"]),
+                "Client": st.column_config.CheckboxColumn("Is Client?"),
+                "Notes": st.column_config.TextColumn("Notes / AI Draft")
+            },
+            key="editor_hot"
+        )
+        
+        st.button("✨ Generar Respuesta con IA para prospectos seleccionados (Próximamente)", disabled=True)
+        st.markdown("</div>", unsafe_allow_html=True)
+        
+        # Detectar cambios y guardar
+        if not edited_hot_df.equals(replied_df[cols_to_show_hot]):
+            for index, row in edited_hot_df.iterrows():
+                email_key = row["Email"]
+                idx_in_df = df.index[df['Email'] == email_key].tolist()
+                if idx_in_df:
+                    for col in ["Last_Status", "Client", "Notes"]:
+                        df.at[idx_in_df[0], col] = row[col]
+            
+            df.to_csv(MASTER_DB_PATH, index=False)
+            st.success("✅ Cambios guardados en la base de datos.")
+            st.rerun()
 
 # --- SECCIÓN: FULL DATABASE ---
 elif nav_selection == "Full Database":
     col_db_h2, col_db_search = st.columns([3, 1])
     with col_db_h2:
-        st.markdown(f"<div style='margin-top: 15px;'><h2 style='font-size: 14px; font-weight: 600; color: #EDEFF3;'>📋 Full Database <span class='badge'>{total_prospects} total</span></h2></div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='margin-top: 15px;'><h2 style='font-size: 14px; font-weight: 600; color: #EDEFF3;'>📋 CRM Interactivo <span class='badge'>{total_prospects} total</span></h2></div>", unsafe_allow_html=True)
     with col_db_search:
         db_search_query = st.text_input("", placeholder="Search database...", label_visibility="collapsed", key="search_db")
         
@@ -449,16 +481,46 @@ elif nav_selection == "Full Database":
             display_df["Email"].str.contains(db_search_query, case=False, na=False) |
             display_df["City"].str.contains(db_search_query, case=False, na=False)
         ]
+    
+    st.markdown("<div class='dashboard-panel'>", unsafe_allow_html=True)
+    st.info("Puedes editar las columnas **Last_Status**, **Reply_Status**, **Client** y **Notes** directamente. Los cambios se guardarán automáticamente en tu base de datos.")
+    
+    # Asegurarnos de que exista la columna Notes
+    if "Notes" not in display_df.columns:
+        display_df["Notes"] = ""
+        df["Notes"] = ""
         
-    table_html = "<div class='dashboard-panel'><table><thead><tr><th>Company</th><th>Email</th><th>City</th><th>State</th><th>Status</th><th>Batch</th></tr></thead><tbody>"
-    for _, row in display_df.iterrows():
-        status_color = "#5B9FE3"
-        status_label = row["Last_Status"] if row["Last_Status"] else "PENDING"
-        if status_label == "SENT":
-            status_color = "#C9903C"
-        elif status_label == "REPLIED":
-            status_color = "#4CA779"
-            
-        table_html += f"<tr><td><strong>{row['Company']}</strong></td><td class='mono'>{row['Email']}</td><td>{row['City']}</td><td><span class='state-chip'>{row['State']}</span></td><td><span class='state-chip' style='color: {status_color}; border-color: {status_color};'>{status_label}</span></td><td class='mono'>{row['Batch']}</td></tr>"
-    table_html += "</tbody></table></div>"
-    st.markdown(table_html, unsafe_allow_html=True)
+    # Columnas a mostrar en el editor
+    cols_to_show = ["Company", "Website", "Email", "City", "State", "Batch", "Last_Status", "Reply_Status", "Client", "Notes"]
+    
+    # Usar data_editor interactivo
+    edited_df = st.data_editor(
+        display_df[cols_to_show],
+        use_container_width=True,
+        hide_index=True,
+        disabled=["Company", "Website", "Email", "City", "State", "Batch"],
+        column_config={
+            "Last_Status": st.column_config.SelectboxColumn("Status", options=["PENDING", "SENT", "REPLIED", "BOUNCED", "CLOSED"]),
+            "Reply_Status": st.column_config.SelectboxColumn("Reply", options=["", "REPLIED"]),
+            "Client": st.column_config.CheckboxColumn("Is Client?"),
+            "Notes": st.column_config.TextColumn("Notes / AI Draft")
+        }
+    )
+    st.markdown("</div>", unsafe_allow_html=True)
+    
+    # Detectar cambios y guardar
+    if not edited_df.equals(display_df[cols_to_show]):
+        # Actualizar el dataframe original (df) con los valores editados
+        for index, row in edited_df.iterrows():
+            # Obtener el email como clave única
+            email_key = row["Email"]
+            # Encontrar la fila en df
+            idx_in_df = df.index[df['Email'] == email_key].tolist()
+            if idx_in_df:
+                for col in ["Last_Status", "Reply_Status", "Client", "Notes"]:
+                    df.at[idx_in_df[0], col] = row[col]
+        
+        # Guardar en CSV
+        df.to_csv(MASTER_DB_PATH, index=False)
+        st.success("✅ Cambios guardados en la base de datos.")
+        st.rerun()
