@@ -6,7 +6,7 @@ from pathlib import Path
 
 from email_config import SUBJECT_VARIANTS
 from email_config import TEMPLATE
-from email_config import SEND_DELAY
+from email_config import MIN_DELAY, MAX_DELAY
 
 from gmail_sender import send_email
 from logger import log
@@ -183,7 +183,9 @@ for row in rows:
             message=f"Batch: {batch} | Error: {str(e)}"
         )
 
-    time.sleep(SEND_DELAY)
+    delay = random.randint(MIN_DELAY, MAX_DELAY)
+    print(f"Waiting {delay} seconds before next email...")
+    time.sleep(delay)
 
 
 # ==========================================

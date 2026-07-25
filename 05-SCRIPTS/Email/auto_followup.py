@@ -3,7 +3,8 @@ import time
 from datetime import datetime
 from pathlib import Path
 
-from email_config import SEND_DELAY
+import random
+from email_config import MIN_DELAY, MAX_DELAY
 from gmail_sender import send_email
 from logger import log
 
@@ -110,7 +111,9 @@ def main():
                     message=f"Batch: FOLLOW_UP | Error: {str(e)}"
                 )
 
-            time.sleep(SEND_DELAY)
+            delay = random.randint(MIN_DELAY, MAX_DELAY)
+            print(f"Waiting {delay} seconds before next follow-up...")
+            time.sleep(delay)
 
     if sent_count > 0:
         if fieldnames and "Notes" not in fieldnames:

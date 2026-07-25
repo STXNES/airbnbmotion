@@ -1,16 +1,18 @@
 import os
 import re
 import csv
-import urllib.request
-import urllib.parse
-from html.parser import HTMLParser
-from pathlib import Path
 import time
-import ssl
 import random
+from pathlib import Path
 
-# Desactivar verificación SSL para evitar errores de certificados vencidos en sitios web pequeños de prospectos
-ssl_context = ssl._create_unverified_context()
+try:
+    import requests
+    from bs4 import BeautifulSoup
+    import dns.resolver
+except ImportError:
+    print("Faltan librerias. Asegurate de instalar: pip install requests beautifulsoup4 dnspython")
+    import sys
+    sys.exit(1)
 
 ROOT = Path(__file__).resolve().parents[2]
 INBOX_FOLDER = ROOT / "01-INBOX"
@@ -42,19 +44,24 @@ TARGETS = [
     {"city": "Sedona", "state": "AZ", "keywords": ['"vacation rental management" sedona contact', '"cabin rentals" sedona email']}
 ]
 
-HEADERS = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-}
+# Randomizar el orden de las ciudades para explorar nuevas siempre
+random.shuffle(TARGETS)
 
-# Expresión regular robusta para detectar correos válidos
+HEADERS_LIST = [
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36'
+]
+
+# Expresión regular para detectar correos
 EMAIL_REGEX = re.compile(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b')
 EXCLUDE_EXTENSIONS = ('.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp', 'email.com', 'example.com', 'yourdomain.com')
 
-# Filtros para evitar correos de error (Wix/Sentry), placeholders y servicios externos de listados
+# Filtros para evitar correos basura
 BLOCKLIST_WORDS = [
     'sentry', 'wixpress', 'wix', 'cloudflare', 'github', 'git', 'reply', 'noreply', 'bounce',
     'example', 'domain', 'test', 'mysite', 'placeholder', 'yourdomain', 'uservoice', 'thryv',
-    'yellowpages', 'tripadvisor', 'airbnb', 'vrbo', 'booking', 'wix-press'
+    'yellowpages', 'tripadvisor', 'airbnb', 'vrbo', 'booking', 'wix-press', 'duckduckgo'
 ]
 
 def is_valid_lead_email(email_str):
@@ -63,51 +70,57 @@ def is_valid_lead_email(email_str):
         return False
     if any(word in email_lower for word in BLOCKLIST_WORDS):
         return False
-    # Filtro de longitud para descartar hashes largos de sentry (ej. hashes de wixpress de 32+ caracteres)
+    # Evitar correos super largos (posibles hashes de imágenes)
     user_part = email_lower.split('@')[0]
     if len(user_part) > 28:
         return False
     return True
 
-# Parser de enlaces orgánicos de Yahoo Search
-class YahooLinkParser(HTMLParser):
-    def __init__(self):
-        super().__init__()
-        self.links = []
-
-    def handle_starttag(self, tag, attrs):
-        if tag == 'a':
-            attrs_dict = dict(attrs)
-            href = attrs_dict.get('href', '')
-            # Yahoo encapsula los resultados en URLs de redirección que contienen RU=
-            if 'RU=' in href:
-                try:
-                    parts = href.split('RU=')
-                    if len(parts) > 1:
-                        # Extraer y decodificar la URL de destino real
-                        target = parts[1].split('/')[0]
-                        decoded_url = urllib.parse.unquote(target)
-                        if decoded_url.startswith('http') and 'yahoo.com' not in decoded_url and 'bing.com' not in decoded_url:
-                            self.links.append(decoded_url)
-                except Exception:
-                    pass
-
-def search_yahoo(query):
-    """Realiza una búsqueda en Yahoo Search y extrae las URLs resultantes."""
-    url = f"https://search.yahoo.com/search?q={urllib.parse.quote(query)}"
-    req = urllib.request.Request(url, headers=HEADERS)
+def verify_mx_record(email):
+    """Verifica si el dominio del correo tiene un registro MX válido."""
+    domain = email.split('@')[-1]
+    # Lista blanca de dominios que sabemos que funcionan
+    if domain in ['gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com', 'icloud.com']:
+        return True
+        
     try:
-        with urllib.request.urlopen(req, timeout=10, context=ssl_context) as response:
-            html = response.read().decode('utf-8', errors='ignore')
-            parser = YahooLinkParser()
-            parser.feed(html)
-            return list(set(parser.links))
+        records = dns.resolver.resolve(domain, 'MX')
+        return len(records) > 0
+    except Exception:
+        # Si DNS falla (Timeout, NoAnswer, NXDOMAIN), asumimos que el correo no existe o rebotará
+        return False
+
+def search_duckduckgo(query):
+    """Busca en DuckDuckGo HTML Version para evadir captchas y extraer links orgánicos."""
+    url = "https://html.duckduckgo.com/html/"
+    headers = {
+        'User-Agent': random.choice(HEADERS_LIST),
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.5',
+    }
+    data = {'q': query}
+    
+    links = []
+    try:
+        response = requests.post(url, headers=headers, data=data, timeout=10)
+        if response.status_code == 200:
+            soup = BeautifulSoup(response.text, 'html.parser')
+            for a in soup.find_all('a', class_='result__url'):
+                href = a.get('href', '')
+                if href and 'duckduckgo' not in href and 'yahoo' not in href:
+                    if href.startswith('//'):
+                        href = 'https:' + href
+                    elif not href.startswith('http'):
+                        href = 'https://' + href
+                    links.append(href)
+        else:
+            print(f"  [ERROR] DuckDuckGo HTTP {response.status_code}")
     except Exception as e:
-        print(f"  [ERROR] Al buscar en Yahoo '{query}': {e}")
-        return []
+        print(f"  [ERROR] Al buscar en DuckDuckGo '{query}': {e}")
+    
+    return list(set(links))
 
 def extract_emails_from_html(html_content):
-    """Extrae todos los correos electrónicos únicos y válidos del código HTML de una página."""
     found = set()
     for email in EMAIL_REGEX.findall(html_content):
         email_lower = email.lower().strip()
@@ -116,103 +129,97 @@ def extract_emails_from_html(html_content):
     return found
 
 def get_website_emails(url):
-    """Visita una web e intenta extraer correos. Si no halla en la home, intenta con /contact."""
+    """Visita una web e intenta extraer correos."""
     print(f"  [CRAWL] Visitando: {url}")
     emails = set()
+    headers = {'User-Agent': random.choice(HEADERS_LIST)}
     
-    # 1. Intentar con la página principal (Home)
     try:
-        req = urllib.request.Request(url, headers=HEADERS)
-        with urllib.request.urlopen(req, timeout=6, context=ssl_context) as response:
-            html = response.read().decode('utf-8', errors='ignore')
-            emails.update(extract_emails_from_html(html))
+        response = requests.get(url, headers=headers, timeout=8, verify=False)
+        emails.update(extract_emails_from_html(response.text))
     except Exception:
-        return list(emails)
+        pass
 
-    # 2. Si no hay correos, intentar con la ruta de contacto común
+    # Si no hay, intentar con /contact
     if not emails:
         contact_url = url.rstrip('/') + '/contact'
         try:
-            req = urllib.request.Request(contact_url, headers=HEADERS)
-            with urllib.request.urlopen(req, timeout=5, context=ssl_context) as response:
-                html = response.read().decode('utf-8', errors='ignore')
-                emails.update(extract_emails_from_html(html))
+            response = requests.get(contact_url, headers=headers, timeout=8, verify=False)
+            emails.update(extract_emails_from_html(response.text))
         except Exception:
             pass
 
     return list(emails)
 
-def clean_company_name(url_str):
-    """Limpia el dominio para generar un nombre de compañía legible."""
-    name = url_str.replace('https://', '').replace('http://', '').replace('www.', '')
-    name = name.split('/')[0].split('.')[0]
-    return name.replace('-', ' ').replace('_', ' ').title()
+def clean_company_name(domain):
+    domain = domain.replace("https://", "").replace("http://", "").replace("www.", "")
+    domain = domain.split('/')[0]
+    name = domain.split('.')[0]
+    return name.title()
 
 def main():
-    print("=" * 60)
-    print("INICIANDO SCRAPING AUTOMÁTICO DE PROSPECTOS PREMIUM (YAHOO)")
-    print("=" * 60)
+    # Suprimir warnings de InsecureRequestWarning
+    try:
+        import urllib3
+        urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+    except:
+        pass
+
+    print("============================================================")
+    print("INICIANDO SCRAPING AUTOMÁTICO DE PROSPECTOS (DUCKDUCKGO)")
+    print("============================================================")
     
-    scraped_leads = []
-    seen_emails = set()
+    prospects = []
     
-    # Mezclar las ciudades para buscar en orden aleatorio en cada ejecución y obtener leads nuevos
-    random.shuffle(TARGETS)
-    
-    # Buscar objetivos de forma balanceada
     for target in TARGETS:
         city = target["city"]
         state = target["state"]
         print(f"\n[SEARCH] Buscando en: {city}, {state}...")
         
-        for query in target["keywords"]:
-            print(f"  [QUERY] {query}")
-            links = search_yahoo(query)
+        for keyword in target["keywords"]:
+            print(f"  [QUERY] {keyword}")
+            urls = search_duckduckgo(keyword)
+            time.sleep(random.uniform(2, 4))
             
-            # Procesar links encontrados
-            for link in links[:8]: # Procesamos máximo 8 enlaces por query para ser eficientes
-                try:
-                    # Extraer dominio base
-                    parsed_url = urllib.parse.urlparse(link)
-                    base_url = f"{parsed_url.scheme}://{parsed_url.netloc}"
+            for url in urls[:5]:
+                emails = get_website_emails(url)
+                
+                for email in emails:
+                    if not verify_mx_record(email):
+                        print(f"  [DNS FILTER] Se descartó '{email}' (Registro MX no existe o inválido)")
+                        continue
+                        
+                    company_name = clean_company_name(url)
+                    prospects.append({
+                        "Company": company_name,
+                        "Email": email,
+                        "Website": url,
+                        "City": city,
+                        "State": state
+                    })
+                    print(f"  [LEAD APROBADO] {email} ({company_name})")
                     
-                    emails = get_website_emails(base_url)
-                    for email in emails:
-                        if email not in seen_emails:
-                            seen_emails.add(email)
-                            company = clean_company_name(base_url)
-                            scraped_leads.append({
-                                "Company": company,
-                                "Email": email,
-                                "Website": base_url,
-                                "City": city,
-                                "State": state
-                            })
-                            print(f"    [LEAD] Lead Encontrado: {company} | {email}")
-                except Exception:
-                    continue
+                time.sleep(random.uniform(1, 3))
                 
-                # Pequeño retardo entre sitios para no saturar
-                time.sleep(1)
-                
-            # Detenerse si ya recolectamos suficientes leads para evitar ciclos largos (Límite: 40 leads nuevos)
-            if len(scraped_leads) >= 40:
-                break
-        
-        if len(scraped_leads) >= 40:
-            print("\n[INFO] Límite de 40 nuevos prospectos alcanzado para esta ejecución.")
+        # Detenerse si ya superamos 35 leads
+        if len(prospects) >= 35:
+            print("\n[INFO] Se ha alcanzado un buen número de leads en esta ejecución.")
             break
 
-    # Escribir los resultados en el archivo airbnb_prospects.csv en 01-INBOX
-    if scraped_leads:
-        with open(OUTPUT_FILE, 'w', newline='', encoding='utf-8') as f:
-            writer = csv.DictWriter(f, fieldnames=["Company", "Email", "Website", "City", "State"])
-            writer.writeheader()
-            for lead in scraped_leads:
-                writer.writerow(lead)
-        print(f"\n[SUCCESS] Scraping completado con éxito. Se guardaron {len(scraped_leads)} prospectos en {OUTPUT_FILE}")
-    else:
+    if not prospects:
         print("\n[WARNING] No se encontraron prospectos nuevos en esta ejecución.")
+        return
+
+    file_exists = OUTPUT_FILE.exists()
+    
+    with open(OUTPUT_FILE, mode="a", encoding="utf-8", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=["Company", "Email", "Website", "City", "State"])
+        if not file_exists:
+            writer.writeheader()
+        writer.writerows(prospects)
+        
+    print(f"\n[SUCCESS] Se guardaron {len(prospects)} prospectos en {OUTPUT_FILE.name}.")
+    print("============================================================")
 
 if __name__ == "__main__":
     main()
