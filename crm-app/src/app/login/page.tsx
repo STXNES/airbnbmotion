@@ -12,8 +12,7 @@ export default function LoginPage() {
     // We will set a cookie and reload
     if (password === 'airbnb2026') {
       document.cookie = "crm_auth=true; path=/; max-age=31536000"; // 1 year expiry
-      router.push('/');
-      router.refresh();
+      window.location.href = '/';
     } else {
       setError(true);
       setTimeout(() => setError(false), 2000);
