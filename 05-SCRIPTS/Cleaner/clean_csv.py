@@ -87,7 +87,8 @@ def create_master_database():
             "Reply_Date",
             "Follow_Up_Step",
             "Thread_ID",
-            "Message_ID"
+            "Message_ID",
+            "Notes"
         ])
 
     print("Master database created.")

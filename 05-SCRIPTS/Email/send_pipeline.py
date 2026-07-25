@@ -206,6 +206,11 @@ with open(
     writer.writerows(rows)
 
 if master_db_fieldnames:
+    if "Notes" not in master_db_fieldnames:
+        master_db_fieldnames = list(master_db_fieldnames) + ["Notes"]
+    for r in master_db_rows:
+        if "Notes" not in r:
+            r["Notes"] = ""
     with open(MASTER_DB_PATH, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=master_db_fieldnames)
         writer.writeheader()

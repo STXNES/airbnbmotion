@@ -32,13 +32,15 @@ def main():
 
     now = datetime.now()
     sent_count = 0
+    MAX_FOLLOWUPS = 10
 
     for row in rows:
-        if row.get("Last_Status") != "SENT":
-            continue
-        
-        # Don't follow up if they replied
-        if row.get("Reply_Status") == "REPLIED":
+        if sent_count >= MAX_FOLLOWUPS:
+            print(f"[INFO] Se alcanzó el límite de {MAX_FOLLOWUPS} seguimientos por ejecución para proteger el correo.")
+            break
+
+        # Don't follow up if they replied or bounced/closed
+        if row.get("Reply_Status") == "REPLIED" or row.get("Last_Status") in ["CLOSED", "BOUNCED", "FAILED"]:
             continue
 
         last_sent_str = row.get("Last_Sent", "")
@@ -111,6 +113,11 @@ def main():
             time.sleep(SEND_DELAY)
 
     if sent_count > 0:
+        if fieldnames and "Notes" not in fieldnames:
+            fieldnames = list(fieldnames) + ["Notes"]
+        for r in rows:
+            if "Notes" not in r:
+                r["Notes"] = ""
         with open(MASTER_DB_PATH, "w", encoding="utf-8", newline="") as f:
             writer = csv.DictWriter(f, fieldnames=fieldnames)
             writer.writeheader()

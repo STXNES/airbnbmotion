@@ -21,13 +21,25 @@ INBOX_FOLDER.mkdir(parents=True, exist_ok=True)
 
 # Listas de ciudades premium y palabras clave para prospectar
 TARGETS = [
+    # Costa Rica
+    {"city": "Tamarindo", "state": "Guanacaste", "keywords": ['"vacation rentals" tamarindo contact email', '"property management" tamarindo airbnb']},
+    {"city": "Manuel Antonio", "state": "Puntarenas", "keywords": ['"luxury rentals" "manuel antonio" contact', '"vacation rental management" "manuel antonio"']},
+    {"city": "Nosara", "state": "Guanacaste", "keywords": ['"villas" nosara contact email', '"property management" nosara airbnb']},
+    {"city": "Santa Teresa", "state": "Puntarenas", "keywords": ['"vacation rentals" "santa teresa" contact', '"beach house rentals" "santa teresa" email']},
+    {"city": "Papagayo", "state": "Guanacaste", "keywords": ['"luxury villas" papagayo contact', '"property management" papagayo costa rica']},
+    {"city": "Jaco", "state": "Puntarenas", "keywords": ['"condo rentals" jaco contact email', '"property management" jaco airbnb']},
+
+    # EE.UU. & Internacional
     {"city": "Orlando", "state": "FL", "keywords": ['"vacation rental management" orlando email', '"property management" orlando airbnb']},
     {"city": "Miami", "state": "FL", "keywords": ['"luxury vacation rentals" miami contact', '"vacation rental management" miami email']},
     {"city": "Gatlinburg", "state": "TN", "keywords": ['"cabin rentals" gatlinburg contact', '"property management" gatlinburg cabin']},
     {"city": "San Diego", "state": "CA", "keywords": ['"vacation rental management" "san diego" email', '"airbnb management" "san diego"']},
     {"city": "Lake Tahoe", "state": "CA", "keywords": ['"vacation rental management" "lake tahoe" contact', '"cabin rentals" "lake tahoe" info']},
     {"city": "Whistler", "state": "BC", "keywords": ['"chalet rentals" whistler contact', '"vacation rental management" whistler']},
-    {"city": "Aspen", "state": "CO", "keywords": ['"luxury vacation rentals" aspen email', '"property management" aspen luxury']}
+    {"city": "Aspen", "state": "CO", "keywords": ['"luxury vacation rentals" aspen email', '"property management" aspen luxury']},
+    {"city": "Maui", "state": "HI", "keywords": ['"vacation rental management" maui contact email', '"condo rentals" maui airbnb']},
+    {"city": "Park City", "state": "UT", "keywords": ['"luxury vacation rentals" "park city" contact', '"chalet management" "park city"']},
+    {"city": "Sedona", "state": "AZ", "keywords": ['"vacation rental management" sedona contact', '"cabin rentals" sedona email']}
 ]
 
 HEADERS = {
