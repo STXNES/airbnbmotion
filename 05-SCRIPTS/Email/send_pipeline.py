@@ -1,9 +1,10 @@
 import csv
 import time
+import random
 from datetime import datetime
 from pathlib import Path
 
-from email_config import SUBJECT
+from email_config import SUBJECT_VARIANTS
 from email_config import TEMPLATE
 from email_config import SEND_DELAY
 
@@ -110,12 +111,14 @@ for row in rows:
 
     try:
 
-        subject = SUBJECT.replace(
+        # A/B Testing de asuntos aleatorios
+        selected_subject = random.choice(SUBJECT_VARIANTS)
+        subject = selected_subject.replace(
             "{{company}}",
             row["Company"]
         ).replace(
             "{{city}}",
-            row.get("City", "")
+            row.get("City", "") if row.get("City") else "your area"
         )
 
         html = html_template.replace(
