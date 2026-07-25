@@ -87,10 +87,16 @@ export function Sidebar() {
             <div style={{ fontSize: '11px', fontWeight: 600, color: 'var(--text-muted)', letterSpacing: '1px', marginBottom: '12px' }}>QUICK LINKS</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
               <a href="#" className="quick-link">
-                Portafolio Bienes Raíces
+                Bienes Raíces
               </a>
               <a href="#" className="quick-link">
-                Procesar Pago (Stripe)
+                Stripe
+              </a>
+              <a href="https://github.com/STXNES/airbnbmotion/actions" target="_blank" className="quick-link">
+                GitHub Actions
+              </a>
+              <a href="https://mail.zoho.com" target="_blank" className="quick-link">
+                Zoho Email
               </a>
             </div>
           </div>

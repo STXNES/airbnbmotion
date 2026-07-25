@@ -53,7 +53,7 @@ export default async function Home() {
         {/* Hot Leads Table */}
         <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column' }}>
           <h2 style={{ fontSize: '16px', color: '#fff', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            🔥 Hot Leads <span className="badge badge-gray" style={{ fontSize: '10px' }}>{hotLeads.length} Recent</span>
+            Hot Leads <span className="badge badge-gray" style={{ fontSize: '10px' }}>{hotLeads.length} Recent</span>
           </h2>
           <div className="crm-table-container">
             {hotLeads.length > 0 ? (

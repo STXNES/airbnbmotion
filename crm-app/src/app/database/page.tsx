@@ -35,7 +35,7 @@ export default async function FullDatabase({
       <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '16px' }}>
           <h2 style={{ fontSize: '18px', color: '#fff', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            📋 Neon Postgres <span className="badge badge-gray" style={{ fontSize: '10px' }}>Total: {totalCount}</span>
+            Neon Postgres <span className="badge badge-gray" style={{ fontSize: '10px' }}>Total: {totalCount}</span>
           </h2>
           
           <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
