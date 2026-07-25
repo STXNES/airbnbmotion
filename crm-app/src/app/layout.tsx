@@ -32,7 +32,7 @@ export default function RootLayout({
               <a href="/" style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 16px', borderRadius: '8px', background: 'rgba(255,255,255,0.05)', color: '#fff', fontWeight: 500 }}>
                 <LayoutDashboard size={18} /> Overview
               </a>
-              <a href="/database" style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 16px', borderRadius: '8px', color: 'var(--text-muted)', fontWeight: 500, transition: '0.2s' }} onMouseOver={(e)=>e.currentTarget.style.background='rgba(255,255,255,0.05)'} onMouseOut={(e)=>e.currentTarget.style.background='transparent'}>
+              <a href="/database" style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 16px', borderRadius: '8px', color: 'var(--text-muted)', fontWeight: 500, transition: '0.2s' }}>
                 <Users size={18} /> Full Database
               </a>
               

@@ -1,5 +1,6 @@
 import { Users, Mail, MessageSquare, Briefcase } from "lucide-react";
 import { neon } from '@neondatabase/serverless';
+import { EditableRow } from "@/components/EditableRow";
 
 // Ensure this page is dynamically rendered so it always fetches fresh data from DB
 export const dynamic = 'force-dynamic';
@@ -13,7 +14,7 @@ export default async function Home() {
   // Calculate metrics
   const totalProspects = rows.length;
   const emailsSent = rows.filter(r => ['SENT', 'REPLIED', 'CLOSED'].includes(r.last_status)).length;
-  const replies = rows.filter(r => r.reply_status === 'REPLIED').length;
+  const replies = rows.filter(r => r.reply_status === 'REPLIED' || r.last_status === 'REPLIED' || r.last_status === 'HOT_LEAD').length;
   const clients = rows.filter(r => r.client && r.client.toUpperCase() === 'YES').length;
   
   const sentPct = totalProspects > 0 ? ((emailsSent / totalProspects) * 100).toFixed(1) : '0';
@@ -27,7 +28,7 @@ export default async function Home() {
   ];
 
   // Get Hot Leads (Replied)
-  const hotLeads = rows.filter(r => r.reply_status === 'REPLIED' || r.last_status === 'HOT_LEAD' || r.last_status === 'REPLIED').slice(0, 5);
+  const hotLeads = rows.filter(r => r.reply_status === 'REPLIED' || r.last_status === 'HOT_LEAD' || r.last_status === 'REPLIED').slice(0, 8);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
@@ -62,24 +63,15 @@ export default async function Home() {
                     <th>Company</th>
                     <th>Contact</th>
                     <th>Location</th>
+                    <th>Notes</th>
+                    <th>Client?</th>
                     <th>Status</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {hotLeads.map((lead, i) => {
-                    let badgeClass = "badge-gray";
-                    if (lead.last_status === 'REPLIED' || lead.last_status === 'HOT_LEAD') badgeClass = "badge-green";
-                    if (lead.last_status === 'SENT') badgeClass = "badge-gold";
-                    
-                    return (
-                      <tr key={i}>
-                        <td><strong style={{ color: '#EDEFF3' }}>{lead.company || 'Unknown'}</strong></td>
-                        <td style={{ fontFamily: 'monospace', color: 'var(--text-muted)', fontSize: '12px' }}>{lead.email}</td>
-                        <td>{lead.city}, <span style={{ color: 'var(--text-muted)' }}>{lead.state}</span></td>
-                        <td><span className={`badge ${badgeClass}`}>{lead.last_status || 'PENDING'}</span></td>
-                      </tr>
-                    );
-                  })}
+                  {hotLeads.map((lead, i) => (
+                    <EditableRow key={i} lead={lead as any} showNotes={true} />
+                  ))}
                 </tbody>
               </table>
             ) : (

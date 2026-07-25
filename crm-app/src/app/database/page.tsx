@@ -1,4 +1,5 @@
 import { neon } from '@neondatabase/serverless';
+import { EditableRow } from "@/components/EditableRow";
 
 export const dynamic = 'force-dynamic';
 
@@ -21,29 +22,16 @@ export default async function FullDatabase() {
               <tr>
                 <th>Company</th>
                 <th>Contact</th>
-                <th>City</th>
-                <th>State</th>
-                <th>Batch</th>
+                <th>Location</th>
+                <th>Notes</th>
+                <th>Client?</th>
                 <th>Status</th>
               </tr>
             </thead>
             <tbody>
-              {rows.map((lead, i) => {
-                let badgeClass = "badge-gray";
-                if (lead.last_status === 'REPLIED' || lead.last_status === 'HOT_LEAD') badgeClass = "badge-green";
-                else if (lead.last_status === 'SENT') badgeClass = "badge-gold";
-                
-                return (
-                  <tr key={i}>
-                    <td><strong style={{ color: '#EDEFF3' }}>{lead.company || 'Unknown'}</strong></td>
-                    <td style={{ fontFamily: 'monospace', color: 'var(--text-muted)', fontSize: '12px' }}>{lead.email}</td>
-                    <td>{lead.city}</td>
-                    <td>{lead.state}</td>
-                    <td style={{ fontFamily: 'monospace', color: 'var(--text-muted)' }}>{lead.batch}</td>
-                    <td><span className={`badge ${badgeClass}`}>{lead.last_status || 'PENDING'}</span></td>
-                  </tr>
-                );
-              })}
+              {rows.map((lead, i) => (
+                <EditableRow key={i} lead={lead as any} showNotes={true} />
+              ))}
             </tbody>
           </table>
         </div>
