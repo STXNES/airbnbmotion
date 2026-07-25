@@ -110,12 +110,18 @@ def main():
                 if sender:
                     decoded_sender, encoding = decode_header(sender)[0]
                     if isinstance(decoded_sender, bytes):
-                        sender = decoded_sender.decode(encoding or "utf-8", errors="ignore")
+                        try:
+                            sender = decoded_sender.decode(encoding or "utf-8", errors="ignore")
+                        except LookupError:
+                            sender = decoded_sender.decode("utf-8", errors="ignore")
                 
                 if subject:
                     decoded_subj, encoding = decode_header(subject)[0]
                     if isinstance(decoded_subj, bytes):
-                        subject = decoded_subj.decode(encoding or "utf-8", errors="ignore")
+                        try:
+                            subject = decoded_subj.decode(encoding or "utf-8", errors="ignore")
+                        except LookupError:
+                            subject = decoded_subj.decode("utf-8", errors="ignore")
 
                 sender_email = extract_email(sender)
                 subject_lower = subject.lower()
