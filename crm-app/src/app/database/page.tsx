@@ -33,66 +33,70 @@ export default async function FullDatabase({
 
   return (
     <>
-      <div className="topbar" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px', marginBottom: '32px'}}>
+      <div className="topbar">
         <div>
-          <h1 style={{fontFamily: 'var(--font-sora)', fontSize: '24px', fontWeight: 600, marginBottom: '6px'}}>Base de datos</h1>
-          <p style={{color: 'var(--text-muted)', fontSize: '14.5px'}}>Neon Postgres — Total: {totalCount} prospectos</p>
+          <h1>Base de datos</h1>
+          <p>Neon Postgres — Total: {totalCount} prospectos</p>
         </div>
-        <div className="topbar-actions" style={{display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap', marginTop: '10px'}}>
-          <form action="/database" method="GET" className="search" style={{display: 'flex', alignItems: 'center', gap: '8px', background: 'var(--bg-panel)', border: '1px solid var(--border-color)', borderRadius: '9px', padding: '9px 14px', width: '260px'}}>
+        <div className="topbar-actions">
+          <form action="/database" method="GET" className="search">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
             <input 
               type="text" 
               name="country"
               defaultValue={countryFilter}
               placeholder="Filtrar por país..." 
-              style={{background: 'none', border: 'none', outline: 'none', color: 'var(--text)', fontSize: '13.5px', width: '100%'}} 
             />
           </form>
+          <button className="btn btn-outline">Exportar</button>
           <button className="btn btn-primary">
-            Exportar CSV
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 5v14M5 12h14"/></svg>
+            Nuevo prospecto
           </button>
         </div>
       </div>
 
-      <div className="panel" style={{background: 'var(--bg-panel)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius)', padding: '22px 0'}}>
-        {/* We use an internal scrollable container so the main page doesn't scroll horizontally if the table is wide */}
-        <div style={{width: '100%', overflowX: 'auto', maxHeight: '70vh', overflowY: 'auto', padding: '0 24px'}}>
-          <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '14px', minWidth: '900px'}}>
-            <thead style={{position: 'sticky', top: 0, background: 'var(--bg-panel-solid)', zIndex: 10, boxShadow: '0 1px 0 var(--border-color)'}}>
-              <tr>
-                <th style={{textAlign: 'left', padding: '16px 12px', color: 'var(--text-dim)', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px'}}>Company</th>
-                <th style={{textAlign: 'left', padding: '16px 12px', color: 'var(--text-dim)', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px'}}>Contact</th>
-                <th style={{textAlign: 'left', padding: '16px 12px', color: 'var(--text-dim)', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px'}}>Location</th>
-                <th style={{textAlign: 'left', padding: '16px 12px', color: 'var(--text-dim)', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px'}}>Country</th>
-                <th style={{textAlign: 'left', padding: '16px 12px', color: 'var(--text-dim)', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px'}}>Notes</th>
-                <th style={{textAlign: 'left', padding: '16px 12px', color: 'var(--text-dim)', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px'}}>Client?</th>
-                <th style={{textAlign: 'left', padding: '16px 12px', color: 'var(--text-dim)', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px'}}>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((lead, i) => (
-                <EditableRow key={i} lead={lead as any} showNotes={true} showCountry={true} />
-              ))}
-            </tbody>
-          </table>
+      <div className="db-panel" id="db-section">
+        <div className="db-head">
+          <h2>Prospectos <span className="count">{totalCount} registros</span></h2>
+          <div className="filters">
+            <Link href="/database" className={`chip ${!countryFilter ? 'active' : ''}`}>Todos</Link>
+          </div>
         </div>
 
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '24px', padding: '0 24px', borderTop: '1px solid var(--border-color)', paddingTop: '20px' }}>
-          <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
-            Página {page} de {totalPages || 1}
-          </span>
-          <div style={{ display: 'flex', gap: '8px' }}>
-            {page > 1 && (
-              <a href={`/database?page=${page - 1}${countryFilter ? `&country=${countryFilter}` : ''}`}>
-                <button className="btn btn-outline" style={{ padding: '8px 16px', fontSize: '12px' }}>Anterior</button>
-              </a>
-            )}
-            {page < totalPages && (
-              <a href={`/database?page=${page + 1}${countryFilter ? `&country=${countryFilter}` : ''}`}>
-                <button className="btn btn-outline" style={{ padding: '8px 16px', fontSize: '12px' }}>Siguiente</button>
-              </a>
-            )}
+        <div className="table-head-row">
+          <span>Company</span>
+          <span>Contact</span>
+          <span>Location</span>
+          <span>Notes</span>
+          <span>Status</span>
+          <span></span>
+        </div>
+
+        <div className="table-scroll">
+          {rows.map((lead, i) => (
+            <EditableRow key={lead.id || i} lead={lead as any} delay={i * 0.03} />
+          ))}
+        </div>
+
+        <div className="pagination">
+          <div className="pg-info">
+            Mostrando <b>{offset + 1}–{Math.min(offset + limit, totalCount)}</b> de <b>{totalCount}</b> prospectos
+          </div>
+          <div className="pg-controls">
+            <Link href={`/database?page=${Math.max(1, page - 1)}${countryFilter ? `&country=${countryFilter}` : ''}`}>
+              <button className="pg-btn" disabled={page <= 1}>‹</button>
+            </Link>
+            <button className="pg-btn active">{page}</button>
+            <Link href={`/database?page=${Math.min(totalPages, page + 1)}${countryFilter ? `&country=${countryFilter}` : ''}`}>
+              <button className="pg-btn" disabled={page >= totalPages}>›</button>
+            </Link>
+          </div>
+          <div className="pg-size">
+            Filas por página
+            <select defaultValue={50}>
+              <option value={50}>50</option>
+            </select>
           </div>
         </div>
       </div>
