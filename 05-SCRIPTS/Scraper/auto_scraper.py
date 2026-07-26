@@ -24,24 +24,24 @@ INBOX_FOLDER.mkdir(parents=True, exist_ok=True)
 # Listas de ciudades premium y palabras clave para prospectar
 TARGETS = [
     # Costa Rica (LATAM)
-    {"city": "Tamarindo", "state": "Guanacaste", "country": "Costa Rica", "keywords": ['"vacation rentals" tamarindo contact email', '"property management" tamarindo airbnb']},
-    {"city": "Manuel Antonio", "state": "Puntarenas", "country": "Costa Rica", "keywords": ['"luxury rentals" "manuel antonio" contact', '"vacation rental management" "manuel antonio"']},
-    {"city": "Nosara", "state": "Guanacaste", "country": "Costa Rica", "keywords": ['"villas" nosara contact email', '"property management" nosara airbnb']},
-    {"city": "Santa Teresa", "state": "Puntarenas", "country": "Costa Rica", "keywords": ['"vacation rentals" "santa teresa" contact', '"beach house rentals" "santa teresa" email']},
-    {"city": "Papagayo", "state": "Guanacaste", "country": "Costa Rica", "keywords": ['"luxury villas" papagayo contact', '"property management" papagayo costa rica']},
-    {"city": "Jaco", "state": "Puntarenas", "country": "Costa Rica", "keywords": ['"condo rentals" jaco contact email', '"property management" jaco airbnb']},
+    {"city": "Tamarindo", "state": "Guanacaste", "country": "Costa Rica", "keywords": ['"real estate agency" tamarindo contact email', '"property management" tamarindo real estate']},
+    {"city": "Manuel Antonio", "state": "Puntarenas", "country": "Costa Rica", "keywords": ['"luxury real estate" "manuel antonio" contact', '"real estate broker" "manuel antonio"']},
+    {"city": "Nosara", "state": "Guanacaste", "country": "Costa Rica", "keywords": ['"real estate" nosara contact email', '"property management" nosara realtor']},
+    {"city": "Santa Teresa", "state": "Puntarenas", "country": "Costa Rica", "keywords": ['"real estate agency" "santa teresa" contact', '"luxury homes" "santa teresa" email']},
+    {"city": "Papagayo", "state": "Guanacaste", "country": "Costa Rica", "keywords": ['"luxury real estate" papagayo contact', '"realtor" papagayo costa rica']},
+    {"city": "Jaco", "state": "Puntarenas", "country": "Costa Rica", "keywords": ['"real estate broker" jaco contact email', '"property management" jaco real estate']},
 
     # EE.UU. & Internacional
-    {"city": "Orlando", "state": "FL", "country": "United States", "keywords": ['"vacation rental management" orlando email', '"property management" orlando airbnb']},
-    {"city": "Miami", "state": "FL", "country": "United States", "keywords": ['"luxury vacation rentals" miami contact', '"vacation rental management" miami email']},
-    {"city": "Gatlinburg", "state": "TN", "country": "United States", "keywords": ['"cabin rentals" gatlinburg contact', '"property management" gatlinburg cabin']},
-    {"city": "San Diego", "state": "CA", "country": "United States", "keywords": ['"vacation rental management" "san diego" email', '"airbnb management" "san diego"']},
-    {"city": "Lake Tahoe", "state": "CA", "country": "United States", "keywords": ['"vacation rental management" "lake tahoe" contact', '"cabin rentals" "lake tahoe" info']},
-    {"city": "Whistler", "state": "BC", "country": "Canada", "keywords": ['"chalet rentals" whistler contact', '"vacation rental management" whistler']},
-    {"city": "Aspen", "state": "CO", "country": "United States", "keywords": ['"luxury vacation rentals" aspen email', '"property management" aspen luxury']},
-    {"city": "Maui", "state": "HI", "country": "United States", "keywords": ['"vacation rental management" maui contact email', '"condo rentals" maui airbnb']},
-    {"city": "Park City", "state": "UT", "country": "United States", "keywords": ['"luxury vacation rentals" "park city" contact', '"chalet management" "park city"']},
-    {"city": "Sedona", "state": "AZ", "country": "United States", "keywords": ['"vacation rental management" sedona contact', '"cabin rentals" sedona email']}
+    {"city": "Orlando", "state": "FL", "country": "United States", "keywords": ['"real estate agency" orlando email', '"realtor" orlando property']},
+    {"city": "Miami", "state": "FL", "country": "United States", "keywords": ['"luxury real estate" miami contact', '"real estate broker" miami email']},
+    {"city": "Gatlinburg", "state": "TN", "country": "United States", "keywords": ['"real estate agency" gatlinburg contact', '"property management" gatlinburg realtor']},
+    {"city": "San Diego", "state": "CA", "country": "United States", "keywords": ['"real estate broker" "san diego" email', '"luxury realtor" "san diego"']},
+    {"city": "Lake Tahoe", "state": "CA", "country": "United States", "keywords": ['"real estate agency" "lake tahoe" contact', '"luxury real estate" "lake tahoe" info']},
+    {"city": "Whistler", "state": "BC", "country": "Canada", "keywords": ['"real estate broker" whistler contact', '"luxury real estate" whistler']},
+    {"city": "Aspen", "state": "CO", "country": "United States", "keywords": ['"luxury real estate" aspen email', '"realtor" aspen luxury']},
+    {"city": "Maui", "state": "HI", "country": "United States", "keywords": ['"real estate agency" maui contact email', '"realtor" maui property']},
+    {"city": "Park City", "state": "UT", "country": "United States", "keywords": ['"luxury real estate" "park city" contact', '"real estate broker" "park city"']},
+    {"city": "Sedona", "state": "AZ", "country": "United States", "keywords": ['"real estate agency" sedona contact', '"luxury realtor" sedona email']}
 ]
 
 # Randomizar el orden de las ciudades para explorar nuevas siempre

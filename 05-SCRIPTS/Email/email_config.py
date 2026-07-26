@@ -4,15 +4,15 @@ ROOT = Path(__file__).resolve().parents[2]
 
 # Variaciones para A/B Testing automático de asuntos
 SUBJECT_VARIANTS = [
-    "Quick question about your {{city}} properties",
-    "Free video sample for {{company}} listings in {{city}}",
-    "Idea to boost bookings for {{company}}"
+    "Quick question about your {{city}} real estate listings",
+    "Free video tour sample for {{company}} properties in {{city}}",
+    "Idea to sell properties faster for {{company}}"
 ]
 
 SUBJECT_VARIANTS_ES = [
     "Pregunta rápida sobre tus propiedades en {{city}}",
-    "Muestra de video gratis para {{company}} en {{city}}",
-    "Idea para aumentar reservas de {{company}}"
+    "Muestra de video gratis para las propiedades de {{company}} en {{city}}",
+    "Idea para vender propiedades más rápido para {{company}}"
 ]
 
 SUBJECT = SUBJECT_VARIANTS[0]
