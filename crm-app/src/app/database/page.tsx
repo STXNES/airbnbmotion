@@ -36,7 +36,6 @@ export default async function FullDatabase({
       <div className="topbar">
         <div>
           <h1>Base de datos</h1>
-          <p>Neon Postgres — Total: {totalCount} prospectos</p>
         </div>
         <div className="topbar-actions">
           <form action="/database" method="GET" className="search">

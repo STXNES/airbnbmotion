@@ -17,15 +17,26 @@ export default async function Home() {
   const sentPct = totalProspects > 0 ? ((emailsSent / totalProspects) * 100).toFixed(1) : '0';
   const replyPct = emailsSent > 0 ? ((replies / emailsSent) * 100).toFixed(1) : '0';
 
-  // Get Hot Leads (Replied)
   const hotLeads = rows.filter(r => r.reply_status === 'REPLIED' || r.last_status === 'HOT_LEAD' || r.last_status === 'REPLIED').slice(0, 5);
+
+  const formatter = new Intl.DateTimeFormat('es-CR', {
+    timeZone: 'America/Costa_Rica',
+    hour: 'numeric',
+    hour12: false
+  });
+  const hour = parseInt(formatter.format(new Date()));
+  let greeting = 'Buenos días';
+  if (hour >= 12 && hour < 19) {
+    greeting = 'Buenas tardes';
+  } else if (hour >= 19 || hour < 5) {
+    greeting = 'Buenas noches';
+  }
 
   return (
     <>
       <div className="topbar">
         <div>
-          <h1>Buenos días, Axell</h1>
-          <p>Altus Real Estate — pipeline de propiedades y propietarios</p>
+          <h1>{greeting}, Axell</h1>
         </div>
         <div className="topbar-actions">
           <div className="search">

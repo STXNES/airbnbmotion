@@ -56,7 +56,7 @@ export function Sidebar() {
 
         <div className="sidebar-footer">
           <div className="nav-section-label">Accesos rápidos</div>
-          <a className="quick-link" href="https://www.airbnbmotion.studio/" target="_blank">Landing — Altus Real Estate</a>
+          <a className="quick-link" href="https://www.airbnbmotion.studio/" target="_blank">Landing</a>
           <a className="quick-link" href="#">Stripe</a>
           <a className="quick-link" href="https://github.com/STXNES/airbnbmotion/actions" target="_blank">GitHub Actions</a>
           <a className="quick-link" href="https://mail.zoho.com" target="_blank">Zoho Mail</a>

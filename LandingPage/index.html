@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Altus Real Estate — Motion for Listings</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:#0B0A08;
@@ -40,7 +40,6 @@
     pointer-events:none;
     z-index:0;
   }
-  /* mobile-first container padding, widens at larger breakpoints */
   .wrap{max-width:1180px; margin:0 auto; padding:0 20px; position:relative; z-index:1;}
   h1,h2,h3{font-family:'Fraunces',serif; font-weight:500; letter-spacing:-0.01em;}
   .eyebrow{
@@ -51,7 +50,7 @@
   .eyebrow::before{content:""; width:20px; height:1px; background:var(--brass); flex-shrink:0;}
   a{color:inherit; text-decoration:none;}
 
-  /* ============ NAV (mobile-first: logo + hamburger) ============ */
+  /* ============ NAV ============ */
   nav{
     position:sticky; top:0; z-index:80;
     background:rgba(11,10,8,0.82);
@@ -59,12 +58,10 @@
     border-bottom:1px solid var(--border);
   }
   nav .wrap{display:flex; align-items:center; justify-content:space-between; padding:16px 20px;}
-  .logo{font-family:'Fraunces',serif; font-size:18px; letter-spacing:-0.01em;}
-  .logo span{color:var(--brass);}
+  .logo{font-family:'Cinzel', serif; font-size:22px; letter-spacing:0.02em; font-weight: 500;}
+  .logo span{color:var(--brass); font-weight: 600;}
   .nav-right{display:flex; align-items:center; gap:10px;}
-  .nav-links{
-    display:flex; flex-direction:column; gap:2px;
-  }
+  .nav-links{display:none;} /* Hidden on mobile */
   .menu-toggle{
     width:40px; height:40px; border-radius:9px; border:1px solid var(--border-strong);
     background:transparent; color:var(--cream); display:flex; align-items:center; justify-content:center;
@@ -74,7 +71,7 @@
   body.menu-open .menu-toggle .icon-menu{display:none;}
   body.menu-open .menu-toggle .icon-close{display:block;}
 
-  /* mobile nav panel: slides down under sticky nav bar */
+  /* mobile nav panel */
   .mobile-menu{
     position:fixed; top:73px; left:0; right:0; bottom:0; z-index:70;
     background:var(--bg);
@@ -85,7 +82,8 @@
     overflow-y:auto;
   }
   body.menu-open .mobile-menu{opacity:1; pointer-events:auto; transform:translateY(0);}
-  .mobile-menu .nav-links a{
+  .mobile-menu .nav-links-mobile{display:flex; flex-direction:column; gap:2px;}
+  .mobile-menu .nav-links-mobile a{
     display:block; font-size:20px; padding:16px 4px; border-bottom:1px solid var(--border);
     color:var(--cream);
   }
@@ -103,7 +101,7 @@
   .btn-ghost{border:1px solid var(--border-strong); color:var(--cream);}
   .btn-ghost:hover{border-color:var(--brass); color:var(--brass-bright);}
 
-  /* ============ HERO (mobile-first: stacked, image below text) ============ */
+  /* ============ HERO ============ */
   .hero{padding:48px 0 44px; position:relative;}
   .hero-grid{display:flex; flex-direction:column; gap:40px;}
   .hero h1{font-size:32px; line-height:1.12; margin:18px 0 18px;}
@@ -114,8 +112,8 @@
   .hero-note{font-size:13px; color:var(--muted-2); display:flex; align-items:center; gap:8px;}
   .hero-note svg{flex-shrink:0;}
 
-  /* Signature visual: photo -> motion */
-  .signature{position:relative; height:280px;}
+  /* Signature visual */
+  .signature{position:relative; height:280px; margin-top:20px;}
   .frame-browser{
     position:absolute; top:0; left:0; width:82%;
     background:var(--bg-elev); border:1px solid var(--border-strong);
@@ -138,6 +136,7 @@
     border-radius:20px; padding:7px;
     box-shadow:0 30px 60px -15px rgba(0,0,0,0.65);
     animation:float2 7s ease-in-out infinite .4s;
+    z-index:3;
   }
   .frame-phone .shot{
     aspect-ratio:9/16; border-radius:14px;
@@ -166,7 +165,16 @@
   }
   .playbtn.small{width:28px; height:28px;}
   .playbtn svg{margin-left:2px;}
-  .connector{display:none;}
+  
+  .connector{
+    position:absolute; left:60%; top:30%; transform:translate(-50%, -50%); width:max-content; z-index:2;
+  }
+  .connector .label{
+    font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--brass);
+    background:var(--bg); padding:4px 8px; border-radius:6px; border:1px solid var(--border-strong);
+    white-space:nowrap;
+  }
+
   @keyframes float1{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
   @keyframes float2{0%,100%{transform:translateY(0)}50%{transform:translateY(10px)}}
 
@@ -174,8 +182,7 @@
   .trust{border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:20px 0;}
   .trust .wrap{display:flex; flex-direction:column; align-items:flex-start; gap:14px;}
   .trust-label{font-size:11px; color:var(--muted-2); font-family:'JetBrains Mono',monospace; letter-spacing:.08em;}
-  .trust-logos{display:flex; gap:22px; overflow-x:auto; width:100%; color:var(--muted); font-weight:600; font-size:14px; scrollbar-width:none;}
-  .trust-logos::-webkit-scrollbar{display:none;}
+  .trust-logos{display:flex; flex-wrap:wrap; gap:12px 24px; width:100%; color:var(--muted); font-weight:600; font-size:14px;}
   .trust-logos span{flex-shrink:0;}
 
   /* ============ STAT / AGITATION SECTION ============ */
@@ -296,14 +303,14 @@
     footer .wrap{flex-direction:row; justify-content:space-between; align-items:center;}
   }
 
-  /* ============ DESKTOP (≥900px): restore original two-column layouts ============ */
+  /* ============ DESKTOP (≥900px) ============ */
   @media(min-width:900px){
     .wrap{padding:0 32px;}
     nav .wrap{padding:18px 32px;}
     .menu-toggle{display:none;}
     .mobile-menu{display:none;}
     .nav-links{
-      flex-direction:row; gap:32px; font-size:14px; color:var(--muted);
+      display:flex; flex-direction:row; gap:32px; font-size:14px; color:var(--muted);
     }
     .nav-links a{padding:0; border-bottom:none;}
     .nav-links a:hover{color:var(--cream);}
@@ -316,22 +323,17 @@
     .hero p.lede{font-size:18px; max-width:480px;}
     .hero-ctas{flex-direction:row; align-items:center;}
     .hero-ctas .btn{justify-content:flex-start; padding:11px 22px;}
-    .signature{height:480px;}
+    .signature{height:480px; margin-top:0;}
     .frame-browser{width:78%;}
     .frame-phone{width:150px; right:0; border-radius:22px; padding:8px;}
     .frame-phone .shot{border-radius:16px;}
     .playbtn{width:46px; height:46px;}
     .playbtn.small{width:32px; height:32px;}
-    .connector{display:block; position:absolute; left:64%; top:38%; width:120px; z-index:2;}
-    .connector .label{
-      font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--brass);
-      background:var(--bg); padding:4px 8px; border-radius:6px; border:1px solid var(--border-strong);
-      white-space:nowrap;
-    }
+    .connector{left:64%; top:38%; width:120px;}
 
-    .trust .wrap{flex-direction:row; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px;}
-    .trust-logos{gap:36px; overflow-x:visible;}
-    .trust-label{font-size:12px;}
+    .trust .wrap{flex-direction:row; align-items:center; justify-content:space-between; flex-wrap:nowrap;}
+    .trust-logos{gap:36px; justify-content:flex-end;}
+    .trust-label{font-size:12px; margin-bottom:0;}
 
     .stats{padding:100px 0;}
     .stats-head{max-width:640px; margin-bottom:56px;}
@@ -410,7 +412,7 @@
 </nav>
 
 <div class="mobile-menu" id="mobileMenu">
-  <div class="nav-links">
+  <div class="nav-links-mobile">
     <a href="#formats">Formats</a>
     <a href="#how">How it works</a>
     <a href="#pricing">Pricing</a>
@@ -580,6 +582,33 @@
           <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Dedicated video editor & support</li>
         </ul>
         <a class="btn btn-primary" style="justify-content:center;" href="#cta">Talk to us about your agency</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <div class="wrap">
+    <div class="faq-head">
+      <div class="eyebrow">BEFORE YOU ASK</div>
+      <h2>Common questions</h2>
+    </div>
+    <div class="faq-grid">
+      <div class="faq-item">
+        <h4>How long does delivery take?</h4>
+        <p>48 hours from the moment we receive your listing link, for both the horizontal and vertical version.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Do I need professional photos?</h4>
+        <p>No. We work with the photos already on your listing — no reshoot needed.</p>
+      </div>
+      <div class="faq-item">
+        <h4>What if I don't like the result?</h4>
+        <p>Your first video is free with no obligation. If it's not a fit, you owe nothing and keep nothing.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Can I pay from outside the US?</h4>
+        <p>Yes — international cards and standard payment methods are accepted.</p>
       </div>
     </div>
   </div>
