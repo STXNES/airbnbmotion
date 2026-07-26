@@ -45,7 +45,7 @@ body::before {
 .sidebar {
   width: 250px; flex-shrink: 0; background: var(--bg-panel-solid);
   border-right: 1px solid var(--border-color);
-  padding: 31px 18px 26px; display: flex; flex-direction: column; gap: 28px;
+  padding: 34px 18px 26px; display: flex; flex-direction: column; gap: 28px;
   height: 100vh; position: sticky; top: 0;
   z-index: 100;
 }
