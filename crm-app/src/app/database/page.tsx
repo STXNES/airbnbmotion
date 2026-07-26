@@ -7,14 +7,15 @@ export const dynamic = 'force-dynamic';
 export default async function FullDatabase({
   searchParams,
 }: {
-  searchParams: { page?: string, country?: string }
+  searchParams: Promise<{ page?: string, country?: string }>
 }) {
   const sql = neon(process.env.DATABASE_URL!);
   
-  const page = Number(searchParams.page) || 1;
+  const params = await searchParams;
+  const page = Number(params.page) || 1;
   const limit = 50;
   const offset = (page - 1) * limit;
-  const countryFilter = searchParams.country || '';
+  const countryFilter = params.country || '';
 
   let rows;
   let totalCountQuery;
@@ -76,21 +77,20 @@ export default async function FullDatabase({
           </table>
         </div>
 
-        {/* Pagination Controls */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '24px' }}>
           <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
             Página {page} de {totalPages || 1}
           </span>
           <div style={{ display: 'flex', gap: '8px' }}>
             {page > 1 && (
-              <Link href={`/database?page=${page - 1}${countryFilter ? `&country=${countryFilter}` : ''}`}>
+              <a href={`/database?page=${page - 1}${countryFilter ? `&country=${countryFilter}` : ''}`}>
                 <button className="badge badge-gray" style={{ cursor: 'pointer', border: 'none', padding: '8px 16px' }}>Anterior</button>
-              </Link>
+              </a>
             )}
             {page < totalPages && (
-              <Link href={`/database?page=${page + 1}${countryFilter ? `&country=${countryFilter}` : ''}`}>
+              <a href={`/database?page=${page + 1}${countryFilter ? `&country=${countryFilter}` : ''}`}>
                 <button className="badge badge-gray" style={{ cursor: 'pointer', border: 'none', padding: '8px 16px' }}>Siguiente</button>
-              </Link>
+              </a>
             )}
           </div>
         </div>

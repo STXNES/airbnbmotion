@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Outreach Ops — Cinematic Video Tours for Premium Real Estate</title>
+  <title>Stay Promo Studio — Cinematic Video Tours for Premium Real Estate</title>
   <meta name="description" content="Turn your property listing photos into a premium cinematic video tour in 24-48 hours. No drone, no film crew. Sell faster with AI-powered property tours.">
-  <link rel="canonical" href="https://www.outreachops.studio/">
+  <link rel="canonical" href="https://www.staypromostudio.com/">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Cinematic Real Estate Videos — Sell Faster | Outreach Ops">
+  <meta property="og:title" content="Cinematic Real Estate Videos — Sell Faster | Stay Promo Studio">
   <meta property="og:description" content="Turn your property listing photos into a premium cinematic video tour in 24-48 hours. No drone, no film crew. Sell faster with AI-powered property tours.">
   <meta property="og:image" content="/before.jpg">
   <meta property="og:video" content="/videos/demo1.mp4">
@@ -225,7 +225,7 @@
 
   <!-- Navigation -->
   <div class="nav">
-    <div class="mark">Outreach<span>Ops</span></div>
+    <div class="mark">StayPromo<span>Studio</span></div>
     <button class="cta" onclick="document.getElementById('claim').scrollIntoView({behavior:'smooth'})">Get your free video</button>
   </div>
 
@@ -372,10 +372,10 @@
     <p>We will create a free 15-second cinematic draft video of your property. Zero upfront cost, pay only if you love the final high-res version.</p>
     
     <!-- Functional FormSubmit implementation -->
-    <form action="https://formsubmit.co/axell@outreachops.studio" method="POST" class="form">
+    <form action="https://formsubmit.co/axell@staypromostudio.com" method="POST" class="form">
       <input type="hidden" name="_subject" value="New Lead: Free Real Estate Video Request">
       <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_next" value="https://www.outreachops.studio/">
+      <input type="hidden" name="_next" value="https://www.staypromostudio.com/">
 
       <input type="text" name="name" required placeholder="Name / Agency">
       <input type="email" name="email" required placeholder="Email">
@@ -386,7 +386,7 @@
 
   <!-- Footer -->
   <div class="footer">
-    <span>Outreach Ops</span>
+    <span>Stay Promo Studio</span>
     <span>Based in Costa Rica — working with Real Estate Agencies worldwide</span>
   </div>
 
@@ -403,6 +403,16 @@
           behavior: 'smooth'
         });
       }
+    });
+  });
+
+  // Force video autoplay (fixes Safari/iOS grey screen issues)
+  document.addEventListener("DOMContentLoaded", function() {
+    const videos = document.querySelectorAll("video[autoplay]");
+    videos.forEach(video => {
+      video.play().catch(e => {
+        console.log("Autoplay prevented:", e);
+      });
     });
   });
 </script>
