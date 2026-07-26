@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Altus Real Estate — Motion for Listings</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:#0B0A08;
@@ -58,8 +58,8 @@
     border-bottom:1px solid var(--border);
   }
   nav .wrap{display:flex; align-items:center; justify-content:space-between; padding:16px 20px;}
-  .logo{font-family:'Cinzel', serif; font-size:22px; letter-spacing:0.02em; font-weight: 500;}
-  .logo span{color:var(--brass); font-weight: 600;}
+  .logo{font-family:'Playfair Display', serif; font-size:19px; letter-spacing:0.02em; font-weight: 500;}
+  .logo span{color:var(--brass); font-weight: 600; font-style: italic;}
   .nav-right{display:flex; align-items:center; gap:10px;}
   .nav-links{display:none;} /* Hidden on mobile */
   .menu-toggle{
@@ -168,6 +168,7 @@
   
   .connector{
     position:absolute; right: -5%; bottom: 20%; width:max-content; z-index:4;
+    transform: none;
   }
   .connector .label{
     font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--brass);
@@ -329,7 +330,7 @@
     .frame-phone .shot{border-radius:16px;}
     .playbtn{width:46px; height:46px;}
     .playbtn.small{width:32px; height:32px;}
-    .connector{left:64%; right:auto; top:38%; bottom:auto; width:120px;}
+    .connector{left:70%; right:auto; top:42%; bottom:auto; transform:translate(-50%,-50%); width:max-content;}
 
     .trust .wrap{flex-direction:row; align-items:center; justify-content:space-between; flex-wrap:nowrap;}
     .trust-logos{gap:36px; justify-content:flex-end;}
@@ -461,7 +462,7 @@
   <div class="wrap">
     <span class="trust-label">DELIVERED READY FOR</span>
     <div class="trust-logos">
-      <span>Zillow</span><span>Realtor.com</span><span>Instagram Reels</span><span>TikTok</span><span>YouTube Shorts</span>
+      <span>Zillow</span><span>Instagram Reels</span><span>TikTok</span><span>YouTube Shorts</span>
     </div>
   </div>
 </div>
