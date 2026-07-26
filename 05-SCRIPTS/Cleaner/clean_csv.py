@@ -9,7 +9,7 @@ from datetime import datetime
 # CONFIG
 # =====================================================
 
-INPUT_FILE = "../../01-INBOX/airbnb_prospects.csv"
+INPUT_FILE = "../../01-INBOX/altus_prospects.csv"
 
 OUTPUT_FOLDER = "../../02-PIPELINE"
 
@@ -405,7 +405,7 @@ def main():
 
     output_file = (
         Path(OUTPUT_FOLDER)
-        / f"airbnb_pipeline_{batch}.csv"
+        / f"altus_pipeline_{batch}.csv"
     )
 
     with open(
@@ -425,7 +425,7 @@ def main():
 
         print()
         print("=" * 60)
-        print("AIRBNB PIPELINE REPORT")
+        print("ALTUS PIPELINE REPORT")
         print("=" * 60)
 
         print(f"Batch Created      : {batch}")

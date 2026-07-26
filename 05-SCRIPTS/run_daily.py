@@ -35,7 +35,7 @@ def print_header(title):
 
 def check_pending_leads():
     """Revisa si hay correos PENDING en los archivos de la carpeta 02-PIPELINE."""
-    pipeline_files = glob.glob(str(ROOT / "02-PIPELINE" / "airbnb_pipeline*.csv"))
+    pipeline_files = glob.glob(str(ROOT / "02-PIPELINE" / "altus_pipeline*.csv"))
     for pf in pipeline_files:
         try:
             with open(pf, newline="", encoding="utf-8") as f:
@@ -47,7 +47,7 @@ def check_pending_leads():
     return False
 
 def main():
-    print_header("INICIANDO AUTOPILOT DE AIRBNB")
+    print_header("INICIANDO AUTOPILOT DE ALTUS REAL ESTATE")
     print("Por favor, no cierres esta ventana hasta que termine el proceso.\n")
     
     # 1. Comprobar si hay leads pendientes en los lotes existentes

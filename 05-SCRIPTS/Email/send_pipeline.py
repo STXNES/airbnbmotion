@@ -10,6 +10,7 @@ from email_config import MIN_DELAY, MAX_DELAY
 
 from gmail_sender import send_email
 from logger import log
+from llm_writer import generate_icebreaker
 
 # ==========================================
 # LOAD HTML TEMPLATES
@@ -35,7 +36,7 @@ ROOT = Path(__file__).resolve().parents[2]
 PIPELINE_FOLDER = ROOT / "02-PIPELINE"
 
 pipelines = sorted(
-    PIPELINE_FOLDER.glob("airbnb_pipeline*.csv")
+    PIPELINE_FOLDER.glob("altus_pipeline*.csv")
 )
 
 PIPELINE = None
@@ -53,7 +54,7 @@ if not PIPELINE:
     print("[INFO] No se encontraron correos PENDING en ningún lote activo.")
     exit(0)
 
-batch = PIPELINE.stem.replace("airbnb_pipeline_", "")
+batch = PIPELINE.stem.replace("altus_pipeline_", "")
 
 print("=" * 60)
 print("PIPELINE")
@@ -130,6 +131,10 @@ for row in rows:
             "{{city}}",
             row.get("City", "") if row.get("City") else "your area"
         )
+        
+        # Generar Icebreaker con IA
+        print(f"Generando Icebreaker con Gemini para {row['Company']}...")
+        icebreaker = generate_icebreaker(row["Company"], row.get("City", ""), is_latam=is_latam)
 
         html = html_to_use.replace(
             "{{company}}",
@@ -137,6 +142,9 @@ for row in rows:
         ).replace(
             "{{city}}",
             row.get("City", "")
+        ).replace(
+            "{{ai_icebreaker}}",
+            icebreaker
         )
 
         result = send_email(

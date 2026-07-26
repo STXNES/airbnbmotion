@@ -4,7 +4,7 @@ import os
 from pathlib import Path
 
 # --- Configuración de página ---
-st.set_page_config(page_title="AirbnbMotion HQ — Outreach Command Center", page_icon="⚡", layout="wide")
+st.set_page_config(page_title="Altus Real Estate HQ — Outreach Command Center", page_icon="⚡", layout="wide")
 
 # --- Rutas de datos ---
 ROOT = Path(__file__).resolve().parents[2]
@@ -256,8 +256,8 @@ df = load_data()
 with st.sidebar:
     st.markdown("""
     <div style='margin-bottom: 30px;'>
-        <div style='font-size: 18px; font-weight: 700; color: #EDEFF3;'>Airbnb<span style='color: #C9903C;'>Motion</span></div>
-        <div style='font-family: "JetBrains Mono", monospace; font-size: 10px; color: #8A909C; letter-spacing: 1.5px; text-transform: uppercase;'>Outreach ops</div>
+        <div style='font-size: 18px; font-weight: 700; color: #EDEFF3;'>Altus<span style='color: #C9903C;'>Real Estate</span></div>
+        <div style='font-size: 11px; color: #8C929D; margin-top: 2px; text-transform: uppercase; letter-spacing: 0.1em;'>Outreach Ops</div>
     </div>
     """, unsafe_allow_html=True)
     
@@ -274,8 +274,8 @@ with st.sidebar:
     
     st.markdown("""
     <div style='display: flex; flex-direction: column; gap: 8px; margin-top: 10px;'>
-        <a href='https://www.airbnbmotion.studio' target='_blank' style='text-decoration: none; color: #EDEFF3; background: #1D222B; padding: 10px; border-radius: 6px; display: block; border: 1px solid #252B35; font-size: 13px;'>
-            🌐 Landing Page (Estudio)
+        <a href='https://www.altusrealestate.com' target='_blank' style='text-decoration: none; color: #EDEFF3; background: #1D222B; padding: 10px; border-radius: 6px; display: block; border: 1px solid #252B35; font-size: 13px;'>
+            🌐 Visitar Sitio Web
         </a>
         <a href='https://mail.zoho.com' target='_blank' style='text-decoration: none; color: #EDEFF3; background: #1D222B; padding: 10px; border-radius: 6px; display: block; border: 1px solid #252B35; font-size: 13px;'>
             📧 Zoho Mail (Bandeja)

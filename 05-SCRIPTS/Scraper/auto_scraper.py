@@ -16,7 +16,7 @@ except ImportError:
 
 ROOT = Path(__file__).resolve().parents[2]
 INBOX_FOLDER = ROOT / "01-INBOX"
-OUTPUT_FILE = INBOX_FOLDER / "airbnb_prospects.csv"
+OUTPUT_FILE = INBOX_FOLDER / "altus_prospects.csv"
 
 # Asegurar que existe la carpeta 01-INBOX
 INBOX_FOLDER.mkdir(parents=True, exist_ok=True)
