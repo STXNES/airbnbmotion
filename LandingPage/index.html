@@ -183,7 +183,8 @@
   .trust{border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:20px 0;}
   .trust .wrap{display:flex; flex-direction:column; align-items:flex-start; gap:14px;}
   .trust-label{font-size:11px; color:var(--muted-2); font-family:'JetBrains Mono',monospace; letter-spacing:.08em;}
-  .trust-logos{display:flex; flex-wrap:wrap; gap:12px 24px; width:100%; color:var(--muted); font-weight:600; font-size:14px;}
+  .trust-logos{display:flex; flex-wrap:nowrap; gap:14px; width:100%; color:var(--muted); font-weight:600; font-size:12px; overflow-x:auto; -ms-overflow-style:none; scrollbar-width:none;}
+  .trust-logos::-webkit-scrollbar{display:none;}
   .trust-logos span{flex-shrink:0;}
 
   /* ============ STAT / AGITATION SECTION ============ */
@@ -333,7 +334,7 @@
     .connector{left:70%; right:auto; top:42%; bottom:auto; transform:translate(-50%,-50%); width:max-content;}
 
     .trust .wrap{flex-direction:row; align-items:center; justify-content:space-between; flex-wrap:nowrap;}
-    .trust-logos{gap:36px; justify-content:flex-end;}
+    .trust-logos{gap:36px; justify-content:flex-end; font-size:14px; overflow-x:visible;}
     .trust-label{font-size:12px; margin-bottom:0;}
 
     .stats{padding:100px 0;}
