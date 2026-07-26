@@ -63,16 +63,15 @@ export default async function FullDatabase({
           </div>
         </div>
 
-        <div className="table-head-row">
-          <span>Company</span>
-          <span>Contact</span>
-          <span>Location</span>
-          <span>Notes</span>
-          <span>Status</span>
-          <span></span>
-        </div>
-
         <div className="table-scroll">
+          <div className="table-head-row">
+            <span>Company</span>
+            <span>Contact</span>
+            <span>Location</span>
+            <span>Notes</span>
+            <span>Status</span>
+            <span></span>
+          </div>
           {rows.map((lead, i) => (
             <EditableRow key={lead.id || i} lead={lead as any} delay={i * 0.03} />
           ))}
