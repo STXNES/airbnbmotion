@@ -9,7 +9,6 @@ from email_config import TEMPLATE, TEMPLATE_ES
 from email_config import MIN_DELAY, MAX_DELAY
 
 from gmail_sender import send_email
-from logger import log
 from llm_writer import generate_icebreaker
 
 # ==========================================
@@ -33,7 +32,7 @@ except FileNotFoundError:
 
 ROOT = Path(__file__).resolve().parents[2]
 
-PIPELINE_FOLDER = ROOT / "02-PIPELINE"
+PIPELINE_FOLDER = ROOT / "01-PIPELINE"
 
 pipelines = sorted(
     PIPELINE_FOLDER.glob("altus_pipeline*.csv")
@@ -76,7 +75,7 @@ with open(
     reader = csv.DictReader(f)
     rows = list(reader)
 
-MASTER_DB_PATH = ROOT / "03-MASTER_DATABASE" / "master_database.csv"
+MASTER_DB_PATH = ROOT / "02-MASTER_DATABASE" / "master_database.csv"
 master_db_rows = []
 master_db_fieldnames = []
 master_db_map = {}
@@ -194,12 +193,6 @@ for row in rows:
         print("✓ Sent")
         save_state()
 
-        log(
-            company=row["Company"],
-            email=row["Email"],
-            status="SENT",
-            message=f"Batch: {batch}"
-        )
 
     except Exception as e:
 
@@ -215,12 +208,6 @@ for row in rows:
             master_row["Follow_Up_Step"] = "CLOSED"
             master_row["Notes"] = f"SMTP Error: {str(e)}"
 
-        log(
-            company=row["Company"],
-            email=row["Email"],
-            status="ERROR",
-            message=f"Batch: {batch} | Error: {str(e)}"
-        )
 
     delay = random.randint(MIN_DELAY, MAX_DELAY)
     print(f"Waiting {delay} seconds before next email...")

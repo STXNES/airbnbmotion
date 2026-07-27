@@ -5,7 +5,7 @@ from email.utils import make_msgid
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-CREDENTIALS_FILE = PROJECT_ROOT / "09-CONFIG" / "email_credentials.json"
+CREDENTIALS_FILE = PROJECT_ROOT / "05-CONFIG" / "email_credentials.json"
 
 # Cargar las credenciales de Zoho
 with open(CREDENTIALS_FILE, "r") as f:

@@ -9,8 +9,8 @@ from datetime import datetime
 import re
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-CREDENTIALS_FILE = PROJECT_ROOT / "09-CONFIG" / "email_credentials.json"
-MASTER_DB_PATH = PROJECT_ROOT / "03-MASTER_DATABASE" / "master_database.csv"
+CREDENTIALS_FILE = PROJECT_ROOT / "05-CONFIG" / "email_credentials.json"
+MASTER_DB_PATH = PROJECT_ROOT / "02-MASTER_DATABASE" / "master_database.csv"
 
 # Cargar las credenciales
 with open(CREDENTIALS_FILE, "r") as f:

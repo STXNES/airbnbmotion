@@ -9,11 +9,11 @@ from datetime import datetime
 # CONFIG
 # =====================================================
 
-INPUT_FILE = "../../01-INBOX/altus_prospects.csv"
+INPUT_FILE = "../../01-PIPELINE/altus_prospects.csv"
 
-OUTPUT_FOLDER = "../../02-PIPELINE"
+OUTPUT_FOLDER = "../../01-PIPELINE"
 
-MASTER_DATABASE = "../../03-MASTER_DATABASE/master_database.csv"
+MASTER_DATABASE = "../../02-MASTER_DATABASE/master_database.csv"
 
 BATCH_PREFIX = "Batch_"
 

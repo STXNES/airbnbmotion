@@ -13,7 +13,7 @@ echo.
 cd /d "%~dp0"
 
 :: Ejecutar el script maestro de Python
-python 05-SCRIPTS\run_daily.py
+python 03-SCRIPTS\run_daily.py
 
 if %ERRORLEVEL% NEQ 0 (
     color 0C

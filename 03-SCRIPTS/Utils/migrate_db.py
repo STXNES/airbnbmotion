@@ -2,7 +2,7 @@ import csv
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-MASTER_DB_PATH = ROOT / "03-MASTER_DATABASE" / "master_database.csv"
+MASTER_DB_PATH = ROOT / "02-MASTER_DATABASE" / "master_database.csv"
 
 def migrate_db():
     if not MASTER_DB_PATH.exists():

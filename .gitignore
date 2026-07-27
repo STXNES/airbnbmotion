@@ -1,12 +1,12 @@
 # Credenciales y archivos secretos de configuración
-09-CONFIG/email_credentials.json
+05-CONFIG/email_credentials.json
 token.json
 credentials.json
 .env
 .env.*
 
 # Logs e historial de ejecución del sistema
-08-LOGS/
+05-LOGS/
 *.log
 
 # Archivos de dependencias y temporales de Python

@@ -5,7 +5,7 @@ const { neon } = require('@neondatabase/serverless');
 require('dotenv').config({ path: '.env.local' });
 
 const sql = neon(process.env.DATABASE_URL);
-const CSV_PATH = path.join(__dirname, '..', '03-MASTER_DATABASE', 'master_database.csv');
+const CSV_PATH = path.join(__dirname, '..', '02-MASTER_DATABASE', 'master_database.csv');
 
 async function migrate() {
   console.log("🚀 Starting database migration to Neon...");

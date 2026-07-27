@@ -9,9 +9,9 @@ from gmail_sender import send_email
 from logger import log
 
 ROOT = Path(__file__).resolve().parents[2]
-MASTER_DB_PATH = ROOT / "03-MASTER_DATABASE" / "master_database.csv"
-TEMPLATE_2_PATH = ROOT / "05-SCRIPTS" / "Email" / "email_template_2.html"
-TEMPLATE_3_PATH = ROOT / "05-SCRIPTS" / "Email" / "email_template_3.html"
+MASTER_DB_PATH = ROOT / "02-MASTER_DATABASE" / "master_database.csv"
+TEMPLATE_2_PATH = ROOT / "03-SCRIPTS" / "Email" / "email_template_2.html"
+TEMPLATE_3_PATH = ROOT / "03-SCRIPTS" / "Email" / "email_template_3.html"
 
 def load_template(path):
     with open(path, encoding="utf-8") as f:

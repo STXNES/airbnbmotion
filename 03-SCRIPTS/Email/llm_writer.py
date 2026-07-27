@@ -8,9 +8,9 @@ from pathlib import Path
 import google.generativeai as genai
 from google.api_core import exceptions
 
-# Cargar configuración desde 09-CONFIG
+# Cargar configuración desde 05-CONFIG
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-CONFIG_FILE = PROJECT_ROOT / "09-CONFIG" / "email_credentials.json"
+CONFIG_FILE = PROJECT_ROOT / "05-CONFIG" / "email_credentials.json"
 
 API_KEY = None
 try:
@@ -51,7 +51,7 @@ def generate_icebreaker(company, city, is_latam=False):
     fallback = default_es if is_latam else default_en
     
     if not model:
-        print("[LLM WARNING] No GEMINI_API_KEY found in 09-CONFIG/email_credentials.json. Using fallback.")
+        print("[LLM WARNING] No GEMINI_API_KEY found in 05-CONFIG/email_credentials.json. Using fallback.")
         return fallback
 
     if is_latam:

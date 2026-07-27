@@ -7,7 +7,7 @@ from google.oauth2.credentials import Credentials
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
-CONFIG_FOLDER = PROJECT_ROOT / "09-CONFIG"
+CONFIG_FOLDER = PROJECT_ROOT / "05-CONFIG"
 
 sys.path.insert(0, str(CONFIG_FOLDER))
 

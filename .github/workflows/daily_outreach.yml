@@ -29,24 +29,24 @@ jobs:
 
     - name: Inject Zoho Credentials
       run: |
-        mkdir -p 09-CONFIG
+        mkdir -p 05-CONFIG
         echo '{
           "EMAIL": "${{ secrets.ZOHO_EMAIL }}",
           "APP_PASSWORD": "${{ secrets.ZOHO_APP_PASSWORD }}",
           "GMAIL_USER": "${{ secrets.GMAIL_USER }}",
           "GMAIL_APP_PASSWORD": "${{ secrets.GMAIL_APP_PASSWORD }}"
-        }' > 09-CONFIG/email_credentials.json
+        }' > 05-CONFIG/email_credentials.json
 
-    - name: Run Autopilot Pipeline
+    - name: Step 1 & 2 - Scraper and Follow-ups
       run: |
         echo "=== PASO 1: Leyendo Respuestas y Notificaciones de Rebote (IMAP) ==="
-        python 05-SCRIPTS/Gmail_API/read_replies.py
+        python 03-SCRIPTS/Gmail_API/read_replies.py
         
         echo "=== COMPROBACIÓN: Evaluando lote pendiente para Scraping ==="
         python -c "
         import glob, csv, subprocess
         pending = False
-        for f in glob.glob('02-PIPELINE/altus_pipeline*.csv'):
+        for f in glob.glob('01-PIPELINE/altus_pipeline*.csv'):
             with open(f, newline='', encoding='utf-8') as file:
                 reader = csv.DictReader(file)
                 if any(row.get('Status') == 'PENDING' for row in reader):
@@ -54,29 +54,45 @@ jobs:
                     break
         if not pending:
             print('[INFO] No hay correos PENDING en el lote actual. Iniciando auto_scraper...')
-            subprocess.run(['python', '05-SCRIPTS/Scraper/auto_scraper.py'], check=True)
+            subprocess.run(['python', '03-SCRIPTS/Scraper/auto_scraper.py'], check=True)
             print('[INFO] Ejecutando limpiador y creador de nuevo lote...')
-            # Cambiamos cwd al directorio del script Cleaner para que no falle sus paths relativos
-            subprocess.run(['python', 'clean_csv.py'], cwd='05-SCRIPTS/Cleaner', check=True)
+            subprocess.run(['python', 'clean_csv.py'], cwd='03-SCRIPTS/Cleaner', check=True)
         else:
             print('[INFO] El lote actual tiene correos PENDING. Saltando Scraping.')
         "
         
         echo "=== PASO 2: Procesando Seguimientos (Follow-ups) ==="
-        python 05-SCRIPTS/Email/auto_followup.py
-        
-        echo "=== PASO 3: Enviando nuevos correos en frío (Max 30) ==="
-        python 05-SCRIPTS/Email/send_pipeline.py
+        python 03-SCRIPTS/Email/auto_followup.py
 
-    - name: Cleanup Credentials
-      run: rm -f 09-CONFIG/email_credentials.json
-
-    - name: Commit and Push Database Updates
+    - name: Commit Scraped Batches and Master DB updates
+      if: always()
       run: |
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        git add 03-MASTER_DATABASE/master_database.csv 02-PIPELINE/
-        
+        git add 02-MASTER_DATABASE/master_database.csv 01-PIPELINE/
+        if ! git diff --cached --quiet; then
+          git commit -m "auto: save new pipeline batch and follow-up data [skip ci]"
+          git pull --rebase origin main
+          git push
+        else
+          echo "No database changes detected. Nothing to commit."
+        fi
+
+    - name: Step 3 - Cold Emails (LLM Icebreakers)
+      run: |
+        echo "=== PASO 3: Enviando nuevos correos en frío (Max 30) ==="
+        python 03-SCRIPTS/Email/send_pipeline.py
+
+    - name: Cleanup Credentials
+      if: always()
+      run: rm -f 05-CONFIG/email_credentials.json
+
+    - name: Commit Final State
+      if: always()
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git add 02-MASTER_DATABASE/master_database.csv 01-PIPELINE/
         if ! git diff --cached --quiet; then
           git commit -m "auto: update database and outreach pipeline statuses [skip ci]"
           git pull --rebase origin main

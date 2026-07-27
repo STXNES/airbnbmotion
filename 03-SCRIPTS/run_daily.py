@@ -11,12 +11,12 @@ ROOT = Path(__file__).resolve().parents[1]
 SCRIPTS = [
     {
         "name": "Paso 1: Leer Respuestas (read_replies.py)",
-        "path": ROOT / "05-SCRIPTS" / "Gmail_API" / "read_replies.py",
+        "path": ROOT / "03-SCRIPTS" / "Gmail_API" / "read_replies.py",
         "cwd": ROOT
     },
     {
         "name": "Paso 2: Enviar Seguimientos (auto_followup.py)",
-        "path": ROOT / "05-SCRIPTS" / "Email" / "auto_followup.py",
+        "path": ROOT / "03-SCRIPTS" / "Email" / "auto_followup.py",
         "cwd": ROOT
     }
 ]
@@ -24,7 +24,7 @@ SCRIPTS = [
 # Script de envíos final (se añade al final de la lista)
 SEND_SCRIPT = {
     "name": "Paso 3: Enviar Nuevos Correos (send_pipeline.py)",
-    "path": ROOT / "05-SCRIPTS" / "Email" / "send_pipeline.py",
+    "path": ROOT / "03-SCRIPTS" / "Email" / "send_pipeline.py",
     "cwd": ROOT
 }
 
@@ -36,8 +36,8 @@ def print_header(title):
     print("="*60)
 
 def check_pending_leads():
-    """Revisa si hay correos PENDING en los archivos de la carpeta 02-PIPELINE."""
-    pipeline_files = glob.glob(str(ROOT / "02-PIPELINE" / "altus_pipeline*.csv"))
+    """Revisa si hay correos PENDING en los archivos de la carpeta 01-PIPELINE."""
+    pipeline_files = glob.glob(str(ROOT / "01-PIPELINE" / "altus_pipeline*.csv"))
     for pf in pipeline_files:
         try:
             with open(pf, newline="", encoding="utf-8") as f:
@@ -62,13 +62,13 @@ def main():
         print("[INFO] Añadiendo Scraper automático al inicio de la cola...")
         execution_list.insert(0, {
             "name": "Scraper Automático (auto_scraper.py)",
-            "path": ROOT / "05-SCRIPTS" / "Scraper" / "auto_scraper.py",
+            "path": ROOT / "03-SCRIPTS" / "Scraper" / "auto_scraper.py",
             "cwd": ROOT
         })
         execution_list.insert(1, {
             "name": "Limpiador e Importador de Lotes (clean_csv.py)",
-            "path": ROOT / "05-SCRIPTS" / "Cleaner" / "clean_csv.py",
-            "cwd": ROOT / "05-SCRIPTS" / "Cleaner"
+            "path": ROOT / "03-SCRIPTS" / "Cleaner" / "clean_csv.py",
+            "cwd": ROOT / "03-SCRIPTS" / "Cleaner"
         })
     else:
         print("[INFO] El lote actual tiene prospectos PENDING. Saltando Scraping automático.")

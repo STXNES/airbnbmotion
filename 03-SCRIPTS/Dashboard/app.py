@@ -8,7 +8,7 @@ st.set_page_config(page_title="Altus Real Estate HQ — Outreach Command Center"
 
 # --- Rutas de datos ---
 ROOT = Path(__file__).resolve().parents[2]
-MASTER_DB_PATH = ROOT / "03-MASTER_DATABASE" / "master_database.csv"
+MASTER_DB_PATH = ROOT / "02-MASTER_DATABASE" / "master_database.csv"
 
 # --- Estilos CSS Personalizados (Inyección de Diseño del Mockup) ---
 # Hemos ocultado por completo el Header y Footer por defecto de Streamlit

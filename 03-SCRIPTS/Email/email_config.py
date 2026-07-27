@@ -32,6 +32,6 @@ TEMPLATE_ES = (
 
 LOG_FILE = (
     ROOT
-    / "08-LOGS"
+    / "05-LOGS"
     / "send_log.txt"
 )

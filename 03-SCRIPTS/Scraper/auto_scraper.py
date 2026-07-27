@@ -15,10 +15,10 @@ except ImportError as e:
     sys.exit(1)
 
 ROOT = Path(__file__).resolve().parents[2]
-INBOX_FOLDER = ROOT / "01-INBOX"
+INBOX_FOLDER = ROOT / "01-PIPELINE"
 OUTPUT_FILE = INBOX_FOLDER / "altus_prospects.csv"
 
-# Asegurar que existe la carpeta 01-INBOX
+# Asegurar que existe la carpeta 01-PIPELINE
 INBOX_FOLDER.mkdir(parents=True, exist_ok=True)
 
 # Listas de ciudades premium y palabras clave para prospectar

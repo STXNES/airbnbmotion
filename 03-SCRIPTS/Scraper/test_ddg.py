@@ -17,6 +17,6 @@ try:
         html = response.read().decode('utf-8', errors='ignore')
         print("HTML length:", len(html))
         print("First 1000 chars of HTML:")
-        with open('05-SCRIPTS/Scraper/ddg_response.html', 'w', encoding='utf-8') as out: out.write(html)
+        with open('03-SCRIPTS/Scraper/ddg_response.html', 'w', encoding='utf-8') as out: out.write(html)
 except Exception as e:
     print("Error:", e)
