@@ -9,9 +9,9 @@ try:
     import requests
     from bs4 import BeautifulSoup
     import dns.resolver
-except ImportError:
-    print("Faltan librerias. Asegurate de instalar: pip install requests beautifulsoup4 dnspython")
+except ImportError as e:
     import sys
+    print(f"Faltan librerias. Executable: {sys.executable}. Error: {e}")
     sys.exit(1)
 
 ROOT = Path(__file__).resolve().parents[2]

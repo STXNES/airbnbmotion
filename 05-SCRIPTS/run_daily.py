@@ -29,6 +29,8 @@ SEND_SCRIPT = {
 }
 
 def print_header(title):
+    if sys.stdout.encoding.lower() != 'utf-8':
+        sys.stdout.reconfigure(encoding='utf-8')
     print("\n" + "="*60)
     print(f"🚀 {title}")
     print("="*60)
@@ -88,7 +90,8 @@ def main():
                 [sys.executable, str(script["path"])],
                 check=True,
                 cwd=str(script["cwd"]),
-                text=True
+                text=True,
+                encoding="utf-8"
             )
             print(f"✅ Completado: {script['name']}")
         except subprocess.CalledProcessError as e:
