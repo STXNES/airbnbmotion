@@ -446,6 +446,14 @@ def main():
 
         print("=" * 60)
 
+    # Limpiar el archivo temporal de scraping para la siguiente ejecución
+    try:
+        if os.path.exists(INPUT_FILE):
+            os.remove(INPUT_FILE)
+            print(f"[INFO] Se limpió el archivo temporal {INPUT_FILE}")
+    except Exception as e:
+        print(f"[WARNING] No se pudo borrar {INPUT_FILE}: {e}")
+
 
 if __name__ == "__main__":
     main()

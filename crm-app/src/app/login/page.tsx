@@ -23,7 +23,7 @@ export default function LoginPage() {
     <div style={{ display: 'flex', height: '100vh', width: '100vw', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-main)', position: 'absolute', top: 0, left: 0, zIndex: 9999 }}>
       <div className="glass-panel" style={{ width: '400px', textAlign: 'center', padding: '40px' }}>
         <h1 style={{ fontSize: '24px', color: '#fff', marginBottom: '8px' }}>
-          Airbnb<span style={{ color: 'var(--gold)' }}>Motion</span>
+          Altus<span style={{ color: 'var(--gold)' }}> Real Estate</span>
         </h1>
         <p style={{ color: 'var(--text-muted)', fontSize: '14px', marginBottom: '32px' }}>
           Acceso Restringido. Introduce tu contraseña maestra.

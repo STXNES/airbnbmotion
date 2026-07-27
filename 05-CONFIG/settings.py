@@ -36,7 +36,7 @@ TOKEN = ROOT / "05-CONFIG" / "token.json"
 
 DELAY_SECONDS = 60
 
-SUBJECT = "Free cinematic AI video for your Airbnb listings"
+SUBJECT = "Free cinematic AI video for your property listings"
 
 print("ROOT =", ROOT)
 print("TOKEN =", TOKEN)
