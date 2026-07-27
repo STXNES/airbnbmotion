@@ -91,6 +91,27 @@ if MASTER_DB_PATH.exists():
 
 
 # ==========================================
+# ==========================================
+# SAVE STATE FUNCTION
+# ==========================================
+
+def save_state():
+    with open(PIPELINE, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=rows[0].keys())
+        writer.writeheader()
+        writer.writerows(rows)
+    if master_db_fieldnames:
+        if "Notes" not in master_db_fieldnames:
+            master_db_fieldnames.append("Notes")
+        for r in master_db_rows:
+            if "Notes" not in r:
+                r["Notes"] = ""
+        with open(MASTER_DB_PATH, "w", newline="", encoding="utf-8") as f:
+            writer = csv.DictWriter(f, fieldnames=master_db_fieldnames)
+            writer.writeheader()
+            writer.writerows(master_db_rows)
+
+# ==========================================
 # SEND EMAILS
 # ==========================================
 
@@ -171,6 +192,7 @@ for row in rows:
         sent += 1
 
         print("✓ Sent")
+        save_state()
 
         log(
             company=row["Company"],
@@ -202,40 +224,11 @@ for row in rows:
 
     delay = random.randint(MIN_DELAY, MAX_DELAY)
     print(f"Waiting {delay} seconds before next email...")
+    save_state()
     time.sleep(delay)
 
 
 # ==========================================
-# SAVE PIPELINE & MASTER DB
-# ==========================================
-
-with open(
-    PIPELINE,
-    "w",
-    newline="",
-    encoding="utf-8"
-) as f:
-
-    writer = csv.DictWriter(
-        f,
-        fieldnames=rows[0].keys()
-    )
-
-    writer.writeheader()
-    writer.writerows(rows)
-
-if master_db_fieldnames:
-    if "Notes" not in master_db_fieldnames:
-        master_db_fieldnames = list(master_db_fieldnames) + ["Notes"]
-    for r in master_db_rows:
-        if "Notes" not in r:
-            r["Notes"] = ""
-    with open(MASTER_DB_PATH, "w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=master_db_fieldnames)
-        writer.writeheader()
-        writer.writerows(master_db_rows)
-
-
 # ==========================================
 # REPORT
 # ==========================================
