@@ -9,6 +9,9 @@ const jetbrains = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jetbrai
 export const metadata = {
   title: "Outreach Ops",
   description: "CRM and Automation Command Center",
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
 export default function RootLayout({
