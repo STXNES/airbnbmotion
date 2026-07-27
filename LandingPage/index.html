@@ -593,14 +593,55 @@
 
   var form = document.getElementById('prospectForm');
   var success = document.getElementById('formSuccess');
+  var submitBtn = form.querySelector('button[type="submit"]');
+
   form.addEventListener('submit', function(e){
-    // e.preventDefault(); // Comentado para permitir el envío real a formsubmit
+    e.preventDefault(); // Evitamos la recarga de página para usar AJAX
+    
     var data = new FormData(form);
     var payload = Object.fromEntries(data.entries());
-    console.log('Prospecto enviado a Zoho:', payload);
-    form.querySelector('button[type="submit"]').style.opacity = '0.6';
-    form.querySelector('button[type="submit"]').style.pointerEvents = 'none';
-    form.querySelector('button[type="submit"]').textContent = 'Sending...';
+    
+    // Cambiar estado visual a enviando
+    submitBtn.style.opacity = '0.6';
+    submitBtn.style.pointerEvents = 'none';
+    submitBtn.textContent = 'Sending...';
+
+    // Enviar usando AJAX a FormSubmit
+    fetch("https://formsubmit.co/ajax/axell@airbnbmotion.studio", {
+      method: "POST",
+      headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Success:', data);
+      
+      // Mostrar mensaje de éxito
+      success.classList.add('show');
+      
+      // Limpiar el formulario
+      form.reset();
+      
+      // Cambiar el botón a estado final
+      submitBtn.textContent = 'Sent Successfully!';
+      
+      // Opcional: regresar el botón a la normalidad después de unos segundos
+      setTimeout(() => {
+        submitBtn.style.opacity = '1';
+        submitBtn.style.pointerEvents = 'auto';
+        setPlan(planSwitch.getAttribute('data-plan')); // restaura el texto original
+        success.classList.remove('show');
+      }, 5000);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      submitBtn.textContent = 'Error. Try again';
+      submitBtn.style.opacity = '1';
+      submitBtn.style.pointerEvents = 'auto';
+    });
   });
 })();
 </script>
