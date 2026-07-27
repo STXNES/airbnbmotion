@@ -23,25 +23,77 @@ INBOX_FOLDER.mkdir(parents=True, exist_ok=True)
 
 # Listas de ciudades premium y palabras clave para prospectar
 TARGETS = [
-    # Costa Rica (LATAM)
+    # --- COSTA RICA (LATAM) ---
     {"city": "Tamarindo", "state": "Guanacaste", "country": "Costa Rica", "keywords": ['"real estate agency" tamarindo contact email', '"property management" tamarindo real estate']},
     {"city": "Manuel Antonio", "state": "Puntarenas", "country": "Costa Rica", "keywords": ['"luxury real estate" "manuel antonio" contact', '"real estate broker" "manuel antonio"']},
     {"city": "Nosara", "state": "Guanacaste", "country": "Costa Rica", "keywords": ['"real estate" nosara contact email', '"property management" nosara realtor']},
     {"city": "Santa Teresa", "state": "Puntarenas", "country": "Costa Rica", "keywords": ['"real estate agency" "santa teresa" contact', '"luxury homes" "santa teresa" email']},
     {"city": "Papagayo", "state": "Guanacaste", "country": "Costa Rica", "keywords": ['"luxury real estate" papagayo contact', '"realtor" papagayo costa rica']},
     {"city": "Jaco", "state": "Puntarenas", "country": "Costa Rica", "keywords": ['"real estate broker" jaco contact email', '"property management" jaco real estate']},
+    {"city": "Escazú", "state": "San José", "country": "Costa Rica", "keywords": ['"bienes raices" escazu contacto correo', '"agencia inmobiliaria" escazu']},
+    {"city": "Dominical", "state": "Puntarenas", "country": "Costa Rica", "keywords": ['"real estate agency" dominical email', '"property management" dominical costa rica']},
+    {"city": "Las Catalinas", "state": "Guanacaste", "country": "Costa Rica", "keywords": ['"real estate" "las catalinas" email', '"luxury real estate" "las catalinas"']},
 
-    # EE.UU. & Internacional
+    # --- MÉXICO (LATAM) ---
+    {"city": "Cancún", "state": "Quintana Roo", "country": "México", "keywords": ['"bienes raices" cancun contacto email', '"agencia inmobiliaria" cancun correo']},
+    {"city": "Playa del Carmen", "state": "Quintana Roo", "country": "México", "keywords": ['"bienes raices" "playa del carmen" email', '"real estate agency" "playa del carmen"']},
+    {"city": "Tulum", "state": "Quintana Roo", "country": "México", "keywords": ['"luxury real estate" tulum email', '"bienes raices" tulum contacto']},
+    {"city": "Los Cabos", "state": "Baja California Sur", "country": "México", "keywords": ['"real estate broker" "los cabos" email', '"luxury real estate" "cabo san lucas"']},
+    {"city": "Puerto Vallarta", "state": "Jalisco", "country": "México", "keywords": ['"real estate agency" "puerto vallarta" email', '"bienes raices" "puerto vallarta"']},
+    {"city": "San Miguel de Allende", "state": "Guanajuato", "country": "México", "keywords": ['"real estate" "san miguel de allende" email', '"bienes raices" "san miguel de allende"']},
+
+    # --- ESPAÑA (LATAM/ES) ---
+    {"city": "Madrid", "state": "Madrid", "country": "España", "keywords": ['"agencia inmobiliaria" madrid contacto email', '"bienes raices" madrid correo']},
+    {"city": "Barcelona", "state": "Cataluña", "country": "España", "keywords": ['"agencia inmobiliaria" barcelona contacto email', '"luxury real estate" barcelona']},
+    {"city": "Marbella", "state": "Málaga", "country": "España", "keywords": ['"luxury real estate" marbella email', '"agencia inmobiliaria" marbella contacto']},
+    {"city": "Mallorca", "state": "Islas Baleares", "country": "España", "keywords": ['"real estate agency" mallorca email', '"agencia inmobiliaria" mallorca']},
+    {"city": "Ibiza", "state": "Islas Baleares", "country": "España", "keywords": ['"luxury real estate" ibiza email', '"agencia inmobiliaria" ibiza contacto']},
+
+    # --- REPÚBLICA DOMINICANA & PANAMÁ & COLOMBIA ---
+    {"city": "Punta Cana", "state": "La Altagracia", "country": "República Dominicana", "keywords": ['"real estate agency" "punta cana" email', '"bienes raices" "punta cana"']},
+    {"city": "Ciudad de Panamá", "state": "Panamá", "country": "Panamá", "keywords": ['"bienes raices" "ciudad de panama" contacto', '"real estate broker" panama email']},
+    {"city": "Medellín", "state": "Antioquia", "country": "Colombia", "keywords": ['"agencia inmobiliaria" medellin contacto email', '"bienes raices" medellin']},
+    {"city": "Cartagena", "state": "Bolívar", "country": "Colombia", "keywords": ['"bienes raices" cartagena contacto email', '"real estate agency" cartagena']},
+
+    # --- EE.UU. - FLORIDA ---
     {"city": "Orlando", "state": "FL", "country": "United States", "keywords": ['"real estate agency" orlando email', '"realtor" orlando property']},
     {"city": "Miami", "state": "FL", "country": "United States", "keywords": ['"luxury real estate" miami contact', '"real estate broker" miami email']},
-    {"city": "Gatlinburg", "state": "TN", "country": "United States", "keywords": ['"real estate agency" gatlinburg contact', '"property management" gatlinburg realtor']},
+    {"city": "Tampa", "state": "FL", "country": "United States", "keywords": ['"real estate agency" tampa email', '"luxury realtor" tampa']},
+    {"city": "Fort Lauderdale", "state": "FL", "country": "United States", "keywords": ['"real estate broker" "fort lauderdale" email', '"property management" "fort lauderdale"']},
+    {"city": "Naples", "state": "FL", "country": "United States", "keywords": ['"luxury real estate" naples fl email', '"real estate agency" naples fl']},
+    {"city": "Sarasota", "state": "FL", "country": "United States", "keywords": ['"real estate agency" sarasota email', '"luxury realtor" sarasota']},
+
+    # --- EE.UU. - CALIFORNIA ---
     {"city": "San Diego", "state": "CA", "country": "United States", "keywords": ['"real estate broker" "san diego" email', '"luxury realtor" "san diego"']},
     {"city": "Lake Tahoe", "state": "CA", "country": "United States", "keywords": ['"real estate agency" "lake tahoe" contact', '"luxury real estate" "lake tahoe" info']},
-    {"city": "Whistler", "state": "BC", "country": "Canada", "keywords": ['"real estate broker" whistler contact', '"luxury real estate" whistler']},
+    {"city": "Los Angeles", "state": "CA", "country": "United States", "keywords": ['"luxury real estate" "los angeles" email', '"real estate broker" "los angeles"']},
+    {"city": "Palm Springs", "state": "CA", "country": "United States", "keywords": ['"real estate agency" "palm springs" email', '"realtor" "palm springs"']},
+    {"city": "Santa Barbara", "state": "CA", "country": "United States", "keywords": ['"luxury real estate" "santa barbara" email', '"real estate agency" "santa barbara"']},
+
+    # --- EE.UU. - TEXAS & COLORADO ---
+    {"city": "Austin", "state": "TX", "country": "United States", "keywords": ['"real estate agency" austin email', '"luxury realtor" austin tx']},
+    {"city": "Dallas", "state": "TX", "country": "United States", "keywords": ['"real estate broker" dallas tx email', '"luxury real estate" dallas']},
+    {"city": "Houston", "state": "TX", "country": "United States", "keywords": ['"real estate agency" houston email', '"realtor" houston tx']},
     {"city": "Aspen", "state": "CO", "country": "United States", "keywords": ['"luxury real estate" aspen email', '"realtor" aspen luxury']},
+    {"city": "Vail", "state": "CO", "country": "United States", "keywords": ['"real estate agency" vail co email', '"luxury real estate" vail']},
+    {"city": "Breckenridge", "state": "CO", "country": "United States", "keywords": ['"real estate agency" breckenridge email', '"property management" breckenridge']},
+
+    # --- EE.UU. - HAWAII & ARIZONA & NEVADA & UTAH ---
     {"city": "Maui", "state": "HI", "country": "United States", "keywords": ['"real estate agency" maui contact email', '"realtor" maui property']},
+    {"city": "Honolulu", "state": "HI", "country": "United States", "keywords": ['"real estate agency" honolulu email', '"luxury realtor" honolulu']},
+    {"city": "Scottsdale", "state": "AZ", "country": "United States", "keywords": ['"luxury real estate" scottsdale email', '"real estate broker" scottsdale']},
+    {"city": "Sedona", "state": "AZ", "country": "United States", "keywords": ['"real estate agency" sedona contact', '"luxury realtor" sedona email']},
+    {"city": "Las Vegas", "state": "NV", "country": "United States", "keywords": ['"real estate agency" "las vegas" email', '"luxury realtor" "las vegas"']},
     {"city": "Park City", "state": "UT", "country": "United States", "keywords": ['"luxury real estate" "park city" contact', '"real estate broker" "park city"']},
-    {"city": "Sedona", "state": "AZ", "country": "United States", "keywords": ['"real estate agency" sedona contact', '"luxury realtor" sedona email']}
+
+    # --- EE.UU. - CAROLINAS, TENNESSEE & GEORGIA & CANADÁ ---
+    {"city": "Charleston", "state": "SC", "country": "United States", "keywords": ['"real estate agency" charleston sc email', '"luxury realtor" charleston']},
+    {"city": "Myrtle Beach", "state": "SC", "country": "United States", "keywords": ['"real estate agency" "myrtle beach" email', '"property management" "myrtle beach"']},
+    {"city": "Nashville", "state": "TN", "country": "United States", "keywords": ['"real estate agency" nashville email', '"luxury realtor" nashville']},
+    {"city": "Gatlinburg", "state": "TN", "country": "United States", "keywords": ['"real estate agency" gatlinburg contact', '"property management" gatlinburg realtor']},
+    {"city": "Atlanta", "state": "GA", "country": "United States", "keywords": ['"real estate agency" atlanta email', '"luxury realtor" atlanta ga']},
+    {"city": "Whistler", "state": "BC", "country": "Canada", "keywords": ['"real estate broker" whistler contact', '"luxury real estate" whistler']},
+    {"city": "Vancouver", "state": "BC", "country": "Canada", "keywords": ['"luxury real estate" vancouver email', '"real estate agency" vancouver']}
 ]
 
 # Randomizar el orden de las ciudades para explorar nuevas siempre
