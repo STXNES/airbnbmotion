@@ -46,7 +46,7 @@ jobs:
         python -c "
         import glob, csv, subprocess
         pending = False
-        for f in glob.glob('02-PIPELINE/airbnb_pipeline*.csv'):
+        for f in glob.glob('02-PIPELINE/altus_pipeline*.csv'):
             with open(f, newline='', encoding='utf-8') as file:
                 reader = csv.DictReader(file)
                 if any(row.get('Status') == 'PENDING' for row in reader):
