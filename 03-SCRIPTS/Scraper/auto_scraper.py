@@ -103,6 +103,10 @@ def search_duckduckgo(query):
     links = []
     try:
         response = requests.post(url, headers=headers, data=data, timeout=10)
+        if response.status_code != 200:
+            print(f"  [INFO] DuckDuckGo POST returned {response.status_code}. Retrying with GET...")
+            response = requests.get(url, params={'q': query}, headers=headers, timeout=10)
+
         if response.status_code == 200:
             soup = BeautifulSoup(response.text, 'html.parser')
             for a in soup.find_all('a', class_='result__url'):

@@ -2,9 +2,9 @@ name: Daily Outreach Autopilot
 
 on:
   schedule:
-    # Corre automáticamente de lunes a domingo a las 14:00 UTC
-    # Equivale a las 8:00 AM hora de Costa Rica / 10:00 AM EST en EE.UU.
-    - cron: '0 14 * * *'
+    # Corre automáticamente de lunes a domingo a las 15:00 UTC
+    # Equivale a las 9:00 AM hora de Costa Rica / 11:00 AM EST en EE.UU.
+    - cron: '0 15 * * *'
   workflow_dispatch: # Permite iniciar el proceso de forma manual desde la web de GitHub
 
 jobs:
@@ -39,7 +39,8 @@ jobs:
           "EMAIL": "${{ secrets.ZOHO_EMAIL }}",
           "APP_PASSWORD": "${{ secrets.ZOHO_APP_PASSWORD }}",
           "GMAIL_USER": "${{ secrets.GMAIL_USER }}",
-          "GMAIL_APP_PASSWORD": "${{ secrets.GMAIL_APP_PASSWORD }}"
+          "GMAIL_APP_PASSWORD": "${{ secrets.GMAIL_APP_PASSWORD }}",
+          "GEMINI_API_KEY": "${{ secrets.GEMINI_API_KEY }}"
         }' > 05-CONFIG/email_credentials.json
 
     - name: Step 1 & 2 - Scraper and Follow-ups
