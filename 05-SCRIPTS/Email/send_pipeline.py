@@ -98,7 +98,6 @@ sent = 0
 errors = 0
 DAILY_LIMIT = 30
 
-html_template = load_template()
 
 for row in rows:
 
