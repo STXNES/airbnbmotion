@@ -143,28 +143,27 @@ for row in rows:
             selected_subject = random.choice(SUBJECT_VARIANTS)
             html_to_use = html_template_en
 
-        subject = selected_subject.replace(
-            "{{company}}",
-            row["Company"]
-        ).replace(
-            "{{city}}",
-            row.get("City", "") if row.get("City") else "your area"
-        )
+        state_or_city = row.get("State", "") or row.get("City", "") or ("su área" if is_latam else "your area")
+
+        subject = selected_subject.replace("{{company}}", row["Company"])\
+                                  .replace("{company}", row["Company"])\
+                                  .replace("{{city}}", row.get("City", "") or state_or_city)\
+                                  .replace("{city}", row.get("City", "") or state_or_city)\
+                                  .replace("{{state}}", state_or_city)\
+                                  .replace("{state}", state_or_city)
         
         # Generar Icebreaker con IA
         print(f"Generando Icebreaker con Gemini para {row['Company']}...")
         icebreaker = generate_icebreaker(row["Company"], row.get("City", ""), is_latam=is_latam)
 
-        html = html_to_use.replace(
-            "{{company}}",
-            row["Company"]
-        ).replace(
-            "{{city}}",
-            row.get("City", "")
-        ).replace(
-            "{{ai_icebreaker}}",
-            icebreaker
-        )
+        html = html_to_use.replace("{{company}}", row["Company"])\
+                          .replace("{company}", row["Company"])\
+                          .replace("{{city}}", row.get("City", "") or state_or_city)\
+                          .replace("{city}", row.get("City", "") or state_or_city)\
+                          .replace("{{state}}", state_or_city)\
+                          .replace("{state}", state_or_city)\
+                          .replace("{{ai_icebreaker}}", icebreaker)\
+                          .replace("{ai_icebreaker}", icebreaker)
 
         result = send_email(
             row["Email"],

@@ -22,6 +22,11 @@ jobs:
       with:
         python-version: '3.10'
 
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -99,4 +104,16 @@ jobs:
           git push
         else
           echo "No database changes detected. Nothing to commit."
+        fi
+
+    - name: Sync Master DB to Vercel Postgres / Neon
+      if: always()
+      env:
+        DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      run: |
+        if [ -n "$DATABASE_URL" ]; then
+          echo "Syncing Master DB to Vercel Postgres / Neon..."
+          cd crm-app && npm install && node migrate.js
+        else
+          echo "DATABASE_URL secret not set. Skipping Neon DB sync."
         fi
