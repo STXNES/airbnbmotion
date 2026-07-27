@@ -85,17 +85,27 @@ def main():
         new_step = ""
         subject = ""
 
+        city = row.get("City", "").strip()
+        if is_latam:
+            city_phrase = f" en <strong>{city}</strong>" if city else ""
+        else:
+            city_phrase = f" in <strong>{city}</strong>" if city else ""
+
         # Step 1 -> Step 2 (Wait >= 3 days)
         if step == "1" and days_elapsed >= 3:
             t2 = template_2_es if is_latam else template_2_en
-            send_html = t2.replace("{{company}}", row["Company"]).replace("{{city}}", row.get("City", ""))
+            send_html = t2.replace("{{company}}", row["Company"])\
+                          .replace("{{city_phrase}}", city_phrase)\
+                          .replace("{{city}}", city)
             new_step = "2"
             subject = f"Re: AI videos for {row['Company']}" if not is_latam else f"Re: Videos IA para {row['Company']}"
         
         # Step 2 -> Step 3 (Wait >= 7 days after Step 2)
         elif step == "2" and days_elapsed >= 7:
             t3 = template_3_es if is_latam else template_3_en
-            send_html = t3.replace("{{company}}", row["Company"]).replace("{{city}}", row.get("City", ""))
+            send_html = t3.replace("{{company}}", row["Company"])\
+                          .replace("{{city_phrase}}", city_phrase)\
+                          .replace("{{city}}", city)
             new_step = "3"
             subject = f"Re: AI videos for {row['Company']}" if not is_latam else f"Re: Videos IA para {row['Company']}"
 
