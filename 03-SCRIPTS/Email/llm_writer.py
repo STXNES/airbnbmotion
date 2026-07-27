@@ -14,8 +14,8 @@ CONFIG_FILE = PROJECT_ROOT / "05-CONFIG" / "email_credentials.json"
 
 API_KEY = None
 try:
-    with open(CONFIG_FILE, "r") as f:
-        config = json.load(f)
+    with open(CONFIG_FILE, "r", encoding="utf-8") as f:
+        config = json.loads(f.read(), strict=False)
         API_KEY = config.get("GEMINI_API_KEY")
 except FileNotFoundError:
     pass

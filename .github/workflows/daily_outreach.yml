@@ -33,15 +33,26 @@ jobs:
         pip install -r requirements.txt
 
     - name: Inject Zoho Credentials
+      env:
+        ZOHO_EMAIL: ${{ secrets.ZOHO_EMAIL }}
+        ZOHO_APP_PASSWORD: ${{ secrets.ZOHO_APP_PASSWORD }}
+        GMAIL_USER: ${{ secrets.GMAIL_USER }}
+        GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       run: |
         mkdir -p 05-CONFIG
-        echo '{
-          "EMAIL": "${{ secrets.ZOHO_EMAIL }}",
-          "APP_PASSWORD": "${{ secrets.ZOHO_APP_PASSWORD }}",
-          "GMAIL_USER": "${{ secrets.GMAIL_USER }}",
-          "GMAIL_APP_PASSWORD": "${{ secrets.GMAIL_APP_PASSWORD }}",
-          "GEMINI_API_KEY": "${{ secrets.GEMINI_API_KEY }}"
-        }' > 05-CONFIG/email_credentials.json
+        python -c "
+        import os, json
+        data = {
+            'EMAIL': os.environ.get('ZOHO_EMAIL', '').strip(),
+            'APP_PASSWORD': os.environ.get('ZOHO_APP_PASSWORD', '').strip(),
+            'GMAIL_USER': os.environ.get('GMAIL_USER', '').strip(),
+            'GMAIL_APP_PASSWORD': os.environ.get('GMAIL_APP_PASSWORD', '').strip(),
+            'GEMINI_API_KEY': os.environ.get('GEMINI_API_KEY', '').strip()
+        }
+        with open('05-CONFIG/email_credentials.json', 'w', encoding='utf-8') as f:
+            json.dump(data, f)
+        "
 
     - name: Step 1 & 2 - Scraper and Follow-ups
       run: |

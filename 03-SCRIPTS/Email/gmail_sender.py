@@ -8,8 +8,8 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 CREDENTIALS_FILE = PROJECT_ROOT / "05-CONFIG" / "email_credentials.json"
 
 # Cargar las credenciales de Zoho
-with open(CREDENTIALS_FILE, "r") as f:
-    config = json.load(f)
+with open(CREDENTIALS_FILE, "r", encoding="utf-8") as f:
+    config = json.loads(f.read(), strict=False)
 
 EMAIL_USER = config["EMAIL"]
 EMAIL_PASSWORD = config["APP_PASSWORD"]

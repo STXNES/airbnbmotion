@@ -13,8 +13,8 @@ CREDENTIALS_FILE = PROJECT_ROOT / "05-CONFIG" / "email_credentials.json"
 MASTER_DB_PATH = PROJECT_ROOT / "02-MASTER_DATABASE" / "master_database.csv"
 
 # Cargar las credenciales
-with open(CREDENTIALS_FILE, "r") as f:
-    config = json.load(f)
+with open(CREDENTIALS_FILE, "r", encoding="utf-8") as f:
+    config = json.loads(f.read(), strict=False)
 
 # Soporta tanto Gmail IMAP como Zoho IMAP
 EMAIL_USER = config.get("GMAIL_USER") or config.get("EMAIL")
