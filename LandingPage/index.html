@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -517,7 +517,9 @@
     <h2>Get a free video tour of your next listing.</h2>
     <p>We'll build a free 15-second cinematic draft from your listing photos. Zero upfront cost — you only pay for the final high-res version if you love it.</p>
 
-    <form class="prospect-form" id="prospectForm">
+    <form class="prospect-form" id="prospectForm" action="https://formsubmit.co/axell@airbnbmotion.studio" method="POST">
+      <input type="hidden" name="_subject" value="New Lead: Free Altus Video Request">
+      <input type="hidden" name="_captcha" value="false">
       <div class="plan-switch" id="planSwitch" data-plan="single">
         <div class="plan-thumb"></div>
         <button type="button" class="plan-option active" data-value="single">Single Listing</button>
@@ -592,13 +594,13 @@
   var form = document.getElementById('prospectForm');
   var success = document.getElementById('formSuccess');
   form.addEventListener('submit', function(e){
-    e.preventDefault();
+    // e.preventDefault(); // Comentado para permitir el envío real a formsubmit
     var data = new FormData(form);
     var payload = Object.fromEntries(data.entries());
-    console.log('Prospecto capturado:', payload);
-    success.classList.add('show');
+    console.log('Prospecto enviado a Zoho:', payload);
     form.querySelector('button[type="submit"]').style.opacity = '0.6';
     form.querySelector('button[type="submit"]').style.pointerEvents = 'none';
+    form.querySelector('button[type="submit"]').textContent = 'Sending...';
   });
 })();
 </script>
