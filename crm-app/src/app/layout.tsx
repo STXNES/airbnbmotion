@@ -10,7 +10,7 @@ export const metadata = {
   title: "Outreach Ops",
   description: "CRM and Automation Command Center",
   icons: {
-    icon: '/favicon.ico',
+    icon: '/favicon.ico?v=2',
   },
 };
 
