@@ -39,6 +39,7 @@ jobs:
         GMAIL_USER: ${{ secrets.GMAIL_USER }}
         GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
         GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        GROK_API_KEY: ${{ secrets.GROK_API_KEY }}
       run: |
         mkdir -p 05-CONFIG
         python -c "
@@ -48,7 +49,8 @@ jobs:
             'APP_PASSWORD': os.environ.get('ZOHO_APP_PASSWORD', '').strip(),
             'GMAIL_USER': os.environ.get('GMAIL_USER', '').strip(),
             'GMAIL_APP_PASSWORD': os.environ.get('GMAIL_APP_PASSWORD', '').strip(),
-            'GEMINI_API_KEY': os.environ.get('GEMINI_API_KEY', '').strip()
+            'GEMINI_API_KEY': os.environ.get('GEMINI_API_KEY', '').strip(),
+            'GROK_API_KEY': os.environ.get('GROK_API_KEY', '').strip()
         }
         with open('05-CONFIG/email_credentials.json', 'w', encoding='utf-8') as f:
             json.dump(data, f)

@@ -2,61 +2,47 @@ import os
 import json
 import random
 import time
+import requests
 from pathlib import Path
-
-# Configuramos Gemini
-import google.generativeai as genai
-from google.api_core import exceptions
 
 # Cargar configuración desde 05-CONFIG
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 CONFIG_FILE = PROJECT_ROOT / "05-CONFIG" / "email_credentials.json"
 
-API_KEY = None
+GROK_API_KEY = None
+GEMINI_API_KEY = None
+
 try:
     with open(CONFIG_FILE, "r", encoding="utf-8") as f:
         config = json.loads(f.read(), strict=False)
-        API_KEY = config.get("GEMINI_API_KEY")
+        GROK_API_KEY = config.get("GROK_API_KEY") or config.get("GROQ_API_KEY")
+        GEMINI_API_KEY = config.get("GEMINI_API_KEY")
 except FileNotFoundError:
     pass
 
-if API_KEY:
-    genai.configure(api_key=API_KEY)
-    
-    # Modelo a usar
-    generation_config = {
-      "temperature": 0.7,
-      "top_p": 0.95,
-      "top_k": 40,
-      "max_output_tokens": 150,
-      "response_mime_type": "text/plain",
-    }
-    model = genai.GenerativeModel(
-      model_name="gemini-2.0-flash",
-      generation_config=generation_config,
-    )
-else:
-    model = None
+# Intentamos configurar Gemini como respaldo secundario si existe la librería
+genai_model = None
+if GEMINI_API_KEY:
+    try:
+        import google.generativeai as genai
+        genai.configure(api_key=GEMINI_API_KEY)
+        genai_model = genai.GenerativeModel("gemini-2.0-flash")
+    except Exception:
+        pass
 
 
 def generate_icebreaker(company, city, is_latam=False):
     """
-    Usa la API de Gemini para generar una línea inicial de correo altamente personalizada.
-    Maneja límites de cuota (Rate limits) devolviendo un mensaje genérico.
+    Genera una línea inicial de correo (Icebreaker) usando Grok (Groq Llama-3.3 70B)
+    o Gemini como respaldo secundario.
     """
-    
     default_en = f"I noticed you are managing some beautiful real estate properties in {city}."
     default_es = f"Noté que tienen un excelente portafolio de bienes raíces en {city}."
-    
     fallback = default_es if is_latam else default_en
-    
-    if not model:
-        print("[LLM WARNING] No GEMINI_API_KEY found in 05-CONFIG/email_credentials.json. Using fallback.")
-        return fallback
 
     if is_latam:
         prompt = f"""
-        Actúas como Axell, fundador de una agencia que hace videos con inteligencia artificial para bienes raíces.
+        Actúas como Axell, fundador de una agencia que crea videos con inteligencia artificial para bienes raíces.
         Escribe UNA SOLA oración corta e informal (icebreaker) para un correo frío dirigido a la agencia '{company}' en la ciudad '{city}'.
         La oración debe felicitar su portafolio o mencionar que destacan en {city}. 
         No te presentes a ti mismo, solo di algo agradable sobre ellos. 
@@ -73,24 +59,51 @@ def generate_icebreaker(company, city, is_latam=False):
         Return ONLY the sentence, no quotes, no greetings.
         """
 
-    try:
-        response = model.generate_content(prompt)
-        text = response.text.strip().replace('"', '').replace("'", "")
-        if not text:
-            return fallback
-        return text
-        
-    except exceptions.ResourceExhausted:
-        print("[LLM WARNING] Rate limit exceeded (Free Tier). Using fallback icebreaker.")
-        return fallback
-    except Exception as e:
-        print(f"[LLM ERROR] {e}. Using fallback icebreaker.")
-        return fallback
+    # 1. INTENTO CON GROK / GROQ (Súper rápido y sin rate-limits)
+    if GROK_API_KEY:
+        try:
+            url = "https://api.groq.com/openai/v1/chat/completions"
+            headers = {
+                "Authorization": f"Bearer {GROK_API_KEY}",
+                "Content-Type": "application/json"
+            }
+            payload = {
+                "model": "llama-3.3-70b-versatile",
+                "messages": [{"role": "user", "content": prompt}],
+                "max_tokens": 100,
+                "temperature": 0.7
+            }
+            r = requests.post(url, headers=headers, json=payload, timeout=8)
+            if r.status_code == 200:
+                text = r.json()['choices'][0]['message']['content'].strip().replace('"', '').replace("'", "")
+                if text:
+                    print(f"  [GROK LLM] Icebreaker generado con éxito para {company}.")
+                    return text
+            else:
+                print(f"[GROK LLM WARNING] HTTP {r.status_code}: {r.text}")
+        except Exception as e:
+            print(f"[GROK LLM ERROR] {e}")
+
+    # 2. INTENTO CON GEMINI (Respaldo secundario)
+    if genai_model:
+        try:
+            response = genai_model.generate_content(prompt)
+            text = response.text.strip().replace('"', '').replace("'", "")
+            if text:
+                print(f"  [GEMINI LLM] Icebreaker generado con éxito para {company}.")
+                return text
+        except Exception as e:
+            print(f"[GEMINI LLM WARNING] {e}")
+
+    # 3. FALLBACK POR DEFECTO
+    print("[LLM INFO] Usando frase por defecto en Python.")
+    return fallback
+
 
 if __name__ == "__main__":
     # Test
-    print("Testing LLM...")
-    res = generate_icebreaker("Altus Luxury Homes", "Miami", False)
-    print("EN:", res)
-    res_es = generate_icebreaker("Inmobiliaria Del Sol", "Madrid", True)
-    print("ES:", res_es)
+    print("Testing Grok LLM Engine...")
+    res_es = generate_icebreaker("Inmobiliaria Zucaes", "Escazú", True)
+    print("ES Result:", res_es)
+    res_en = generate_icebreaker("Altus Luxury Homes", "Miami", False)
+    print("EN Result:", res_en)
