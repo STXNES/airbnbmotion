@@ -106,12 +106,71 @@ async function migrate() {
           }
         }
 
-        // Clean up existing records with wrong defaults
+        // Clean up existing records with wrong defaults (including accented characters like Escazú, San José, Jacó)
         console.log("🧹 Running country cleanup for existing records...");
-        await sql`UPDATE prospects SET country = 'Costa Rica' WHERE state ILIKE '%Puntarenas%' OR state ILIKE '%Guanacaste%' OR city ILIKE '%Santa Teresa%' OR city ILIKE '%Papagayo%' OR city ILIKE '%Tamarindo%' OR city ILIKE '%Jaco%' OR city ILIKE '%Nosara%' OR city ILIKE '%Escazu%'`;
-        await sql`UPDATE prospects SET country = 'México' WHERE state ILIKE '%Quintana Roo%' OR city ILIKE '%Cancun%' OR city ILIKE '%Tulum%' OR city ILIKE '%Playa del Carmen%' OR city ILIKE '%Los Cabos%' OR city ILIKE '%Puerto Vallarta%'`;
-        await sql`UPDATE prospects SET country = 'España' WHERE state ILIKE '%Málaga%' OR state ILIKE '%Cataluña%' OR city ILIKE '%Madrid%' OR city ILIKE '%Barcelona%' OR city ILIKE '%Marbella%' OR city ILIKE '%Mallorca%' OR city ILIKE '%Ibiza%'`;
-        await sql`UPDATE prospects SET country = 'Canada' WHERE state ILIKE '%BC%' OR city ILIKE '%Whistler%' OR city ILIKE '%Vancouver%'`;
+        await sql`
+          UPDATE prospects SET country = 'Costa Rica' 
+          WHERE state ILIKE '%Puntarenas%' 
+             OR state ILIKE '%Guanacaste%' 
+             OR state ILIKE '%San Jos%' 
+             OR city ILIKE '%Santa Teresa%' 
+             OR city ILIKE '%Papagayo%' 
+             OR city ILIKE '%Tamarindo%' 
+             OR city ILIKE '%Jaco%' 
+             OR city ILIKE '%Jacó%' 
+             OR city ILIKE '%Nosara%' 
+             OR city ILIKE '%Escaz%' 
+             OR city ILIKE '%Manuel Antonio%' 
+             OR city ILIKE '%Dominical%' 
+             OR city ILIKE '%Las Catalinas%' 
+             OR city ILIKE '%Puerto Viejo%' 
+             OR city ILIKE '%Flamingo%' 
+             OR city ILIKE '%Uvita%'
+        `;
+
+        await sql`
+          UPDATE prospects SET country = 'México' 
+          WHERE state ILIKE '%Quintana Roo%' 
+             OR state ILIKE '%Jalisco%' 
+             OR state ILIKE '%Baja California%' 
+             OR state ILIKE '%Guanajuato%' 
+             OR city ILIKE '%Cancun%' 
+             OR city ILIKE '%Cancún%' 
+             OR city ILIKE '%Tulum%' 
+             OR city ILIKE '%Playa del Carmen%' 
+             OR city ILIKE '%Los Cabos%' 
+             OR city ILIKE '%Cabo%' 
+             OR city ILIKE '%Puerto Vallarta%' 
+             OR city ILIKE '%San Miguel%' 
+             OR city ILIKE '%Escondido%'
+        `;
+
+        await sql`
+          UPDATE prospects SET country = 'España' 
+          WHERE state ILIKE '%Málaga%' 
+             OR state ILIKE '%Malaga%' 
+             OR state ILIKE '%Cataluña%' 
+             OR state ILIKE '%Catalunya%' 
+             OR state ILIKE '%Baleares%' 
+             OR city ILIKE '%Madrid%' 
+             OR city ILIKE '%Barcelona%' 
+             OR city ILIKE '%Marbella%' 
+             OR city ILIKE '%Mallorca%' 
+             OR city ILIKE '%Ibiza%' 
+             OR city ILIKE '%Alicante%' 
+             OR city ILIKE '%Valencia%' 
+             OR city ILIKE '%Sevilla%'
+        `;
+
+        await sql`
+          UPDATE prospects SET country = 'Canada' 
+          WHERE state ILIKE '%BC%' 
+             OR state ILIKE '%Ontario%' 
+             OR city ILIKE '%Whistler%' 
+             OR city ILIKE '%Vancouver%' 
+             OR city ILIKE '%Toronto%' 
+             OR city ILIKE '%Montreal%'
+        `;
 
         console.log(`🎉 Migration complete! Successfully uploaded ${count} rows to Vercel Postgres / Neon.`);
       });
