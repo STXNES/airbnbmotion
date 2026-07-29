@@ -2,18 +2,34 @@
 
 import React, { useState, useEffect, useRef } from "react";
 
-// Dictionaries for ES / EN
+// Dictionaries for ES & EN
 const dict = {
   es: {
+    promoText: "✨ Lanzamiento — 50 créditos gratis al crear tu cuenta con el código",
+    promoCode: "LUMEN50",
+    promoClaim: "Reclamar Créditos →",
+    navVideo: "Video",
+    navImage: "Imagen",
+    navTemplates: "Plantillas",
+    navPricing: "Precios",
     navStudio: "Studio Canvas",
-    navProjects: "Mis Proyectos",
-    navTemplates: "Plantillas 4K",
-    navApi: "API & Webhooks",
     credits: "Créditos",
     reload: "Recargar",
-    heroTitle: "Transforma Propiedades en Recorridos Cinemáticos 4K",
+    signIn: "Iniciar Sesión",
+    tryFree: "Probar Gratis",
+    badgeAi: "✨ Impulsado por IA de última generación (Veo 3)",
+    heroTitlePrefix: "Cualquier idea,",
+    heroTitleSuffix: "en movimiento",
     heroSubtitle:
-      "Pega una URL de Airbnb, Zillow o MLS, o sube fotografías HD para generar recorridos hiperrealistas con IA Veo 3.",
+      "Transforma listings de Airbnb, Zillow y MLS o fotografías HD en recorridos cinemáticos 4K de calidad hollywoodense en cuestión de segundos.",
+    btnStartStudio: "Empezar Studio Canvas ⚡",
+    btnViewDemos: "Ver Demostraciones 🎬",
+    trustVideos: "340K+ videos generados",
+    trustRating: "4.9/5 valoración",
+    trustQuality: "60fps hasta 4K",
+    trustSuccess: "99.8% tasa de éxito",
+    studioTitle: "Altus Studio Canvas",
+    studioSubtitle: "Crea recorridos virtuales para inmuebles con IA Veo 3",
     urlPlaceholder: "Pega la URL de Airbnb, Zillow o MLS...",
     btnScrape: "Extraer & Generar ⚡",
     presetLabel: "Prueba rápida con URL demo:",
@@ -26,9 +42,9 @@ const dict = {
     uploaderBrowse: "Examinar Archivos",
     loadSamples: "Cargar Fotos de Muestra",
     uploadedCount: "fotografías listas para procesar",
-    styleSectionTitle: "Panel de Control de Estilos Cinemáticos",
+    styleSectionTitle: "Panel de Control Cinemático",
     styleRecorrido: "Recorrido 4K Interior",
-    descRecorrido: "Navegación fluida por estancias principales con iluminación natural.",
+    descRecorrido: "Navegación fluida por estancias principales con luz natural.",
     styleDron: "Dron Virtual FP",
     descDron: "Vuelajes aéreos dinámicos de fachadas, piscina y entorno exterior.",
     styleEnfoque: "Enfoque de Lujo",
@@ -58,48 +74,78 @@ const dict = {
     specFps: "Tasa de Cuadros: 60 FPS Fluidos",
     specEngine: "Motor IA: Veo 3 Ultra Spatial Engine",
     specDuration: "Duración: 00:24 seg",
+    galleryTitle: "Galería de la Comunidad Lumen",
+    gallerySubtitle: "Explora proyectos reales creados con IA por agencias de todo el mundo",
+    filterAll: "Todos",
+    filterInterior: "Interior",
+    filterAerial: "Aéreo",
+    filterLuxury: "Lujo",
+    filterTwilight: "Atardecer",
+    ctaGridTitle: "50 Créditos Gratis",
+    ctaGridDesc: "Crea tu primer video inmobiliario en 60 segundos sin tarjeta de crédito.",
+    ctaGridBtn: "Comenzar Gratis ⚡",
+    pricingTitle: "Planes Diseñados para Escalar",
+    pricingSubtitle: "Elige la velocidad y resolución perfecta para tus proyectos",
+    footerCopy: "© 2026 Altus Studio x Lumen. Todos los derechos reservados.",
+    footerStatus: "Sistemas Operativos | 99.9% Uptime",
   },
   en: {
+    promoText: "✨ Launch Offer — 50 free credits upon account creation with code",
+    promoCode: "LUMEN50",
+    promoClaim: "Claim Credits →",
+    navVideo: "Video",
+    navImage: "Image",
+    navTemplates: "Templates",
+    navPricing: "Pricing",
     navStudio: "Studio Canvas",
-    navProjects: "My Projects",
-    navTemplates: "4K Templates",
-    navApi: "API & Webhooks",
     credits: "Credits",
     reload: "Top up",
-    heroTitle: "Transform Real Estate into Cinematic 4K Videos",
+    signIn: "Sign In",
+    tryFree: "Try Free",
+    badgeAi: "✨ Powered by Next-Gen AI (Veo 3)",
+    heroTitlePrefix: "Any idea,",
+    heroTitleSuffix: "in motion",
     heroSubtitle:
-      "Paste an Airbnb, Zillow, or MLS URL, or upload HD photos to generate hyper-realistic AI walkthroughs powered by Veo 3.",
-    urlPlaceholder: "Paste Airbnb, Zillow, or MLS property URL...",
+      "Transform Airbnb, Zillow, or MLS listings or HD photos into Hollywood-grade 4K cinematic walkthroughs in seconds.",
+    btnStartStudio: "Start Studio Canvas ⚡",
+    btnViewDemos: "Watch Demos 🎬",
+    trustVideos: "340K+ videos generated",
+    trustRating: "4.9/5 rating",
+    trustQuality: "60fps up to 4K",
+    trustSuccess: "99.8% success rate",
+    studioTitle: "Altus Studio Canvas",
+    studioSubtitle: "Create real estate virtual tours powered by AI Veo 3",
+    urlPlaceholder: "Paste Airbnb, Zillow, or MLS URL...",
     btnScrape: "Extract & Generate ⚡",
     presetLabel: "Quick test with demo URL:",
     tulumVilla: "Tulum Villa (Airbnb)",
     nyPenthouse: "NYC Penthouse (Zillow)",
     marbellaMansion: "Marbella Mansion (MLS)",
     uploaderTitle: "HD Photo Uploader",
-    uploaderSubtitle: "Drag & drop your high-res property photos or browse files",
+    uploaderSubtitle: "Drag & drop high-res property photos or browse files",
     uploaderFormats: "Supports JPG, PNG, WEBP up to 25MB per image",
     uploaderBrowse: "Browse Files",
     loadSamples: "Load Sample Photos",
     uploadedCount: "photos ready for processing",
-    styleSectionTitle: "Cinematic Style Control Panel",
+    styleSectionTitle: "Cinematic Control Panel",
     styleRecorrido: "4K Interior Walkthrough",
-    descRecorrido: "Smooth navigation across main rooms with natural ambient lighting.",
+    descRecorrido: "Smooth navigation across main rooms with natural lighting.",
     styleDron: "Virtual Drone FP",
-    descDron: "Dynamic aerial sweeps of facades, infinity pool, and surroundings.",
+    descDron: "Dynamic aerial sweeps of facades, pool, and surroundings.",
     styleEnfoque: "Luxury Detail Focus",
     descEnfoque: "Cinematic macro focus on marble finishes and designer details.",
     styleTwilight: "Golden Hour & Twilight",
     descTwilight: "Dramatic transition from golden hour sunset to warm evening glow.",
     fineTuningTitle: "Production Parameters",
     aspectRatio: "Aspect Ratio",
-    cameraSpeed: "Camera Motion Speed",
+    cameraSpeed: "Camera Speed",
     lighting: "Lighting & Mood",
     soundtrack: "Soundtrack",
     resolution: "Final Resolution",
-    generateBtn: "Generate 4K Cinematic Video (1 Credit)",
-    renderingTitle: "Real-time AI Rendering Pipeline",
-    stageScraping: "1. Scraping images & property metadata",
-    stageVeo3: "2. Synthesizing 3D spatial motion (AI Veo 3)",
+    generateBtn: "Generate 4K Video (1 Credit)",
+    renderingTitle: "Real-Time AI Rendering Pipeline",
+    stageScraping: "1. Scraping images & metadata",
+    stageVeo3: "2. Synthesizing spatial motion (AI Veo 3)",
     stageFinalizing: "3. 4K rendering & audio sync",
     stageCompleted: "Rendering successfully completed!",
     viewLogs: "View Console Logs",
@@ -113,6 +159,20 @@ const dict = {
     specFps: "Frame Rate: 60 FPS Smooth",
     specEngine: "AI Engine: Veo 3 Ultra Spatial Engine",
     specDuration: "Duration: 00:24 sec",
+    galleryTitle: "Lumen Community Showcase",
+    gallerySubtitle: "Explore real AI projects created by top real estate agencies",
+    filterAll: "All",
+    filterInterior: "Interior",
+    filterAerial: "Aerial",
+    filterLuxury: "Luxury",
+    filterTwilight: "Twilight",
+    ctaGridTitle: "50 Free Credits",
+    ctaGridDesc: "Create your first real estate video in 60 seconds without a credit card.",
+    ctaGridBtn: "Get Started Free ⚡",
+    pricingTitle: "Plans Built to Scale",
+    pricingSubtitle: "Choose the perfect rendering speed and resolution for your team",
+    footerCopy: "© 2026 Altus Studio x Lumen. All rights reserved.",
+    footerStatus: "All Systems Operational | 99.9% Uptime",
   },
 };
 
@@ -125,21 +185,85 @@ const SAMPLE_PHOTOS = [
   { id: "s6", url: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80", name: "Terraza Vista Mar.jpg" },
 ];
 
-export default function AltusStudioPage() {
+const GALLERY_ITEMS = [
+  {
+    id: "g1",
+    title: "Villa Solaria — Tulum Coast",
+    category: "interior",
+    image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80",
+    author: "Riviera Luxury RE",
+    views: "14.2K",
+    res: "4K 60fps",
+    tall: false,
+  },
+  {
+    id: "g2",
+    title: "Malibu Cliffside Aerial Sweep",
+    category: "aereo",
+    image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80",
+    author: "Sunset Drone Studio",
+    views: "28.9K",
+    res: "4K 60fps",
+    tall: true,
+  },
+  {
+    id: "g3",
+    title: "Penthouse 54 — Manhattan Skyline",
+    category: "lujo",
+    image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80",
+    author: "NYC Prime Properties",
+    views: "19.5K",
+    res: "4K 60fps",
+    tall: false,
+  },
+  {
+    id: "g4",
+    title: "Marbella Twilight Mansion",
+    category: "twilight",
+    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+    author: "Costa del Sol Estates",
+    views: "32.1K",
+    res: "4K 60fps",
+    tall: false,
+  },
+  {
+    id: "g5",
+    title: "Minimalist Alpine Chalet",
+    category: "interior",
+    image: "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=800&q=80",
+    author: "Swiss Alps Realty",
+    views: "11.4K",
+    res: "4K 60fps",
+    tall: false,
+  },
+  {
+    id: "g6",
+    title: "Santorini Cliff Horizon",
+    category: "aereo",
+    image: "https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=800&q=80",
+    author: "Aegean Drones",
+    views: "41.0K",
+    res: "4K 60fps",
+    tall: true,
+  },
+];
+
+export default function AltusLumenStudioPage() {
   const [lang, setLang] = useState<"es" | "en">("es");
   const [credits, setCredits] = useState(10);
+  const [showPromo, setShowPromo] = useState(true);
   const t = dict[lang];
 
-  // Scraper & Input states
+  // Scraper State
   const [urlInput, setUrlInput] = useState("");
   const [detectedPlatform, setDetectedPlatform] = useState<"airbnb" | "zillow" | "mls" | null>(null);
-  
-  // Uploader state
+
+  // Uploader State
   const [photos, setPhotos] = useState<Array<{ id: string; url: string; name: string }>>([]);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Style Selection state
+  // Controls State
   const [selectedStyle, setSelectedStyle] = useState<"recorrido" | "dron" | "enfoque" | "twilight">("recorrido");
   const [aspectRatio, setAspectRatio] = useState<"16:9" | "9:16" | "1:1">("16:9");
   const [cameraSpeed, setCameraSpeed] = useState("1.0x");
@@ -147,654 +271,865 @@ export default function AltusStudioPage() {
   const [music, setMusic] = useState("Cinematic Ambient");
   const [resolution, setResolution] = useState("4K");
 
-  // Rendering & Pipeline state
+  // Render Pipeline State
   const [isRendering, setIsRendering] = useState(false);
   const [renderProgress, setRenderProgress] = useState(0);
-  const [currentStage, setCurrentStage] = useState<"idle" | "scraping" | "veo3" | "finalizing" | "completed">("idle");
-  const [logs, setLogs] = useState<string[]>([]);
+  const [renderStage, setRenderStage] = useState<"idle" | "scraping" | "veo3" | "finalizing" | "completed">("idle");
+  const [consoleLogs, setConsoleLogs] = useState<string[]>([]);
   const [showLogs, setShowLogs] = useState(false);
+  const [showVideo, setShowVideo] = useState(false);
 
-  // Video Player state
-  const [isPlaying, setIsPlaying] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [copiedLink, setCopiedLink] = useState(false);
+  // Gallery Filter State
+  const [galleryFilter, setGalleryFilter] = useState<"todos" | "interior" | "aereo" | "lujo" | "twilight">("todos");
 
-  // Auto detect platform from URL input
+  // URL Detector
   useEffect(() => {
     const lower = urlInput.toLowerCase();
-    if (lower.includes("airbnb")) setDetectedPlatform("airbnb");
-    else if (lower.includes("zillow")) setDetectedPlatform("zillow");
-    else if (lower.includes("mls") || lower.includes("realtor") || lower.includes("redfin")) setDetectedPlatform("mls");
+    if (lower.includes("airbnb.")) setDetectedPlatform("airbnb");
+    else if (lower.includes("zillow.")) setDetectedPlatform("zillow");
+    else if (lower.includes("mls") || lower.includes("realtor.")) setDetectedPlatform("mls");
     else setDetectedPlatform(null);
   }, [urlInput]);
 
-  // Demo URL fast presets
-  const applyPresetUrl = (presetType: "airbnb" | "zillow" | "mls") => {
-    if (presetType === "airbnb") {
-      setUrlInput("https://www.airbnb.com/rooms/84920491-luxury-villa-tulum-private-pool");
-    } else if (presetType === "zillow") {
-      setUrlInput("https://www.zillow.com/homedetails/432-park-ave-penthouse-new-york-ny");
-    } else {
-      setUrlInput("https://www.mls.com/property/mansión-marbella-golden-mile-spain-luxury-9402");
+  // Demo Preset loader
+  const handlePreset = (url: string) => {
+    setUrlInput(url);
+    if (photos.length === 0) {
+      setPhotos(SAMPLE_PHOTOS);
     }
   };
 
-  const loadSamplePhotos = () => {
-    setPhotos(SAMPLE_PHOTOS);
+  // Drag & Drop
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+  const handleDragLeave = () => setIsDragging(false);
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      const newFiles = Array.from(e.dataTransfer.files).map((f, i) => ({
+        id: `upload-${Date.now()}-${i}`,
+        url: URL.createObjectURL(f),
+        name: f.name,
+      }));
+      setPhotos((prev) => [...prev, ...newFiles]);
+    }
   };
 
-  const removePhoto = (id: string) => {
-    setPhotos((prev) => prev.filter((p) => p.id !== id));
+  const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const newFiles = Array.from(e.target.files).map((f, i) => ({
+        id: `upload-${Date.now()}-${i}`,
+        url: URL.createObjectURL(f),
+        name: f.name,
+      }));
+      setPhotos((prev) => [...prev, ...newFiles]);
+    }
   };
 
-  const handleFileUpload = (files: FileList | null) => {
-    if (!files) return;
-    const newPhotos = Array.from(files).map((f, idx) => ({
-      id: `u-${Date.now()}-${idx}`,
-      url: URL.createObjectURL(f),
-      name: f.name,
-    }));
-    setPhotos((prev) => [...prev, ...newPhotos]);
-  };
-
-  // Start Generation Pipeline
+  // Start Generation Simulation
   const startGeneration = () => {
     if (credits <= 0) {
-      alert("No tienes créditos suficientes.");
+      alert("No tienes suficientes créditos.");
       return;
     }
-    setCredits((prev) => prev - 1);
     setIsRendering(true);
     setRenderProgress(0);
-    setCurrentStage("scraping");
-    setLogs([
-      `[${new Date().toLocaleTimeString()}] Iniciando conexión con scraper de metadatos...`,
+    setRenderStage("scraping");
+    setShowVideo(false);
+    setConsoleLogs([
+      "[00:01] Iniciando Altus-Lumen Pipeline Engine v3.4...",
+      `[00:02] Analizando fuente: ${urlInput || `${photos.length} fotos subidas`}`,
+      "[00:03] Detectando geometría 3D y mapas de profundidad...",
     ]);
 
-    // Timer simulation
     let progress = 0;
     const interval = setInterval(() => {
-      progress += 2;
+      progress += 5;
       setRenderProgress(progress);
 
-      if (progress === 10) {
-        setLogs((l) => [
-          ...l,
-          `[${new Date().toLocaleTimeString()}] Extraídas 12 fotografías HD y metadatos de propiedad.`,
+      if (progress === 30) {
+        setRenderStage("veo3");
+        setConsoleLogs((prev) => [
+          ...prev,
+          "[00:06] Inyectando promps de cámara Veo 3 Spatial Engine...",
+          "[00:09] Generando trayectorias fluidas a 60fps...",
         ]);
-      } else if (progress === 36) {
-        setCurrentStage("veo3");
-        setLogs((l) => [
-          ...l,
-          `[${new Date().toLocaleTimeString()}] Inicializando modelo IA Veo 3 Spatial Engine (60FPS)...`,
-          `[${new Date().toLocaleTimeString()}] Sintetizando iluminación volumétrica y trayectoria de cámara.`,
-        ]);
-      } else if (progress === 76) {
-        setCurrentStage("finalizing");
-        setLogs((l) => [
-          ...l,
-          `[${new Date().toLocaleTimeString()}] Renderizando cuadros 4K Ultra HD y codificando H.265...`,
-          `[${new Date().toLocaleTimeString()}] Sincronizando pista de audio '${music}'...`,
+      } else if (progress === 70) {
+        setRenderStage("finalizing");
+        setConsoleLogs((prev) => [
+          ...prev,
+          "[00:14] Aplicando renderizado 4K UHD & HDR Color Grading...",
+          "[00:18] Sincronizando audio ambiental & masterización final...",
         ]);
       } else if (progress >= 100) {
         clearInterval(interval);
-        setCurrentStage("completed");
+        setRenderStage("completed");
         setIsRendering(false);
-        setLogs((l) => [
-          ...l,
-          `[${new Date().toLocaleTimeString()}] ¡Proceso completado con éxito! Video disponible para exportar.`,
+        setCredits((prev) => Math.max(0, prev - 1));
+        setShowVideo(true);
+        setConsoleLogs((prev) => [
+          ...prev,
+          "[00:22] Renderizado finalizado con éxito (Status 200 OK).",
         ]);
-        if (videoRef.current) {
-          videoRef.current.play().catch(() => {});
-          setIsPlaying(true);
-        }
       }
-    }, 150);
+    }, 250);
   };
 
-  const togglePlay = () => {
-    if (videoRef.current) {
-      if (isPlaying) {
-        videoRef.current.pause();
-        setIsPlaying(false);
-      } else {
-        videoRef.current.play();
-        setIsPlaying(true);
-      }
-    }
-  };
-
-  const handleCopyLink = () => {
-    navigator.clipboard.writeText("https://altustudio.ai/v/demo1-4k-luxury");
-    setCopiedLink(true);
-    setTimeout(() => setCopiedLink(false), 2000);
-  };
+  // Filtered Gallery
+  const filteredGallery = GALLERY_ITEMS.filter((item) => {
+    if (galleryFilter === "todos") return true;
+    return item.category === galleryFilter;
+  });
 
   return (
-    <div className="min-h-screen bg-[#0a0a0c] text-zinc-100 flex flex-col relative overflow-hidden font-sans">
-      {/* Background ambient lighting subtle glows */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[350px] bg-[#d4af37]/10 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[#aa7c11]/10 rounded-full blur-[160px] pointer-events-none" />
-
-      {/* HEADER NAVEGABLE */}
-      <header className="sticky top-0 z-50 glass-panel border-b border-white/10 px-4 lg:px-8 py-3.5 flex items-center justify-between">
-        <div className="flex items-center gap-6">
-          {/* Logo Brand */}
-          <div className="flex items-center gap-3 cursor-pointer group">
-            <div className="w-9 h-9 rounded-xl gold-gradient-bg flex items-center justify-center shadow-lg shadow-[#d4af37]/25 group-hover:scale-105 transition-transform">
-              <svg className="w-5 h-5 text-black" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-              </svg>
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-extrabold text-lg tracking-wider gold-gradient-text">ALTUS STUDIO</span>
-                <span className="text-[10px] uppercase font-bold tracking-widest px-1.5 py-0.5 rounded bg-[#d4af37]/20 text-[#d4af37] border border-[#d4af37]/30">
-                  PRO VEO 3
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Navigation Links */}
-          <nav className="hidden md:flex items-center gap-1 ml-4 text-xs font-medium text-zinc-400">
-            <button className="px-3 py-1.5 rounded-lg bg-white/5 text-white border border-white/10">{t.navStudio}</button>
-            <button className="px-3 py-1.5 rounded-lg hover:text-white hover:bg-white/5 transition">{t.navProjects}</button>
-            <button className="px-3 py-1.5 rounded-lg hover:text-white hover:bg-white/5 transition">{t.navTemplates}</button>
-            <button className="px-3 py-1.5 rounded-lg hover:text-white hover:bg-white/5 transition">{t.navApi}</button>
-          </nav>
+    <div className="min-h-screen bg-[#07070A] text-zinc-100 flex flex-col bg-lumen-glow">
+      {/* 1. Top Promo Bar */}
+      {showPromo && (
+        <div className="promo py-2.5 px-4 text-xs font-mono text-center flex items-center justify-center gap-3 relative z-50">
+          <span className="text-zinc-200">
+            {t.promoText}{" "}
+            <strong className="text-[#FF7A45] bg-[#FF7A45]/10 px-2 py-0.5 rounded border border-[#FF7A45]/30">
+              {t.promoCode}
+            </strong>
+          </span>
+          <a
+            href="#studio"
+            className="text-[#5B8CFF] hover:text-white font-semibold underline decoration-1 underline-offset-4 transition"
+          >
+            {t.promoClaim}
+          </a>
+          <button
+            onClick={() => setShowPromo(false)}
+            className="absolute right-4 text-zinc-400 hover:text-white text-base leading-none"
+            aria-label="Cerrar promo"
+          >
+            ×
+          </button>
         </div>
+      )}
 
-        {/* Right Actions */}
-        <div className="flex items-center gap-3">
-          {/* Language Selector */}
-          <div className="flex items-center bg-zinc-900/80 p-0.5 rounded-lg border border-white/10 text-xs font-semibold">
-            <button
-              onClick={() => setLang("es")}
-              className={`px-2.5 py-1 rounded-md transition ${lang === "es" ? "bg-[#d4af37] text-black font-bold shadow" : "text-zinc-400 hover:text-white"}`}
-            >
-              ES
-            </button>
-            <button
-              onClick={() => setLang("en")}
-              className={`px-2.5 py-1 rounded-md transition ${lang === "en" ? "bg-[#d4af37] text-black font-bold shadow" : "text-zinc-400 hover:text-white"}`}
-            >
-              EN
-            </button>
-          </div>
-
-          {/* Credit Counter */}
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl glass-panel-gold border border-[#d4af37]/30">
-            <div className="w-5 h-5 rounded-full bg-[#d4af37]/20 flex items-center justify-center text-[#d4af37]">
-              ⚡
-            </div>
-            <span className="text-xs font-bold text-zinc-200">
-              <span className="text-[#d4af37] font-extrabold">{credits}</span>/10 {t.credits}
-            </span>
-            <button
-              onClick={() => setCredits(10)}
-              className="ml-1 text-[10px] uppercase font-bold text-[#d4af37] hover:underline"
-            >
-              {t.reload}
-            </button>
-          </div>
-
-          {/* User Profile */}
-          <div className="flex items-center gap-2 pl-2 border-l border-white/10">
-            <div className="relative">
-              <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-zinc-800 to-zinc-700 border border-white/20 flex items-center justify-center text-xs font-bold text-white shadow-md cursor-pointer hover:border-[#d4af37] transition">
-                AX
+      {/* 2. Main Header / Navigation */}
+      <header className="sticky top-0 z-40 backdrop-blur-xl bg-[#07070A]/80 border-b border-white/10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+          {/* Logo */}
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#5B8CFF] via-[#d4af37] to-[#FF7A45] p-[1.5px] shadow-lg shadow-[#5B8CFF]/20">
+              <div className="w-full h-full bg-[#07070A] rounded-[10.5px] flex items-center justify-center">
+                <span className="text-lg font-black tracking-tighter text-white">A</span>
               </div>
-              <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 rounded-full ring-2 ring-[#0a0a0c]" />
+            </div>
+            <div className="flex flex-col">
+              <span className="display text-xl font-bold tracking-tight text-white flex items-center gap-1.5">
+                ALTUS <span className="text-xs font-mono text-[#d4af37] px-1.5 py-0.5 rounded bg-[#d4af37]/10 border border-[#d4af37]/30">LUMEN</span>
+              </span>
+              <span className="text-[10px] font-mono text-zinc-400 tracking-wider">AI VEO 3 VIDEO STUDIO</span>
+            </div>
+          </div>
+
+          {/* Megamenu Nav */}
+          <nav className="hidden lg:flex items-center gap-1">
+            <div className="nav-item">
+              <button className="px-4 py-2 text-sm font-medium text-zinc-300 hover:text-white transition flex items-center gap-1.5">
+                {t.navVideo}
+                <svg className="w-3.5 h-3.5 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <div className="mega absolute top-full left-0 w-80 p-4 bg-[#111114] border border-white/10 rounded-2xl shadow-2xl space-y-2">
+                <a href="#studio" className="block p-2.5 rounded-xl hover:bg-white/5 transition">
+                  <div className="text-sm font-semibold text-white">Recorridos 4K Interior</div>
+                  <div className="text-xs text-zinc-400">Navegación cinemática fluida en 60fps</div>
+                </a>
+                <a href="#studio" className="block p-2.5 rounded-xl hover:bg-white/5 transition">
+                  <div className="text-sm font-semibold text-white">Dron Virtual FP</div>
+                  <div className="text-xs text-zinc-400">Tomas aéreas dinámicas de exteriores</div>
+                </a>
+                <a href="#studio" className="block p-2.5 rounded-xl hover:bg-white/5 transition">
+                  <div className="text-sm font-semibold text-white">Enfoque de Lujo</div>
+                  <div className="text-xs text-zinc-400">Macros cinemáticos de detalles</div>
+                </a>
+              </div>
+            </div>
+
+            <div className="nav-item">
+              <button className="px-4 py-2 text-sm font-medium text-zinc-300 hover:text-white transition flex items-center gap-1.5">
+                {t.navImage}
+                <svg className="w-3.5 h-3.5 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <div className="mega absolute top-full left-0 w-80 p-4 bg-[#111114] border border-white/10 rounded-2xl shadow-2xl space-y-2">
+                <a href="#gallery" className="block p-2.5 rounded-xl hover:bg-white/5 transition">
+                  <div className="text-sm font-semibold text-white">Virtual Staging IA</div>
+                  <div className="text-xs text-zinc-400">Amueblado fotorrealista automático</div>
+                </a>
+                <a href="#gallery" className="block p-2.5 rounded-xl hover:bg-white/5 transition">
+                  <div className="text-sm font-semibold text-white">Modo Twilight / Atardecer</div>
+                  <div className="text-xs text-zinc-400">Transforma iluminación diurna a hora dorada</div>
+                </a>
+              </div>
+            </div>
+
+            <a href="#gallery" className="px-4 py-2 text-sm font-medium text-zinc-300 hover:text-white transition">
+              {t.navTemplates}
+            </a>
+            <a href="#pricing" className="px-4 py-2 text-sm font-medium text-zinc-300 hover:text-white transition">
+              {t.navPricing}
+            </a>
+            <a href="#studio" className="px-4 py-2 text-sm font-medium text-[#d4af37] hover:text-[#f3e5ab] transition">
+              {t.navStudio}
+            </a>
+          </nav>
+
+          {/* Right Controls: Credits + Lang + Account */}
+          <div className="flex items-center gap-3">
+            {/* Credits Counter */}
+            <div className="flex items-center gap-2 bg-[#18181C] border border-[#d4af37]/30 rounded-full px-3 py-1.5">
+              <span className="w-2 h-2 rounded-full bg-[#d4af37] animate-ping" />
+              <span className="text-xs font-mono font-semibold text-[#f3e5ab]">
+                ⚡ {credits}/10 {t.credits}
+              </span>
+              <button
+                onClick={() => setCredits(10)}
+                className="text-[11px] font-mono text-zinc-400 hover:text-white transition underline"
+              >
+                {t.reload}
+              </button>
+            </div>
+
+            {/* ES / EN Selector */}
+            <div className="flex items-center bg-[#18181C] border border-white/10 rounded-full p-1 text-xs font-mono">
+              <button
+                onClick={() => setLang("es")}
+                className={`px-2.5 py-1 rounded-full transition ${
+                  lang === "es" ? "bg-[#5B8CFF] text-white font-bold" : "text-zinc-400 hover:text-white"
+                }`}
+              >
+                ES
+              </button>
+              <button
+                onClick={() => setLang("en")}
+                className={`px-2.5 py-1 rounded-full transition ${
+                  lang === "en" ? "bg-[#5B8CFF] text-white font-bold" : "text-zinc-400 hover:text-white"
+                }`}
+              >
+                EN
+              </button>
+            </div>
+
+            {/* Account Buttons */}
+            <div className="hidden sm:flex items-center gap-2">
+              <button className="px-4 py-2 text-xs font-semibold text-zinc-300 hover:text-white transition">
+                {t.signIn}
+              </button>
+              <a href="#studio" className="gold-btn px-5 py-2.5 rounded-full text-xs font-bold tracking-wide">
+                {t.tryFree}
+              </a>
             </div>
           </div>
         </div>
       </header>
 
-      {/* MAIN STUDIO CONTAINER */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8 relative z-10">
-        
-        {/* LEFT COLUMN: URL SCRAPER, PHOTO UPLOADER & STYLES (7 cols) */}
-        <div className="lg:col-span-7 flex flex-col gap-6">
-          
-          {/* STUDIO HERO / URL SCRAPER BANNER */}
-          <div className="glass-panel p-6 rounded-2xl relative overflow-hidden border border-white/10 shadow-2xl">
-            <div className="absolute top-0 right-0 w-48 h-48 bg-[#d4af37]/10 rounded-full blur-3xl pointer-events-none" />
-            
-            <div className="flex items-center gap-2 mb-2">
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#d4af37]/15 text-[#d4af37] border border-[#d4af37]/30">
-                ✨ AI Real Estate Video Studio
-              </span>
+      {/* 3. Hero Section */}
+      <section className="relative pt-16 pb-20 overflow-hidden">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center space-y-8">
+          {/* Animated Badge */}
+          <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full gradient-badge">
+            <span className="w-2 h-2 rounded-full bg-[#FF7A45] animate-pulse" />
+            <span className="text-xs font-mono font-medium text-zinc-200">{t.badgeAi}</span>
+          </div>
+
+          {/* Title */}
+          <h1 className="display text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-tight">
+            {t.heroTitlePrefix} <span className="lumen-gold-gradient">{t.heroTitleSuffix}</span>
+          </h1>
+
+          {/* Subtitle */}
+          <p className="max-w-2xl mx-auto text-base sm:text-xl text-zinc-400 leading-relaxed">
+            {t.heroSubtitle}
+          </p>
+
+          {/* Action CTAs */}
+          <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
+            <a href="#studio" className="gold-btn px-8 py-4 rounded-full text-sm font-bold tracking-wide shadow-xl">
+              {t.btnStartStudio}
+            </a>
+            <a href="#gallery" className="lumen-btn px-8 py-4 rounded-full text-sm font-bold tracking-wide shadow-xl">
+              {t.btnViewDemos}
+            </a>
+          </div>
+
+          {/* Trust Row Social Proof */}
+          <div className="pt-8">
+            <div className="trust-row max-w-3xl mx-auto text-xs font-mono text-zinc-300">
+              <span className="flex items-center gap-2">🎬 <strong>{t.trustVideos}</strong></span>
+              <span className="w-1 h-1 rounded-full bg-zinc-600" />
+              <span className="flex items-center gap-2">⭐ <strong>{t.trustRating}</strong></span>
+              <span className="w-1 h-1 rounded-full bg-zinc-600" />
+              <span className="flex items-center gap-2">⚡ <strong>{t.trustQuality}</strong></span>
+              <span className="w-1 h-1 rounded-full bg-zinc-600" />
+              <span className="flex items-center gap-2">🛡️ <strong>{t.trustSuccess}</strong></span>
             </div>
+          </div>
+        </div>
+      </section>
 
-            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white leading-tight mb-2">
-              {t.heroTitle}
-            </h1>
-            <p className="text-xs sm:text-sm text-zinc-400 mb-5 leading-relaxed">
-              {t.heroSubtitle}
-            </p>
+      {/* 4. Studio Canvas (Interactive Core App) */}
+      <section id="studio" className="py-16 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          {/* Section Header */}
+          <div className="text-center space-y-2">
+            <h2 className="display text-3xl sm:text-4xl font-extrabold text-white">
+              {t.studioTitle}
+            </h2>
+            <p className="text-zinc-400 text-sm sm:text-base">{t.studioSubtitle}</p>
+          </div>
 
-            {/* URL INPUT BAR */}
-            <div className="space-y-3">
-              <div className="relative flex items-center">
-                <div className="absolute left-3.5 text-zinc-400">
-                  🔗
+          {/* Main Studio Container */}
+          <div className="animated-border p-6 sm:p-8 space-y-10">
+            {/* Scraper Input Panel */}
+            <div className="space-y-4">
+              <label className="block text-xs font-mono uppercase tracking-widest text-[#d4af37]">
+                1. Scraper Inteligente de Propiedades
+              </label>
+
+              <div className="relative flex flex-col sm:flex-row items-stretch gap-3">
+                <div className="relative flex-1">
+                  <input
+                    type="url"
+                    value={urlInput}
+                    onChange={(e) => setUrlInput(e.target.value)}
+                    placeholder={t.urlPlaceholder}
+                    className="w-full bg-[#18181C] border border-white/15 focus:border-[#d4af37] rounded-xl px-4 py-4 text-sm text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-[#d4af37]/20 transition"
+                  />
+                  {detectedPlatform && (
+                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-mono font-bold px-2.5 py-1 rounded-md bg-[#5B8CFF]/20 text-[#5B8CFF] border border-[#5B8CFF]/40 uppercase">
+                      {detectedPlatform} DETECTADO
+                    </span>
+                  )}
                 </div>
-                <input
-                  type="text"
-                  value={urlInput}
-                  onChange={(e) => setUrlInput(e.target.value)}
-                  placeholder={t.urlPlaceholder}
-                  className="w-full bg-zinc-950/80 border border-white/15 focus:border-[#d4af37] rounded-xl pl-10 pr-32 py-3.5 text-sm text-white placeholder-zinc-500 outline-none transition shadow-inner"
-                />
-                
-                {/* Detected Platform Tag */}
-                {detectedPlatform && (
-                  <span className="absolute right-3 font-semibold text-xs px-2.5 py-1 rounded-md bg-[#d4af37]/20 text-[#d4af37] border border-[#d4af37]/40 uppercase tracking-wider animate-pulse">
-                    {detectedPlatform}
-                  </span>
-                )}
+
+                <button
+                  onClick={startGeneration}
+                  disabled={isRendering}
+                  className="orange-btn px-8 py-4 rounded-xl text-sm font-bold tracking-wide flex items-center justify-center gap-2 whitespace-nowrap disabled:opacity-50"
+                >
+                  {t.btnScrape}
+                </button>
               </div>
 
-              {/* Quick Demo Preset Pills */}
-              <div className="flex flex-wrap items-center gap-2 text-xs">
-                <span className="text-zinc-500 font-medium">{t.presetLabel}</span>
+              {/* Demo Presets */}
+              <div className="flex flex-wrap items-center gap-2 pt-2">
+                <span className="text-xs font-mono text-zinc-400">{t.presetLabel}</span>
                 <button
-                  onClick={() => applyPresetUrl("airbnb")}
-                  className="px-2.5 py-1 rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-white/10 hover:border-[#d4af37]/50 text-zinc-300 transition text-[11px]"
+                  onClick={() => handlePreset("https://www.airbnb.com/rooms/sample-tulum-villa")}
+                  className="text-xs font-mono px-3 py-1.5 rounded-lg bg-[#18181C] hover:bg-white/10 text-zinc-300 border border-white/10 transition"
                 >
-                  🏡 {t.tulumVilla}
+                  🏖️ {t.tulumVilla}
                 </button>
                 <button
-                  onClick={() => applyPresetUrl("zillow")}
-                  className="px-2.5 py-1 rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-white/10 hover:border-[#d4af37]/50 text-zinc-300 transition text-[11px]"
+                  onClick={() => handlePreset("https://www.zillow.com/homedetails/sample-nyc-penthouse")}
+                  className="text-xs font-mono px-3 py-1.5 rounded-lg bg-[#18181C] hover:bg-white/10 text-zinc-300 border border-white/10 transition"
                 >
                   🏙️ {t.nyPenthouse}
                 </button>
                 <button
-                  onClick={() => applyPresetUrl("mls")}
-                  className="px-2.5 py-1 rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-white/10 hover:border-[#d4af37]/50 text-zinc-300 transition text-[11px]"
+                  onClick={() => handlePreset("https://www.mls.com/listings/sample-marbella-mansion")}
+                  className="text-xs font-mono px-3 py-1.5 rounded-lg bg-[#18181C] hover:bg-white/10 text-zinc-300 border border-white/10 transition"
                 >
                   🏰 {t.marbellaMansion}
                 </button>
               </div>
             </div>
-          </div>
 
-          {/* DRAG & DROP PHOTO UPLOADER */}
-          <div className="glass-panel p-6 rounded-2xl border border-white/10 shadow-xl">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <h3 className="text-base font-bold text-white flex items-center gap-2">
-                  <span>📸</span> {t.uploaderTitle}
-                </h3>
-                <p className="text-xs text-zinc-400">{t.uploaderSubtitle}</p>
-              </div>
-              <button
-                onClick={loadSamplePhotos}
-                className="px-3 py-1.5 rounded-lg bg-[#d4af37]/15 hover:bg-[#d4af37]/25 text-[#d4af37] border border-[#d4af37]/30 text-xs font-semibold transition"
+            {/* Photo Uploader Panel */}
+            <div className="space-y-4">
+              <label className="block text-xs font-mono uppercase tracking-widest text-[#5B8CFF]">
+                2. {t.uploaderTitle}
+              </label>
+
+              <div
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
+                className={`border-2 border-dashed rounded-2xl p-8 text-center transition flex flex-col items-center justify-center gap-3 ${
+                  isDragging
+                    ? "border-[#5B8CFF] bg-[#5B8CFF]/10"
+                    : "border-white/15 bg-[#18181C]/50 hover:border-white/30"
+                }`}
               >
-                {t.loadSamples}
-              </button>
-            </div>
+                <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-2xl">
+                  📸
+                </div>
+                <div>
+                  <h4 className="text-base font-semibold text-white">{t.uploaderSubtitle}</h4>
+                  <p className="text-xs text-zinc-400 mt-1">{t.uploaderFormats}</p>
+                </div>
 
-            {/* Drop Zone */}
-            <div
-              onDragOver={(e) => {
-                e.preventDefault();
-                setIsDragging(true);
-              }}
-              onDragLeave={() => setIsDragging(false)}
-              onDrop={(e) => {
-                e.preventDefault();
-                setIsDragging(false);
-                handleFileUpload(e.dataTransfer.files);
-              }}
-              onClick={() => fileInputRef.current?.click()}
-              className={`border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all ${
-                isDragging
-                  ? "border-[#d4af37] bg-[#d4af37]/10"
-                  : "border-white/15 hover:border-[#d4af37]/60 bg-zinc-950/40 hover:bg-zinc-900/60"
-              }`}
-            >
-              <input
-                ref={fileInputRef}
-                type="file"
-                multiple
-                accept="image/*"
-                className="hidden"
-                onChange={(e) => handleFileUpload(e.target.files)}
-              />
-              <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-zinc-900 border border-white/10 flex items-center justify-center text-xl text-[#d4af37]">
-                ☁️
-              </div>
-              <p className="text-xs font-medium text-zinc-300 mb-1">
-                {t.uploaderSubtitle}
-              </p>
-              <p className="text-[11px] text-zinc-500">{t.uploaderFormats}</p>
-            </div>
-
-            {/* Uploaded Photos Grid Preview */}
-            {photos.length > 0 && (
-              <div className="mt-4 pt-4 border-t border-white/10">
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-semibold text-zinc-300">
-                    <span className="text-[#d4af37] font-bold">{photos.length}</span> {t.uploadedCount}
-                  </span>
+                <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={handleFileInput}
+                    multiple
+                    accept="image/*"
+                    className="hidden"
+                  />
                   <button
-                    onClick={() => setPhotos([])}
-                    className="text-[11px] text-rose-400 hover:underline"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-semibold text-white border border-white/15 transition"
                   >
-                    Vaciar lista
+                    {t.uploaderBrowse}
+                  </button>
+                  <button
+                    onClick={() => setPhotos(SAMPLE_PHOTOS)}
+                    className="gold-btn px-5 py-2.5 rounded-xl text-xs font-bold transition"
+                  >
+                    ⚡ {t.loadSamples}
                   </button>
                 </div>
-
-                <div className="grid grid-cols-3 sm:grid-cols-6 gap-2.5">
-                  {photos.map((photo, idx) => (
-                    <div key={photo.id} className="relative group rounded-lg overflow-hidden border border-white/15 bg-zinc-900 aspect-square">
-                      <img src={photo.url} alt={photo.name} className="w-full h-full object-cover group-hover:scale-105 transition" />
-                      <span className="absolute top-1 left-1 px-1.5 py-0.5 rounded bg-black/70 text-[9px] font-bold text-white">
-                        #{idx + 1}
-                      </span>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          removePhoto(photo.id);
-                        }}
-                        className="absolute top-1 right-1 w-5 h-5 rounded-full bg-rose-600/90 text-white text-[10px] flex items-center justify-center opacity-0 group-hover:opacity-100 transition"
-                      >
-                        ✕
-                      </button>
-                    </div>
-                  ))}
-                </div>
               </div>
-            )}
-          </div>
 
-          {/* CINEMATIC STYLE CONTROL PANEL */}
-          <div className="glass-panel p-6 rounded-2xl border border-white/10 shadow-xl space-y-6">
-            <h3 className="text-base font-bold text-white flex items-center gap-2">
-              <span>🎬</span> {t.styleSectionTitle}
-            </h3>
-
-            {/* Style Cards Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {[
-                { id: "recorrido", title: t.styleRecorrido, desc: t.descRecorrido, icon: "🏰" },
-                { id: "dron", title: t.styleDron, desc: t.descDron, icon: "🚁" },
-                { id: "enfoque", title: t.styleEnfoque, desc: t.descEnfoque, icon: "💎" },
-                { id: "twilight", title: t.styleTwilight, desc: t.descTwilight, icon: "🌅" },
-              ].map((style) => {
-                const isSelected = selectedStyle === style.id;
-                return (
-                  <div
-                    key={style.id}
-                    onClick={() => setSelectedStyle(style.id as any)}
-                    className={`p-4 rounded-xl cursor-pointer transition border ${
-                      isSelected
-                        ? "glass-panel-gold border-[#d4af37] shadow-lg shadow-[#d4af37]/10"
-                        : "glass-card hover:border-white/20"
-                    }`}
-                  >
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-xl">{style.icon}</span>
-                      {isSelected && (
-                        <span className="w-5 h-5 rounded-full bg-[#d4af37] text-black font-bold text-xs flex items-center justify-center">
-                          ✓
-                        </span>
-                      )}
-                    </div>
-                    <h4 className="text-xs font-bold text-white mb-1">{style.title}</h4>
-                    <p className="text-[11px] text-zinc-400 leading-snug">{style.desc}</p>
+              {/* Uploaded Thumbnails Grid */}
+              {photos.length > 0 && (
+                <div className="space-y-3 pt-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-mono text-zinc-400">
+                      📸 <strong>{photos.length}</strong> {t.uploadedCount}
+                    </span>
+                    <button
+                      onClick={() => setPhotos([])}
+                      className="text-xs font-mono text-rose-400 hover:underline"
+                    >
+                      Limpiar fotos
+                    </button>
                   </div>
-                );
-              })}
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+                    {photos.map((p) => (
+                      <div
+                        key={p.id}
+                        className="relative group aspect-video rounded-xl overflow-hidden border border-white/10 bg-[#18181C]"
+                      >
+                        <img src={p.url} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
+                        <button
+                          onClick={() => setPhotos((prev) => prev.filter((x) => x.id !== p.id))}
+                          className="absolute top-1 right-1 w-6 h-6 rounded-full bg-black/70 text-white text-xs flex items-center justify-center opacity-0 group-hover:opacity-100 transition"
+                        >
+                          ×
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
-            {/* FINE-TUNING PARAMETERS */}
-            <div className="pt-4 border-t border-white/10 space-y-4">
-              <h4 className="text-xs font-bold text-zinc-300 uppercase tracking-wider">
-                {t.fineTuningTitle}
-              </h4>
+            {/* Cinematic Style Control Panel */}
+            <div className="space-y-4">
+              <label className="block text-xs font-mono uppercase tracking-widest text-[#FF7A45]">
+                3. {t.styleSectionTitle}
+              </label>
 
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-                {/* Aspect Ratio */}
-                <div>
-                  <label className="block text-zinc-400 mb-1.5 font-medium">{t.aspectRatio}</label>
-                  <select
-                    value={aspectRatio}
-                    onChange={(e) => setAspectRatio(e.target.value as any)}
-                    className="w-full bg-zinc-900 border border-white/15 rounded-lg px-2.5 py-2 text-white focus:border-[#d4af37] outline-none"
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {[
+                  { id: "recorrido", title: t.styleRecorrido, desc: t.descRecorrido, icon: "🏰" },
+                  { id: "dron", title: t.styleDron, desc: t.descDron, icon: "🛸" },
+                  { id: "enfoque", title: t.styleEnfoque, desc: t.descEnfoque, icon: "💎" },
+                  { id: "twilight", title: t.styleTwilight, desc: t.descTwilight, icon: "🌅" },
+                ].map((st) => (
+                  <div
+                    key={st.id}
+                    onClick={() => setSelectedStyle(st.id as any)}
+                    className={`p-5 rounded-2xl border cursor-pointer transition flex flex-col justify-between gap-3 ${
+                      selectedStyle === st.id
+                        ? "bg-gradient-to-br from-[#18181C] to-[#222228] border-[#d4af37] shadow-lg shadow-[#d4af37]/15"
+                        : "bg-[#18181C]/60 border-white/10 hover:border-white/30"
+                    }`}
                   >
-                    <option value="16:9">16:9 (Horizontal)</option>
-                    <option value="9:16">9:16 (Reels/TikTok)</option>
-                    <option value="1:1">1:1 (Cuadrado)</option>
-                  </select>
+                    <div className="flex items-center justify-between">
+                      <span className="text-2xl">{st.icon}</span>
+                      {selectedStyle === st.id && (
+                        <span className="w-3 h-3 rounded-full bg-[#d4af37]" />
+                      )}
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-bold text-white">{st.title}</h4>
+                      <p className="text-xs text-zinc-400 mt-1 leading-relaxed">{st.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Production Parameters */}
+            <div className="space-y-4 pt-2">
+              <label className="block text-xs font-mono uppercase tracking-widest text-zinc-400">
+                4. {t.fineTuningTitle}
+              </label>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                {/* Aspect Ratio */}
+                <div className="bg-[#18181C] border border-white/10 rounded-xl p-3.5 space-y-1.5">
+                  <span className="text-[11px] font-mono text-zinc-400 block">{t.aspectRatio}</span>
+                  <div className="flex gap-1">
+                    {(["16:9", "9:16", "1:1"] as const).map((r) => (
+                      <button
+                        key={r}
+                        onClick={() => setAspectRatio(r)}
+                        className={`flex-1 py-1 rounded text-xs font-mono font-bold transition ${
+                          aspectRatio === r ? "bg-[#5B8CFF] text-white" : "bg-white/5 text-zinc-400 hover:text-white"
+                        }`}
+                      >
+                        {r}
+                      </button>
+                    ))}
+                  </div>
                 </div>
 
                 {/* Camera Speed */}
-                <div>
-                  <label className="block text-zinc-400 mb-1.5 font-medium">{t.cameraSpeed}</label>
+                <div className="bg-[#18181C] border border-white/10 rounded-xl p-3.5 space-y-1.5">
+                  <span className="text-[11px] font-mono text-zinc-400 block">{t.cameraSpeed}</span>
                   <select
                     value={cameraSpeed}
                     onChange={(e) => setCameraSpeed(e.target.value)}
-                    className="w-full bg-zinc-900 border border-white/15 rounded-lg px-2.5 py-2 text-white focus:border-[#d4af37] outline-none"
+                    className="w-full bg-[#111114] border border-white/10 rounded px-2 py-1 text-xs text-white focus:outline-none"
                   >
-                    <option value="0.8x">0.8x (Suave)</option>
-                    <option value="1.0x">1.0x (Estándar)</option>
-                    <option value="1.2x">1.2x (Dinámico)</option>
+                    <option value="0.75x">0.75x (Cinemática Lenta)</option>
+                    <option value="1.0x">1.0x (Normal Flotante)</option>
+                    <option value="1.5x">1.5x (Dinámica Recorrido)</option>
                   </select>
                 </div>
 
                 {/* Lighting */}
-                <div>
-                  <label className="block text-zinc-400 mb-1.5 font-medium">{t.lighting}</label>
+                <div className="bg-[#18181C] border border-white/10 rounded-xl p-3.5 space-y-1.5">
+                  <span className="text-[11px] font-mono text-zinc-400 block">{t.lighting}</span>
                   <select
                     value={lighting}
                     onChange={(e) => setLighting(e.target.value)}
-                    className="w-full bg-zinc-900 border border-white/15 rounded-lg px-2.5 py-2 text-white focus:border-[#d4af37] outline-none"
+                    className="w-full bg-[#111114] border border-white/10 rounded px-2 py-1 text-xs text-white focus:outline-none"
                   >
-                    <option value="Atardecer">Atardecer Dorado</option>
-                    <option value="Mediodia">Luz Natural</option>
-                    <option value="Noche">Noche Elegante</option>
+                    <option value="Natural">Luz Natural de Sol</option>
+                    <option value="Atardecer">Atardecer Dorado (Golden Hour)</option>
+                    <option value="Noche">Noche Lujosa Cálida</option>
+                  </select>
+                </div>
+
+                {/* Soundtrack */}
+                <div className="bg-[#18181C] border border-white/10 rounded-xl p-3.5 space-y-1.5">
+                  <span className="text-[11px] font-mono text-zinc-400 block">{t.soundtrack}</span>
+                  <select
+                    value={music}
+                    onChange={(e) => setMusic(e.target.value)}
+                    className="w-full bg-[#111114] border border-white/10 rounded px-2 py-1 text-xs text-white focus:outline-none"
+                  >
+                    <option value="Cinematic Ambient">Cinematic Ambient</option>
+                    <option value="Modern Luxury">Modern Luxury Lounge</option>
+                    <option value="Classical Piano">Piano Fino & Cuerdas</option>
                   </select>
                 </div>
 
                 {/* Resolution */}
-                <div>
-                  <label className="block text-zinc-400 mb-1.5 font-medium">{t.resolution}</label>
+                <div className="bg-[#18181C] border border-white/10 rounded-xl p-3.5 space-y-1.5">
+                  <span className="text-[11px] font-mono text-zinc-400 block">{t.resolution}</span>
                   <select
                     value={resolution}
                     onChange={(e) => setResolution(e.target.value)}
-                    className="w-full bg-zinc-900 border border-white/15 rounded-lg px-2.5 py-2 text-white focus:border-[#d4af37] outline-none"
+                    className="w-full bg-[#111114] border border-white/10 rounded px-2 py-1 text-xs text-white focus:outline-none font-bold text-[#d4af37]"
                   >
-                    <option value="4K">4K Ultra HD ⚡</option>
+                    <option value="4K">4K Ultra HD (60fps)</option>
                     <option value="1080p">1080p Full HD</option>
                   </select>
                 </div>
               </div>
             </div>
 
-            {/* GENERATE ACTION BUTTON */}
-            <button
-              onClick={startGeneration}
-              disabled={isRendering}
-              className={`w-full py-4 rounded-xl font-bold text-sm tracking-wide transition shadow-xl flex items-center justify-center gap-2 ${
-                isRendering
-                  ? "bg-zinc-800 text-zinc-500 cursor-not-allowed border border-white/10"
-                  : "gold-btn cursor-pointer"
-              }`}
-            >
-              <span>⚡</span>
-              <span>{isRendering ? "Procesando Renderizado IA..." : t.generateBtn}</span>
-            </button>
-          </div>
-        </div>
-
-        {/* RIGHT COLUMN: REAL-TIME PLAYER & PIPELINE (5 cols) */}
-        <div className="lg:col-span-5 flex flex-col gap-6">
-
-          {/* RENDERING PIPELINE PROGRESS CARD */}
-          {(isRendering || currentStage === "completed") && (
-            <div className="glass-panel p-6 rounded-2xl border border-[#d4af37]/30 shadow-2xl space-y-4 relative overflow-hidden">
-              <div className="flex items-center justify-between">
-                <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#d4af37] animate-ping" />
-                  {t.renderingTitle}
-                </h3>
-                <span className="text-xs font-extrabold text-[#d4af37] font-mono">
-                  {renderProgress}%
-                </span>
-              </div>
-
-              {/* Progress Bar Container */}
-              <div className="w-full h-3 bg-zinc-950 rounded-full overflow-hidden p-0.5 border border-white/10 relative">
-                <div
-                  className="h-full rounded-full gold-gradient-bg transition-all duration-300 relative overflow-hidden"
-                  style={{ width: `${renderProgress}%` }}
-                >
-                  <div className="absolute inset-0 animate-shimmer" />
-                </div>
-              </div>
-
-              {/* Stage Indicators */}
-              <div className="space-y-2 text-xs">
-                <div className={`flex items-center gap-2 ${renderProgress >= 10 ? "text-white font-semibold" : "text-zinc-500"}`}>
-                  <span>{renderProgress >= 35 ? "✅" : "⏳"}</span>
-                  <span>{t.stageScraping}</span>
-                </div>
-                <div className={`flex items-center gap-2 ${renderProgress >= 36 ? "text-white font-semibold" : "text-zinc-500"}`}>
-                  <span>{renderProgress >= 75 ? "✅" : renderProgress >= 36 ? "⚡" : "⏳"}</span>
-                  <span>{t.stageVeo3}</span>
-                </div>
-                <div className={`flex items-center gap-2 ${renderProgress >= 76 ? "text-white font-semibold" : "text-zinc-500"}`}>
-                  <span>{renderProgress >= 100 ? "✅" : renderProgress >= 76 ? "⚡" : "⏳"}</span>
-                  <span>{t.stageFinalizing}</span>
-                </div>
-              </div>
-
-              {/* Console Logs Toggle */}
+            {/* Start Main Generation Button */}
+            <div className="pt-4">
               <button
-                onClick={() => setShowLogs(!showLogs)}
-                className="text-[11px] text-[#d4af37] hover:underline font-mono"
+                onClick={startGeneration}
+                disabled={isRendering}
+                className="w-full gold-btn py-5 rounded-2xl text-base font-extrabold tracking-wide flex items-center justify-center gap-3 shadow-2xl disabled:opacity-50"
               >
-                {showLogs ? "Ocultar Logs" : t.viewLogs} ({logs.length})
+                <span>⚡</span>
+                <span>{isRendering ? "Generando Recorrido Veo 3..." : t.generateBtn}</span>
               </button>
-
-              {showLogs && (
-                <div className="p-3 bg-black/80 rounded-lg border border-white/10 font-mono text-[10px] text-zinc-400 max-h-36 overflow-y-auto space-y-1">
-                  {logs.map((log, idx) => (
-                    <div key={idx}>{log}</div>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* INTERACTIVE VIDEO PLAYER CARD */}
-          <div className="glass-panel p-6 rounded-2xl border border-white/10 shadow-2xl space-y-4">
-            <div className="flex items-center justify-between">
-              <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                <span>📹</span> {t.playerTitle}
-              </h3>
-              <span className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold">
-                PRO 4K READY
-              </span>
             </div>
 
-            {/* Video Player Box */}
-            <div className={`relative rounded-xl overflow-hidden bg-black border border-white/15 shadow-2xl flex items-center justify-center ${
-              aspectRatio === "9:16" ? "aspect-[9/16] max-w-[280px] mx-auto" : "aspect-video w-full"
-            }`}>
-              <video
-                ref={videoRef}
-                src={aspectRatio === "9:16" ? "/videos/demo1vertical.mp4" : "/videos/demo1.mp4"}
-                className="w-full h-full object-cover"
-                loop
-                playsInline
-              />
-
-              {/* Custom Overlay Controls */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 opacity-0 hover:opacity-100 transition-opacity flex flex-col justify-between p-4">
+            {/* Live Progress Pipeline Bar & Console */}
+            {(isRendering || renderStage === "completed") && (
+              <div className="bg-[#18181C] border border-[#d4af37]/30 rounded-2xl p-6 space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="px-2 py-1 rounded bg-black/60 text-[10px] font-bold text-[#d4af37] border border-[#d4af37]/40">
-                    4K UHD • 60 FPS
+                  <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#d4af37] animate-ping" />
+                    {t.renderingTitle}
+                  </h4>
+                  <span className="text-xs font-mono font-bold text-[#d4af37]">{renderProgress}%</span>
+                </div>
+
+                {/* Progress Bar */}
+                <div className="w-full h-3 bg-[#07070A] rounded-full overflow-hidden p-0.5 border border-white/10">
+                  <div
+                    className="h-full rounded-full bg-gradient-to-r from-[#5B8CFF] via-[#d4af37] to-[#FF7A45] transition-all duration-300"
+                    style={{ width: `${renderProgress}%` }}
+                  />
+                </div>
+
+                {/* Stage Indicators */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs font-mono">
+                  <div className={renderProgress >= 30 ? "text-emerald-400 font-bold" : "text-zinc-500"}>
+                    {renderProgress >= 30 ? "✓" : "⏳"} {t.stageScraping}
+                  </div>
+                  <div className={renderProgress >= 70 ? "text-emerald-400 font-bold" : renderProgress >= 30 ? "text-[#5B8CFF] font-bold" : "text-zinc-500"}>
+                    {renderProgress >= 70 ? "✓" : renderProgress >= 30 ? "⚡" : "⏳"} {t.stageVeo3}
+                  </div>
+                  <div className={renderProgress >= 100 ? "text-emerald-400 font-bold" : renderProgress >= 70 ? "text-[#FF7A45] font-bold" : "text-zinc-500"}>
+                    {renderProgress >= 100 ? "✓" : "⏳"} {t.stageFinalizing}
+                  </div>
+                </div>
+
+                {/* Console Logs Toggle */}
+                <div className="pt-2 border-t border-white/10">
+                  <button
+                    onClick={() => setShowLogs(!showLogs)}
+                    className="text-xs font-mono text-[#5B8CFF] hover:underline"
+                  >
+                    {showLogs ? "Ocultar Logs" : t.viewLogs} ({consoleLogs.length})
+                  </button>
+
+                  {showLogs && (
+                    <div className="mt-2 p-3 bg-[#07070A] rounded-xl border border-white/10 font-mono text-xs text-zinc-400 space-y-1 max-h-40 overflow-y-auto">
+                      {consoleLogs.map((log, i) => (
+                        <div key={i}>{log}</div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Interactive Player & Export */}
+            {showVideo && (
+              <div className="bg-[#18181C] border border-white/10 rounded-2xl p-6 space-y-6">
+                <div className="flex items-center justify-between">
+                  <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                    <span>📹</span> {t.playerTitle}
+                  </h4>
+                  <span className="text-xs font-mono px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40">
+                    STATUS 200 OK
                   </span>
                 </div>
 
-                <div className="flex items-center justify-between gap-3">
-                  <button
-                    onClick={togglePlay}
-                    className="w-10 h-10 rounded-full gold-gradient-bg text-black flex items-center justify-center font-bold shadow-lg hover:scale-110 transition"
+                <div className="relative aspect-video rounded-xl overflow-hidden bg-black border border-white/10">
+                  <video
+                    src="https://assets.mixkit.co/videos/preview/mixkit-modern-luxury-house-architectural-design-41007-large.mp4"
+                    controls
+                    autoPlay
+                    loop
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+
+                <div className="flex flex-wrap items-center gap-3">
+                  <a
+                    href="https://assets.mixkit.co/videos/preview/mixkit-modern-luxury-house-architectural-design-41007-large.mp4"
+                    download="Altus_Lumen_Walkthrough_4K.mp4"
+                    className="gold-btn flex-1 py-3.5 px-4 rounded-xl text-xs font-bold text-center"
                   >
-                    {isPlaying ? "❚❚" : "▶"}
-                  </button>
-
-                  <div className="flex-1 h-1.5 bg-white/30 rounded-full overflow-hidden cursor-pointer">
-                    <div className="h-full bg-[#d4af37] w-2/3" />
-                  </div>
-
-                  <span className="text-[11px] font-mono text-zinc-300">00:16 / 00:24</span>
+                    ⬇️ {t.exportMp4}
+                  </a>
+                  <a
+                    href="https://assets.mixkit.co/videos/preview/mixkit-modern-luxury-house-architectural-design-41007-large.mp4"
+                    download="Altus_Lumen_Reel_916.mp4"
+                    className="lumen-btn flex-1 py-3.5 px-4 rounded-xl text-xs font-bold text-center"
+                  >
+                    📱 {t.exportReel}
+                  </a>
                 </div>
               </div>
-            </div>
+            )}
+          </div>
+        </div>
+      </section>
 
-            {/* ONE-CLICK EXPORT & ACTION BUTTONS */}
-            <div className="space-y-2.5 pt-2">
-              <div className="grid grid-cols-2 gap-2.5">
-                <a
-                  href="/videos/demo1.mp4"
-                  download="Altus_Recorrido_4K.mp4"
-                  className="py-3 px-3 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-white/15 hover:border-[#d4af37] text-white text-xs font-bold flex items-center justify-center gap-2 transition"
-                >
-                  <span>⬇️</span>
-                  <span>{t.exportMp4}</span>
-                </a>
-                <a
-                  href="/videos/demo1vertical.mp4"
-                  download="Altus_Reel_916.mp4"
-                  className="py-3 px-3 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-white/15 hover:border-[#d4af37] text-white text-xs font-bold flex items-center justify-center gap-2 transition"
-                >
-                  <span>📱</span>
-                  <span>{t.exportReel}</span>
-                </a>
-              </div>
-
-              <div className="flex gap-2">
-                <button
-                  onClick={handleCopyLink}
-                  className="flex-1 py-2.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-zinc-300 text-xs font-medium transition"
-                >
-                  {copiedLink ? "¡Copiado! ✓" : `🔗 ${t.shareLink}`}
-                </button>
-                <button
-                  onClick={startGeneration}
-                  className="py-2.5 px-4 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-zinc-300 text-xs font-medium transition"
-                >
-                  🔄 {t.regenerate}
-                </button>
-              </div>
-            </div>
-
-            {/* TECHNICAL SPECS */}
-            <div className="p-3.5 bg-zinc-950/60 rounded-xl border border-white/10 space-y-1 text-[11px] font-mono text-zinc-400">
-              <p className="text-zinc-200 font-bold mb-1 font-sans">{t.specsTitle}:</p>
-              <p>• {t.specRes}</p>
-              <p>• {t.specFps}</p>
-              <p>• {t.specEngine}</p>
-              <p>• {t.specDuration}</p>
-            </div>
-
+      {/* 5. Lumen Community Showcase Section */}
+      <section id="gallery" className="py-16 relative border-t border-white/10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+          <div className="text-center space-y-2">
+            <h2 className="display text-3xl sm:text-4xl font-extrabold text-white">
+              {t.galleryTitle}
+            </h2>
+            <p className="text-zinc-400 text-sm sm:text-base">{t.gallerySubtitle}</p>
           </div>
 
+          {/* Segmented Filter Control */}
+          <div className="flex justify-center">
+            <div className="segmented">
+              <button
+                onClick={() => setGalleryFilter("todos")}
+                className={`segmented-item ${galleryFilter === "todos" ? "active" : ""}`}
+              >
+                {t.filterAll}
+              </button>
+              <button
+                onClick={() => setGalleryFilter("interior")}
+                className={`segmented-item ${galleryFilter === "interior" ? "active" : ""}`}
+              >
+                {t.filterInterior}
+              </button>
+              <button
+                onClick={() => setGalleryFilter("aereo")}
+                className={`segmented-item ${galleryFilter === "aereo" ? "active" : ""}`}
+              >
+                {t.filterAerial}
+              </button>
+              <button
+                onClick={() => setGalleryFilter("lujo")}
+                className={`segmented-item ${galleryFilter === "lujo" ? "active" : ""}`}
+              >
+                {t.filterLuxury}
+              </button>
+              <button
+                onClick={() => setGalleryFilter("twilight")}
+                className={`segmented-item ${galleryFilter === "twilight" ? "active" : ""}`}
+              >
+                {t.filterTwilight}
+              </button>
+            </div>
+          </div>
+
+          {/* Gallery Grid with VCard Pattern */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredGallery.map((item) => (
+              <div key={item.id} className="vcard group cursor-pointer">
+                <div className="relative aspect-video overflow-hidden">
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                  <span className="absolute top-3 left-3 text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-1 rounded bg-black/70 border border-white/10 text-white">
+                    {item.res}
+                  </span>
+                  <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-xs font-mono text-zinc-300">
+                    <span>👁️ {item.views}</span>
+                    <span className="text-[#5B8CFF] font-bold">VER RECORRIDO →</span>
+                  </div>
+                </div>
+                <div className="p-4 space-y-1">
+                  <h4 className="text-sm font-bold text-white display">{item.title}</h4>
+                  <p className="text-xs text-zinc-400 font-mono">{item.author}</p>
+                </div>
+              </div>
+            ))}
+
+            {/* Embedded CTA Grid Card */}
+            <div className="grid-cta space-y-4">
+              <div className="w-12 h-12 rounded-full bg-[#d4af37]/20 border border-[#d4af37]/40 flex items-center justify-center text-2xl">
+                ✨
+              </div>
+              <div className="space-y-1">
+                <h3 className="display text-xl font-bold text-white">{t.ctaGridTitle}</h3>
+                <p className="text-xs text-zinc-400">{t.ctaGridDesc}</p>
+              </div>
+              <a href="#studio" className="gold-btn px-6 py-3 rounded-full text-xs font-bold">
+                {t.ctaGridBtn}
+              </a>
+            </div>
+          </div>
         </div>
+      </section>
 
-      </main>
+      {/* 6. Pricing Section */}
+      <section id="pricing" className="py-16 border-t border-white/10 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          <div className="text-center space-y-2">
+            <h2 className="display text-3xl sm:text-4xl font-extrabold text-white">
+              {t.pricingTitle}
+            </h2>
+            <p className="text-zinc-400 text-sm sm:text-base">{t.pricingSubtitle}</p>
+          </div>
 
-      {/* FOOTER */}
-      <footer className="mt-auto border-t border-white/10 py-6 text-center text-xs text-zinc-500 glass-panel">
-        <p>© 2026 Altus Studio Inc. All rights reserved. Driven by AI Veo 3 Spatial Engine.</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Starter */}
+            <div className="bg-[#111114] border border-white/10 rounded-2xl p-8 space-y-6 relative hover:border-white/30 transition">
+              <div>
+                <span className="text-xs font-mono text-zinc-400 uppercase tracking-widest">STARTER</span>
+                <div className="display text-4xl font-extrabold text-white mt-2">$49<span className="text-sm font-sans font-normal text-zinc-400">/mes</span></div>
+                <p className="text-xs text-zinc-400 mt-2">Para agentes independientes y pequeñas agencias.</p>
+              </div>
+
+              <ul className="space-y-3 text-xs font-mono text-zinc-300">
+                <li className="flex items-center gap-2">✓ 10 Videos HD / mes</li>
+                <li className="flex items-center gap-2">✓ Exportación 1080p & Reels</li>
+                <li className="flex items-center gap-2">✓ Scraper de Airbnb & Zillow</li>
+                <li className="flex items-center gap-2 text-zinc-500">✗ Sin marcas de agua personalizadas</li>
+              </ul>
+
+              <a href="#studio" className="block w-full text-center py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold text-white transition">
+                Seleccionar Plan
+              </a>
+            </div>
+
+            {/* Pro (Featured) */}
+            <div className="animated-border-gold p-8 space-y-6 relative">
+              <span className="absolute -top-3 right-6 px-3 py-1 rounded-full bg-[#d4af37] text-black text-[10px] font-mono font-bold uppercase tracking-wider">
+                MÁS POPULAR
+              </span>
+              <div>
+                <span className="text-xs font-mono text-[#d4af37] uppercase tracking-widest">PRO VEO 3</span>
+                <div className="display text-4xl font-extrabold text-white mt-2">$149<span className="text-sm font-sans font-normal text-zinc-400">/mes</span></div>
+                <p className="text-xs text-zinc-400 mt-2">Para agencias de alto volumen y equipos de marketing.</p>
+              </div>
+
+              <ul className="space-y-3 text-xs font-mono text-zinc-300">
+                <li className="flex items-center gap-2">✓ 40 Videos 4K Ultra HD / mes</li>
+                <li className="flex items-center gap-2">✓ Renderizado 60fps con IA Veo 3</li>
+                <li className="flex items-center gap-2">✓ Scraper MLS, Zillow & Airbnb</li>
+                <li className="flex items-center gap-2">✓ Logo y marcas de agua personalizadas</li>
+                <li className="flex items-center gap-2">✓ Licencia comercial completa</li>
+              </ul>
+
+              <a href="#studio" className="gold-btn block w-full text-center py-3.5 rounded-xl text-xs font-bold">
+                Comenzar Plan Pro ⚡
+              </a>
+            </div>
+
+            {/* Enterprise */}
+            <div className="bg-[#111114] border border-white/10 rounded-2xl p-8 space-y-6 relative hover:border-white/30 transition">
+              <div>
+                <span className="text-xs font-mono text-[#5B8CFF] uppercase tracking-widest">ENTERPRISE</span>
+                <div className="display text-4xl font-extrabold text-white mt-2">$299<span className="text-sm font-sans font-normal text-zinc-400">/mes</span></div>
+                <p className="text-xs text-zinc-400 mt-2">Para franquicias inmobiliarias y plataformas SaaS.</p>
+              </div>
+
+              <ul className="space-y-3 text-xs font-mono text-zinc-300">
+                <li className="flex items-center gap-2">✓ Videos 4K Ilimitados</li>
+                <li className="flex items-center gap-2">✓ API & Webhooks de alta velocidad</li>
+                <li className="flex items-center gap-2">✓ Renderizado prioritario ultrarrápido</li>
+                <li className="flex items-center gap-2">✓ Soporte técnico dedicado 24/7</li>
+              </ul>
+
+              <a href="#studio" className="lumen-btn block w-full text-center py-3.5 rounded-xl text-xs font-bold">
+                Contactar Ventas
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 7. Footer */}
+      <footer className="mt-auto border-t border-white/10 py-10 bg-[#07070A]/90">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-zinc-500">
+          <div>{t.footerCopy}</div>
+          <div className="flex items-center gap-2 text-emerald-400">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            {t.footerStatus}
+          </div>
+        </div>
       </footer>
     </div>
   );
