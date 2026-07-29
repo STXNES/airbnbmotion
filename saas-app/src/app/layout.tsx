@@ -18,9 +18,9 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Lumen Studio — Estudio de Video con IA",
+  title: "Prometheus Studio — AI Cinema & Real Estate Video Studio",
   description:
-    "Transforma listings de Airbnb, Zillow y MLS o fotografías HD en recorridos cinemáticos 4K impulsados por IA de última generación. Cualquier idea, en movimiento.",
+    "Transforma listings de Airbnb, Zillow y MLS o fotografías HD en recorridos cinemáticos 4K impulsados por IA de última generación. Nivel de Director de Cine.",
 };
 
 export default function RootLayout({
@@ -33,7 +33,7 @@ export default function RootLayout({
       lang="es"
       className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable} h-full antialiased dark`}
     >
-      <body className="min-h-full flex flex-col bg-[#08070A] text-zinc-100 font-sans selection:bg-[#F5A623]/30 selection:text-white">
+      <body className="min-h-full flex flex-col font-sans selection:bg-blue-500/30 selection:text-white">
         {children}
       </body>
     </html>
