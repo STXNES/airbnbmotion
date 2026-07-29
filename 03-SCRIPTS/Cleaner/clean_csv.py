@@ -2,19 +2,11 @@ import csv
 import os
 import re
 from pathlib import Path
-
 from datetime import datetime
 
-# =====================================================
-# CONFIG
-# =====================================================
-
 INPUT_FILE = "../../01-PIPELINE/altus_prospects.csv"
-
 OUTPUT_FOLDER = "../../01-PIPELINE"
-
 MASTER_DATABASE = "../../02-MASTER_DATABASE/master_database.csv"
-
 BATCH_PREFIX = "Batch_"
 
 EMAIL_REGEX = re.compile(
@@ -22,34 +14,24 @@ EMAIL_REGEX = re.compile(
 )
 
 def normalize_text(text):
-
     if text is None:
         return ""
-
     return text.strip().lower()
 
-
 def normalize_website(url):
-
     url = normalize_text(url)
-
     url = url.replace("https://", "")
     url = url.replace("http://", "")
     url = url.replace("www.", "")
-
     return url
 
 def find_email_column(fieldnames):
-
     for field in fieldnames:
-
         if "email" in field.lower():
             return field
-
     raise Exception("No email column found.")
 
 def create_master_database():
-
     Path(MASTER_DATABASE).parent.mkdir(
         parents=True,
         exist_ok=True
@@ -57,9 +39,9 @@ def create_master_database():
 
     if (
         os.path.exists(MASTER_DATABASE)
-        and
-        os.path.getsize(MASTER_DATABASE) > 0
+        and os.path.getsize(MASTER_DATABASE) > 0
     ):
+        ensure_master_db_columns()
         return
 
     with open(
@@ -68,15 +50,16 @@ def create_master_database():
         newline="",
         encoding="utf-8"
     ) as f:
-
         writer = csv.writer(f)
-
         writer.writerow([
             "Company",
             "Website",
             "Email",
             "City",
             "State",
+            "Country",
+            "Image_URL",
+            "GIF_Path",
             "First_Added",
             "Batch",
             "Last_Status",
@@ -93,12 +76,38 @@ def create_master_database():
 
     print("Master database created.")
 
+def ensure_master_db_columns():
+    if not os.path.exists(MASTER_DATABASE) or os.path.getsize(MASTER_DATABASE) == 0:
+        return
+
+    with open(MASTER_DATABASE, "r", newline="", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        rows = list(reader)
+        fieldnames = list(reader.fieldnames or [])
+
+    new_cols = ["Image_URL", "GIF_Path"]
+    needed = [c for c in new_cols if c not in fieldnames]
+
+    if not needed:
+        return
+
+    for c in needed:
+        fieldnames.append(c)
+
+    for r in rows:
+        for c in needed:
+            r.setdefault(c, "")
+
+    with open(MASTER_DATABASE, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(rows)
+
+    print(f"Master database updated with columns: {needed}")
+
 def load_master_database():
-
     known_companies = set()
-
     known_websites = set()
-
     known_emails = set()
 
     with open(
@@ -106,22 +115,11 @@ def load_master_database():
         newline="",
         encoding="utf-8"
     ) as f:
-
         reader = csv.DictReader(f)
-
         for row in reader:
-
-            known_companies.add(
-                normalize_text(row["Company"])
-            )
-
-            known_websites.add(
-                normalize_website(row["Website"])
-            )
-
-            known_emails.add(
-                normalize_text(row["Email"])
-            )
+            known_companies.add(normalize_text(row["Company"]))
+            known_websites.add(normalize_website(row["Website"]))
+            known_emails.add(normalize_text(row["Email"]))
 
     return (
         known_companies,
@@ -129,58 +127,36 @@ def load_master_database():
         known_emails
     )
 
-# =====================================================
-# NEXT BATCH NUMBER
-# =====================================================
-
 def get_next_batch():
-
     with open(
         MASTER_DATABASE,
         newline="",
         encoding="utf-8"
     ) as f:
-
         reader = csv.DictReader(f)
-
         batches = []
-
         for row in reader:
-
             batch = row.get("Batch", "")
-
             if batch.startswith(BATCH_PREFIX):
-
                 try:
-
                     batches.append(
-                        int(
-                            batch.replace(
-                                BATCH_PREFIX,
-                                ""
-                            )
-                        )
+                        int(batch.replace(BATCH_PREFIX, ""))
                     )
-
-                except:
+                except Exception:
                     pass
 
     if len(batches) == 0:
-
         return f"{BATCH_PREFIX}001"
 
     return f"{BATCH_PREFIX}{max(batches)+1:03d}"
 
-
-# =====================================================
-# UPDATE MASTER DATABASE
-# =====================================================
-
 def update_master_database(clean_rows):
-
     batch = get_next_batch()
-
     today = datetime.now().strftime("%Y-%m-%d")
+
+    with open(MASTER_DATABASE, "r", newline="", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        fieldnames = reader.fieldnames or []
 
     with open(
         MASTER_DATABASE,
@@ -188,51 +164,36 @@ def update_master_database(clean_rows):
         newline="",
         encoding="utf-8"
     ) as f:
-
-        writer = csv.writer(f)
-
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
         for row in clean_rows:
-
-            writer.writerow([
-
-                row["Company"],
-
-                row["Website"],
-
-                row["Email"],
-
-                row["City"],
-
-                row["State"],
-
-                today,
-
-                batch,
-
-                row["Status"],
-
-                "",
-
-                "NO",
-
-                "NO",
-
-                "",
-
-                "",
-
-                "",
-
-                "",
-
-                ""
-
-            ])
+            master_entry = {
+                "Company": row.get("Company", ""),
+                "Website": row.get("Website", ""),
+                "Email": row.get("Email", ""),
+                "City": row.get("City", ""),
+                "State": row.get("State", ""),
+                "Country": row.get("Country", ""),
+                "Image_URL": row.get("Image_URL", ""),
+                "GIF_Path": row.get("GIF_Path", ""),
+                "First_Added": today,
+                "Batch": batch,
+                "Last_Status": row.get("Status", "PENDING"),
+                "Last_Sent": "",
+                "Video_Created": "NO",
+                "Client": "NO",
+                "Reply_Status": "NO_REPLY",
+                "Reply_Date": "",
+                "Follow_Up_Step": "",
+                "Thread_ID": "",
+                "Message_ID": "",
+                "Notes": ""
+            }
+            filtered_entry = {k: master_entry.get(k, "") for k in fieldnames}
+            writer.writerow(filtered_entry)
 
     return batch
 
 def main():
-
     create_master_database()
 
     (
@@ -242,9 +203,7 @@ def main():
     ) = load_master_database()
 
     if not os.path.exists(INPUT_FILE):
-
         print(f"\nInput file not found:\n{INPUT_FILE}")
-
         return
 
     with open(
@@ -252,153 +211,102 @@ def main():
         newline="",
         encoding="utf-8"
     ) as f:
-
         reader = csv.DictReader(f)
-
         rows = list(reader)
 
     email_column = find_email_column(reader.fieldnames)
 
     original = len(rows)
-
     no_email = 0
-
     invalid = 0
-
     duplicate_email = 0
-
     already_exists = 0
-
     seen = set()
-
     clean_rows = []
 
     for row in rows:
-
-        email = normalize_text(
-            row[email_column]
-        )
-
+        email = normalize_text(row[email_column])
         company_raw = row.get("Company name") or row.get("Company") or ""
         company = normalize_text(company_raw)
-
-        website = normalize_website(
-            row["Website"]
-        )
+        website = normalize_website(row.get("Website", ""))
 
         if email == "":
-
             no_email += 1
-
             continue
 
         if not EMAIL_REGEX.match(email):
-
             invalid += 1
-
             continue
 
         if email in seen:
-
             duplicate_email += 1
-
             continue
 
         seen.add(email)
 
         if company in known_companies:
-
             already_exists += 1
-
             continue
 
         if website in known_websites:
-
             already_exists += 1
-
             continue
 
         if email in known_emails:
-
             already_exists += 1
-
             continue
 
         known_companies.add(company)
-
         known_websites.add(website)
-
         known_emails.add(email)
 
         clean_rows.append({
-
             "Company": (row.get("Company name") or row.get("Company") or "").strip(),
-
             "Website": row.get("Website", "").strip(),
-
             "Email": email,
-
             "City": row.get("City", "").strip(),
-
             "State": row.get("State", "").strip(),
-
+            "Country": row.get("Country", "").strip(),
+            "Image_URL": row.get("Image_URL", "").strip(),
+            "GIF_Path": row.get("GIF_Path", "").strip(),
             "Contact_Page": row.get("Contact page", "").strip(),
-
-            "Managed_Properties": row.get(
-                "Number of managed properties",
-                ""
-            ).strip(),
-
+            "Managed_Properties": row.get("Number of managed properties", "").strip(),
             "Status": "PENDING",
-
             "Sent_Date": "",
-
             "Reply_Status": "NO_REPLY",
-
             "Reply_Date": "",
-
             "Video_Status": "NOT_CREATED",
-
             "Video_Link": "",
-
             "Follow_Up": "NO",
-
             "Payment_Status": "NOT_PAID",
-
             "Notes": ""
-
         })
 
     fieldnames = [
-
         "Company",
         "Website",
         "Email",
         "City",
         "State",
+        "Country",
+        "Image_URL",
+        "GIF_Path",
         "Contact_Page",
         "Managed_Properties",
-
         "Status",
         "Sent_Date",
-
         "Reply_Status",
         "Reply_Date",
-
         "Video_Status",
         "Video_Link",
-
         "Follow_Up",
-
         "Payment_Status",
-
         "Notes"
-
     ]
 
     Path(OUTPUT_FOLDER).mkdir(
-    parents=True,
-    exist_ok=True
+        parents=True,
+        exist_ok=True
     )
 
     batch = update_master_database(clean_rows)
@@ -414,12 +322,10 @@ def main():
         newline="",
         encoding="utf-8"
     ) as f:
-
         writer = csv.DictWriter(
             f,
             fieldnames=fieldnames
         )
-
         writer.writeheader()
         writer.writerows(clean_rows)
 
@@ -427,7 +333,6 @@ def main():
         print("=" * 60)
         print("ALTUS PIPELINE REPORT")
         print("=" * 60)
-
         print(f"Batch Created      : {batch}")
         print(f"Original Leads     : {original}")
         print(f"Without Email      : {no_email}")
@@ -435,18 +340,14 @@ def main():
         print(f"Duplicate Emails   : {duplicate_email}")
         print(f"Already In Master  : {already_exists}")
         print(f"New Prospects      : {len(clean_rows)}")
-
         print()
         print("Pipeline Created:")
         print(output_file.resolve())
-
         print()
         print("Master Database:")
         print(MASTER_DATABASE)
-
         print("=" * 60)
 
-    # Limpiar el archivo temporal de scraping para la siguiente ejecución
     try:
         if os.path.exists(INPUT_FILE):
             os.remove(INPUT_FILE)
@@ -454,7 +355,5 @@ def main():
     except Exception as e:
         print(f"[WARNING] No se pudo borrar {INPUT_FILE}: {e}")
 
-
 if __name__ == "__main__":
     main()
-
